@@ -53,3 +53,22 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+  }
+
+  // Everything else: cache-first
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request).then(response => {
+        // Cache new resources dynamically
+        if (response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      });
+    }).catch(() => {
+      // Offline fallback
+      return caches.match('./index.html');
+    })
+  );
+});
