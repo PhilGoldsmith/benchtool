@@ -1,4 +1,4 @@
-const CACHE_NAME = 'benchtool-v2';
+const CACHE_NAME = 'benchtool-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -34,25 +34,6 @@ self.addEventListener('fetch', event => {
   if (url.hostname === 'api.anthropic.com' || url.hostname === 'api.metals.dev') {
     event.respondWith(fetch(event.request));
     return;
-  }
-
-  // Everything else: cache-first
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
-        // Cache new resources dynamically
-        if (response.status === 200) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      });
-    }).catch(() => {
-      // Offline fallback
-      return caches.match('./index.html');
-    })
-  );
-});
   }
 
   // Everything else: cache-first
