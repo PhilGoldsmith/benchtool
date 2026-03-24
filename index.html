@@ -387,6 +387,50 @@
             pointer-events: none;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* COPY BUTTON */
+        .copy-btn {
+            display: inline-block;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 2px;
+            cursor: pointer;
+            margin-left: 8px;
+            font-family: inherit;
+            vertical-align: middle;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .copy-btn:active { color: var(--accent); border-color: var(--accent); }
+
+        /* DENSITY BADGE */
+        .density-badge {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            background: var(--input-bg);
+            padding: 3px 10px;
+            border-radius: 2px;
+            margin-left: auto;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* RESET LINK */
+        .reset-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 0;
+        }
+        .reset-link:hover { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -398,6 +442,7 @@
 <div class="top-nav">
     <button class="menu-btn" onclick="openNav()">☰</button>
     <div class="nav-title" id="navTitle">BenchTool</div>
+    <span class="density-badge" id="densityBadge">750 GG</span>
 </div>
 
 <!-- SIDEBAR -->
@@ -429,6 +474,7 @@
         <div class="sidebar-section-label">Berechnung</div>
         <li><a id="nav-cast" onclick="navigateTo('cast', 'Wachs zu Metall')">Wachs zu Metall</a></li>
         <li><a id="nav-semi" onclick="navigateTo('semi', 'Halbzeug-Gewicht')">Halbzeug-Gewicht</a></li>
+        <li><a id="nav-reverse" onclick="navigateTo('reverse', 'Gewicht → Drahtlänge')">Gewicht → Drahtlänge</a></li>
         <li><a id="nav-shapes" onclick="navigateTo('shapes', 'Halbkugel-Ronden')">Halbkugel-Ronden</a></li>
         <li><a id="nav-deform" onclick="navigateTo('deform', 'Walzen & Ziehen')">Walzen & Ziehen</a></li>
 
@@ -460,16 +506,17 @@
             </p>
             <label>Funktionsumfang</label>
             <ul style="line-height: 1.8; font-size: 0.95rem; color: var(--text); padding-left: 20px; margin-top: 10px;">
-                <li><strong>Guss:</strong> Exakte Umrechnung von Wachs- zu Metallgewicht.</li>
-                <li><strong>Halbzeug:</strong> Volumen- und Gewichtsschätzung.</li>
+                <li><strong>Guss:</strong> Wachs zu Metall inkl. Anguss-Faktor.</li>
+                <li><strong>Halbzeug:</strong> Gewichtsberechnung für alle Profile inkl. Rohrdraht.</li>
+                <li><strong>Rückwärts-Rechner:</strong> Drahtlänge aus gegebenem Metallgewicht.</li>
                 <li><strong>Halbkugeln:</strong> Blechzuschnitt (Ronde) inkl. Zirkel-Einstellung.</li>
                 <li><strong>Umformung:</strong> Walz-/Ziehstufen mit Ziel-Maß und Glüh-Markierungen.</li>
                 <li><strong>Ringweiten:</strong> Gestreckte Länge (Neutrale Faser).</li>
-                <li><strong>Zargen:</strong> Runde und eckige Fassungen (korr. Biegezugabe).</li>
+                <li><strong>Zargen:</strong> Runde, ovale (Ramanujan) und eckige Fassungen (Gehrung).</li>
                 <li><strong>Steine:</strong> Datenbank mit Standard-Maßen für Brillanten & Cabochons.</li>
                 <li><strong>Legierungen:</strong> Feinmetall- oder Vorlegierungszusätze berechnen.</li>
                 <li><strong>Verlust:</strong> Materialverluste bei Bearbeitungsschritten schätzen.</li>
-                <li><strong>Kosten:</strong> Materialwertkalkulation nach Tageskursen.</li>
+                <li><strong>Kosten:</strong> Materialwertkalkulation mit Live-Kursen.</li>
             </ul>
             <button class="action-btn" onclick="openNav()" style="background: var(--text); margin-top: 30px;">Menü öffnen</button>
         </div>
@@ -482,11 +529,28 @@
             <div class="subtitle">Wandelt das Gewicht eines Wachsmodells in das benötigte Metallgewicht um. Basierend auf der im Menü gewählten Legierung.</div>
             <label>Gewicht Wachsmodell (g)</label>
             <input type="number" id="waxWeight" step="0.01" min="0" placeholder="0.00" oninput="calcCast()">
+            <label>Anguss-Faktor (optional)</label>
+            <div class="combo-input">
+                <select id="castAngussSelect" onchange="document.getElementById('castAnguss').value=this.value; calcCast();">
+                    <option value="1">Kein Anguss (×1)</option>
+                    <option value="1.5">Leicht (×1.5)</option>
+                    <option value="2.0" selected>Standard (×2.0)</option>
+                    <option value="2.5">Reichlich (×2.5)</option>
+                </select>
+                <input type="number" id="castAnguss" step="0.1" min="1" value="2.0" style="max-width: 80px;" oninput="calcCast()">
+            </div>
             <div id="castRes" class="result-area">
-                Bedarf:<br>
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Reines Stückgewicht</span><br>
                 <span class="result-value" id="castVal">0.00</span><span class="unit">g</span>
+                <button class="copy-btn" onclick="copyVal('castVal')">Kopieren</button>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border);">
+                    <span style="font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: bold;">Inkl. Anguss</span><br>
+                    <span class="result-value" style="color: var(--accent);" id="castValAnguss">0.00</span><span class="unit" style="color: var(--accent);">g</span>
+                    <button class="copy-btn" onclick="copyVal('castValAnguss')">Kopieren</button>
+                </div>
                 <div style="font-size: 0.75rem; margin-top:8px; color: var(--text-dim);">Dichte Wachs: 0.96 g/cm³</div>
             </div>
+            <button class="reset-link" onclick="resetPage('cast')">Felder zurücksetzen</button>
         </div>
     </div>
 
@@ -498,6 +562,7 @@
             <label>Profil / Form</label>
             <select id="wireType" onchange="toggleWireInputs()">
                 <option value="round">Runddraht</option>
+                <option value="tube">Rohrdraht (Hohlprofil)</option>
                 <option value="square">Vierkant- / Flachdraht</option>
                 <option value="tri">Dreikantdraht (gleichseitig)</option>
                 <option value="sheet">Blech</option>
@@ -505,22 +570,61 @@
             <div class="row" style="margin-top:20px; flex-wrap: wrap;">
                 <div id="input-dim1">
                     <label id="label-dim1">Durchmesser (mm)</label>
-                    <input type="number" id="wireDim1" step="0.01" min="0" placeholder="1.0">
+                    <input type="number" id="wireDim1" step="0.01" min="0" placeholder="1.0" oninput="calcWire()">
                 </div>
                 <div id="input-dim2" style="display: none;">
                     <label id="label-dim2">Höhe (mm)</label>
-                    <input type="number" id="wireDim2" step="0.01" min="0" placeholder="1.0">
+                    <input type="number" id="wireDim2" step="0.01" min="0" placeholder="1.0" oninput="calcWire()">
                 </div>
                 <div>
                     <label>Länge (mm)</label>
-                    <input type="number" id="wireLength" step="1" min="0" placeholder="100">
+                    <input type="number" id="wireLength" step="1" min="0" placeholder="100" oninput="calcWire()">
                 </div>
             </div>
-            <button class="action-btn" onclick="calcWire()">Berechnen</button>
             <div id="wireRes" class="result-area">
                 Theoretisches Gewicht:<br>
                 <span class="result-value" id="wireVal">0.00</span><span class="unit">g</span>
+                <button class="copy-btn" onclick="copyVal('wireVal')">Kopieren</button>
             </div>
+            <button class="reset-link" onclick="resetPage('semi')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- GEWICHT → DRAHTLÄNGE (RÜCKWÄRTS) -->
+    <div id="page-reverse" class="page">
+        <div class="card">
+            <h2>Gewicht → Drahtlänge</h2>
+            <div class="subtitle">Berechnet die erreichbare Drahtlänge aus einem gegebenen Metallgewicht. Basierend auf der im Menü gewählten Legierung.</div>
+            <label>Profil</label>
+            <select id="revProfile" onchange="toggleRevInputs(); calcReverse();">
+                <option value="round">Runddraht</option>
+                <option value="tube">Rohrdraht</option>
+                <option value="square">Vierkant- / Flachdraht</option>
+                <option value="sheet">Blech</option>
+            </select>
+            <div class="row" style="margin-top: 20px; flex-wrap: wrap;">
+                <div>
+                    <label>Gewicht (g)</label>
+                    <input type="number" id="revWeight" step="0.01" min="0" placeholder="5.0" oninput="calcReverse()">
+                </div>
+            </div>
+            <div class="row" style="flex-wrap: wrap;">
+                <div id="rev-dim1-wrap">
+                    <label id="rev-label1">Ziel-Ø (mm)</label>
+                    <input type="number" id="revDim1" step="0.01" min="0" placeholder="1.0" oninput="calcReverse()">
+                </div>
+                <div id="rev-dim2-wrap" style="display: none;">
+                    <label id="rev-label2">Höhe (mm)</label>
+                    <input type="number" id="revDim2" step="0.01" min="0" placeholder="1.0" oninput="calcReverse()">
+                </div>
+            </div>
+            <div id="revRes" class="result-area">
+                Erreichbare Länge:<br>
+                <span class="result-value" id="revLength">0.00</span><span class="unit">mm</span>
+                <span style="margin-left: 10px; font-size: 0.85rem; color: var(--text-dim);">(<span id="revLengthCm">0.0</span> cm)</span>
+                <button class="copy-btn" onclick="copyVal('revLength')">Kopieren</button>
+            </div>
+            <button class="reset-link" onclick="resetPage('reverse')">Felder zurücksetzen</button>
         </div>
     </div>
 
@@ -656,6 +760,7 @@
             <div id="ringRes" class="result-area">
                 Gestreckte Länge (Säge-Maß / Neutrale Faser):<br>
                 <span class="result-value" id="blankLength">0.00</span><span class="unit">mm</span>
+                <button class="copy-btn" onclick="copyVal('blankLength')">Kopieren</button>
                 <div style="font-size: 0.75rem; margin-top: 8px; color: var(--text-dim);" id="ringFormulaHint"></div>
             </div>
         </div>
@@ -665,18 +770,30 @@
     <div id="page-bezel" class="page">
         <div class="card">
             <h2>Zargen-Rechner</h2>
-            <div class="subtitle">Berechnet den Blechzuschnitt für Steinfassungen über die neutrale Faser. Bei Viereckzargen wird die korrekte Biegezugabe (½π × Stärke pro Ecke) berücksichtigt.</div>
+            <div class="subtitle">Berechnet den Blechzuschnitt für Steinfassungen. Runde/ovale Zargen über die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).</div>
 
             <label>Stein-Form</label>
             <select id="bezelShape" onchange="toggleBezelInputs(); calcBezel();">
                 <option value="round">Rund</option>
-                <option value="square">Vierkant / Rechteckig</option>
+                <option value="oval">Oval</option>
+                <option value="square">Vierkant / Rechteckig (Gehrung)</option>
             </select>
 
             <div class="row" style="margin-top:20px; flex-wrap: wrap;" id="bezel-round-inputs">
                 <div style="min-width: 140px;">
                     <label>Stein-Ø (mm)</label>
                     <input type="number" id="bezelDia" step="0.1" min="0" placeholder="z.B. 5.0" oninput="calcBezel()">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px; flex-wrap: wrap; display: none;" id="bezel-oval-inputs">
+                <div style="min-width: 140px;">
+                    <label>Länge / L (mm)</label>
+                    <input type="number" id="bezelOvalL" step="0.1" min="0" placeholder="z.B. 10.0" oninput="calcBezel()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Breite / B (mm)</label>
+                    <input type="number" id="bezelOvalW" step="0.1" min="0" placeholder="z.B. 8.0" oninput="calcBezel()">
                 </div>
             </div>
 
@@ -707,12 +824,26 @@
             </div>
 
             <div id="bezelRes" class="result-area">
-                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Zuschnitt Blechstreifen</span><br>
-                <span class="result-value" id="bezelBlankLength">0.00</span><span class="unit">mm (Länge)</span>
-                <span id="bezelWidthContainer" style="display:none;">
-                    <span style="color: var(--text-dim); margin: 0 8px; font-size: 1.2em;">×</span>
-                    <span class="result-value" id="bezelBlankWidth">0.00</span><span class="unit">mm (Breite)</span>
-                </span>
+                <!-- Rund / Oval: ein Streifen -->
+                <div id="bezelResultStrip">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Zuschnitt Blechstreifen</span><br>
+                    <span class="result-value" id="bezelBlankLength">0.00</span><span class="unit">mm (Länge)</span>
+                    <span id="bezelWidthContainer" style="display:none;">
+                        <span style="color: var(--text-dim); margin: 0 8px; font-size: 1.2em;">×</span>
+                        <span class="result-value" id="bezelBlankWidth">0.00</span><span class="unit">mm (Breite)</span>
+                    </span>
+                </div>
+                <!-- Eckig: 4 Gehrungsteile -->
+                <div id="bezelResultMiter" style="display: none;">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Gehrungszuschnitt (4 Teile)</span><br>
+                    <div style="margin-top: 10px; font-size: 1.05rem; line-height: 1.8;">
+                        <strong>2 × Langseite:</strong> <span id="bezelMiterLong">0.00</span> mm<br>
+                        <strong>2 × Kurzseite:</strong> <span id="bezelMiterShort">0.00</span> mm
+                    </div>
+                    <div style="margin-top: 8px; font-size: 0.95rem;">
+                        Streifenbreite: <strong><span id="bezelMiterHeight">0.00</span> mm</strong>
+                    </div>
+                </div>
                 <div id="bezelFormulaHint" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim);"></div>
                 <div id="bezelHint" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 0.8rem; color: var(--text-dim); display: none;"></div>
             </div>
@@ -961,8 +1092,8 @@
             { label: '10.0', dia: 10.0, h: 6.0 },
         ],
         cabRound: [
-            { label: '3', dia: 3, h: 1.8 },
-            { label: '4', dia: 4, h: 2.2 },
+            { label: '3', dia: 3, h: 1.5 },
+            { label: '4', dia: 4, h: 2.0 },
             { label: '5', dia: 5, h: 2.5 },
             { label: '6', dia: 6, h: 3.0 },
             { label: '8', dia: 8, h: 3.5 },
@@ -972,13 +1103,14 @@
             { label: '16', dia: 16, h: 6.0 },
             { label: '18', dia: 18, h: 6.5 },
             { label: '20', dia: 20, h: 7.0 },
+            { label: '25', dia: 25, h: 8.0 },
         ],
         cabOval: [
-            { label: '5×3', l: 5, w: 3, h: 1.8 },
-            { label: '6×4', l: 6, w: 4, h: 2.2 },
+            { label: '5×3', l: 5, w: 3, h: 1.5 },
+            { label: '6×4', l: 6, w: 4, h: 2.0 },
             { label: '7×5', l: 7, w: 5, h: 2.5 },
             { label: '8×6', l: 8, w: 6, h: 3.0 },
-            { label: '9×7', l: 9, w: 7, h: 3.5 },
+            { label: '9×7', l: 9, w: 7, h: 3.0 },
             { label: '10×8', l: 10, w: 8, h: 3.5 },
             { label: '12×10', l: 12, w: 10, h: 4.5 },
             { label: '14×10', l: 14, w: 10, h: 4.5 },
@@ -986,6 +1118,8 @@
             { label: '18×13', l: 18, w: 13, h: 5.5 },
             { label: '20×15', l: 20, w: 15, h: 6.0 },
             { label: '25×18', l: 25, w: 18, h: 7.0 },
+            { label: '30×22', l: 30, w: 22, h: 8.0 },
+            { label: '40×30', l: 40, w: 30, h: 9.0 },
         ]
     };
 
@@ -1016,6 +1150,36 @@
     }
 
     // ============================================================
+    //  CLIPBOARD COPY
+    // ============================================================
+    function copyVal(spanId) {
+        const el = document.getElementById(spanId);
+        if (el) {
+            navigator.clipboard.writeText(el.innerText).then(() => showToast(el.innerText + ' kopiert')).catch(() => showToast('Kopieren fehlgeschlagen'));
+        }
+    }
+
+    // ============================================================
+    //  RESET PAGE
+    // ============================================================
+    function resetPage(pageId) {
+        const page = document.getElementById('page-' + pageId);
+        if (!page) return;
+        page.querySelectorAll('input[type="number"]').forEach(i => { i.value = ''; });
+        page.querySelectorAll('.result-area').forEach(r => { r.style.display = 'none'; });
+        showToast('Felder zur\u00fcckgesetzt');
+    }
+
+    // ============================================================
+    //  DENSITY BADGE
+    // ============================================================
+    function updateDensityBadge() {
+        const sel = document.getElementById('globalDensity');
+        const short = sel.options[sel.selectedIndex].text.replace(/\s*\([\d.]+\)/, '');
+        document.getElementById('densityBadge').innerText = short;
+    }
+
+    // ============================================================
     //  NAVIGATION
     // ============================================================
     function openNav() {
@@ -1043,22 +1207,26 @@
     //  GLOBAL UPDATE (when density changes)
     // ============================================================
     function updateAll() {
+        updateDensityBadge();
         if (document.getElementById('waxWeight').value) calcCast();
         if (document.getElementById('wireDim1').value) calcWire();
+        if (document.getElementById('revWeight') && document.getElementById('revWeight').value) calcReverse();
         calcHemisphereBlank();
     }
 
     // ============================================================
-    //  WACHS ZU METALL
+    //  WACHS ZU METALL (with Anguss)
     // ============================================================
     function calcCast() {
         const wax = parseFloat(document.getElementById('waxWeight').value);
         const rhoMetal = parseFloat(document.getElementById('globalDensity').value);
+        const anguss = parseFloat(document.getElementById('castAnguss').value) || 1;
         const resBox = document.getElementById('castRes');
-        const valSpan = document.getElementById('castVal');
         if (wax > 0) {
+            const metalNeeded = (wax / RHO_WAX) * rhoMetal;
             resBox.style.display = 'block';
-            valSpan.innerText = ((wax / RHO_WAX) * rhoMetal).toFixed(2);
+            document.getElementById('castVal').innerText = metalNeeded.toFixed(2);
+            document.getElementById('castValAnguss').innerText = (metalNeeded * anguss).toFixed(2);
         } else { resBox.style.display = 'none'; }
     }
 
@@ -1074,16 +1242,20 @@
         if (type === 'round') {
             label1.innerText = "Durchmesser (mm)";
             dim2Container.style.display = 'none';
+        } else if (type === 'tube') {
+            label1.innerText = "Au\u00dfen-\u00d8 (mm)";
+            if (label2) label2.innerText = "Innen-\u00d8 (mm)";
+            dim2Container.style.display = 'block';
         } else if (type === 'square') {
             label1.innerText = "Breite (mm)";
-            if (label2) label2.innerText = "Höhe (mm)";
+            if (label2) label2.innerText = "H\u00f6he (mm)";
             dim2Container.style.display = 'block';
         } else if (type === 'tri') {
-            label1.innerText = "Seitenmaß (mm)";
+            label1.innerText = "Seitenma\u00df (mm)";
             dim2Container.style.display = 'none';
         } else if (type === 'sheet') {
             label1.innerText = "Breite (mm)";
-            if (label2) label2.innerText = "Stärke (mm)";
+            if (label2) label2.innerText = "St\u00e4rke (mm)";
             dim2Container.style.display = 'block';
         }
         document.getElementById('wireRes').style.display = 'none';
@@ -1095,15 +1267,76 @@
         const dim2 = parseFloat(document.getElementById('wireDim2').value) || dim1;
         const len = parseFloat(document.getElementById('wireLength').value);
         const rho = parseFloat(document.getElementById('globalDensity').value);
-        if (!dim1 || !len || dim1 <= 0 || len <= 0) return;
+        if (!dim1 || !len || dim1 <= 0 || len <= 0) { document.getElementById('wireRes').style.display = 'none'; return; }
 
         let volume = 0;
         if (type === 'round') volume = Math.PI * Math.pow(dim1 / 2, 2) * len;
+        else if (type === 'tube') {
+            if (dim2 >= dim1) { document.getElementById('wireRes').style.display = 'none'; return; }
+            volume = Math.PI * (Math.pow(dim1 / 2, 2) - Math.pow(dim2 / 2, 2)) * len;
+        }
         else if (type === 'square' || type === 'sheet') volume = dim1 * dim2 * len;
         else if (type === 'tri') volume = (Math.sqrt(3) / 4) * Math.pow(dim1, 2) * len;
 
         document.getElementById('wireRes').style.display = 'block';
         document.getElementById('wireVal').innerText = ((volume / 1000) * rho).toFixed(2);
+    }
+
+    // ============================================================
+    //  REVERSE: GEWICHT → DRAHTLÄNGE
+    // ============================================================
+    function toggleRevInputs() {
+        const type = document.getElementById('revProfile').value;
+        const l1 = document.getElementById('rev-label1');
+        const wrap2 = document.getElementById('rev-dim2-wrap');
+        const l2 = document.getElementById('rev-label2');
+
+        if (type === 'round') {
+            l1.innerText = 'Ziel-\u00d8 (mm)';
+            wrap2.style.display = 'none';
+        } else if (type === 'tube') {
+            l1.innerText = 'Au\u00dfen-\u00d8 (mm)';
+            l2.innerText = 'Innen-\u00d8 (mm)';
+            wrap2.style.display = 'block';
+        } else if (type === 'square') {
+            l1.innerText = 'Breite (mm)';
+            l2.innerText = 'H\u00f6he (mm)';
+            wrap2.style.display = 'block';
+        } else if (type === 'sheet') {
+            l1.innerText = 'Breite (mm)';
+            l2.innerText = 'St\u00e4rke (mm)';
+            wrap2.style.display = 'block';
+        }
+        document.getElementById('revRes').style.display = 'none';
+    }
+
+    function calcReverse() {
+        const type = document.getElementById('revProfile').value;
+        const weight = parseFloat(document.getElementById('revWeight').value);
+        const dim1 = parseFloat(document.getElementById('revDim1').value);
+        const dim2 = parseFloat(document.getElementById('revDim2').value) || dim1;
+        const rho = parseFloat(document.getElementById('globalDensity').value);
+        const resBox = document.getElementById('revRes');
+
+        if (!weight || !dim1 || weight <= 0 || dim1 <= 0) { resBox.style.display = 'none'; return; }
+
+        // volume in mm³ = weight / (rho g/cm³) * 1000 mm³/cm³
+        const totalVolume = (weight / rho) * 1000;
+
+        let crossSection = 0; // mm²
+        if (type === 'round') crossSection = Math.PI * Math.pow(dim1 / 2, 2);
+        else if (type === 'tube') {
+            if (dim2 >= dim1) { resBox.style.display = 'none'; return; }
+            crossSection = Math.PI * (Math.pow(dim1 / 2, 2) - Math.pow(dim2 / 2, 2));
+        }
+        else if (type === 'square' || type === 'sheet') crossSection = dim1 * dim2;
+
+        if (crossSection <= 0) { resBox.style.display = 'none'; return; }
+
+        const length = totalVolume / crossSection;
+        document.getElementById('revLength').innerText = length.toFixed(1);
+        document.getElementById('revLengthCm').innerText = (length / 10).toFixed(1);
+        resBox.style.display = 'block';
     }
 
     // ============================================================
@@ -1393,7 +1626,15 @@
     function toggleBezelInputs() {
         const shape = document.getElementById('bezelShape').value;
         document.getElementById('bezel-round-inputs').style.display = shape === 'round' ? 'flex' : 'none';
+        document.getElementById('bezel-oval-inputs').style.display = shape === 'oval' ? 'flex' : 'none';
         document.getElementById('bezel-square-inputs').style.display = shape === 'square' ? 'flex' : 'none';
+    }
+
+    // Ramanujan approximation for ellipse circumference
+    function ellipseCircumference(a, b) {
+        // a = semi-major axis, b = semi-minor axis
+        const h = Math.pow((a - b), 2) / Math.pow((a + b), 2);
+        return Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
     }
 
     function calcBezel() {
@@ -1407,16 +1648,38 @@
         const widthContainer = document.getElementById('bezelWidthContainer');
         const hintDiv = document.getElementById('bezelHint');
         const formulaHint = document.getElementById('bezelFormulaHint');
+        const resultStrip = document.getElementById('bezelResultStrip');
+        const resultMiter = document.getElementById('bezelResultMiter');
 
         let length = 0;
+        let stripHeight = h > 0 ? h + addH : 0;
 
         if (shape === 'round') {
             const dia = parseFloat(document.getElementById('bezelDia').value);
             if (!dia || dia <= 0) { resBox.style.display = 'none'; return; }
+
             // Neutrale Faser: (Stein-Ø + Blechstärke) × π
             length = (dia + thick) * Math.PI;
+            formulaHint.innerText = 'Formel: (' + dia.toFixed(1) + ' + ' + thick.toFixed(1) + ') \u00D7 \u03C0 = ' + length.toFixed(2) + ' mm';
             hintDiv.style.display = 'none';
-            formulaHint.innerText = `Formel: (${dia.toFixed(1)} + ${thick.toFixed(1)}) × π = ${length.toFixed(2)} mm`;
+            resultStrip.style.display = 'block';
+            resultMiter.style.display = 'none';
+
+        } else if (shape === 'oval') {
+            const ol = parseFloat(document.getElementById('bezelOvalL').value);
+            const ow = parseFloat(document.getElementById('bezelOvalW').value);
+            if (!ol || ol <= 0 || !ow || ow <= 0) { resBox.style.display = 'none'; return; }
+
+            // Neutrale Faser der Ellipse: Ramanujan-Näherung
+            // Halbachsen: (Steinmaß + Blechstärke) / 2
+            const a = (ol + thick) / 2; // Halbachse lang
+            const b = (ow + thick) / 2; // Halbachse kurz
+            length = ellipseCircumference(a, b);
+            formulaHint.innerText = 'Ellipsen-Umfang (Ramanujan): a=' + a.toFixed(2) + ', b=' + b.toFixed(2) + ' \u2192 ' + length.toFixed(2) + ' mm';
+            hintDiv.style.display = 'block';
+            hintDiv.innerHTML = 'Die Berechnung nutzt die Ramanujan-N\u00E4herung f\u00FCr den Ellipsen-Umfang auf der neutralen Faser (Stein + Blechst\u00E4rke). F\u00FCr die Formgebung wird der Blechstreifen um einen ovalen Kern gebogen.';
+            resultStrip.style.display = 'block';
+            resultMiter.style.display = 'none';
 
         } else if (shape === 'square') {
             const l = parseFloat(document.getElementById('bezelLen').value);
@@ -1424,24 +1687,31 @@
             if (!l || l <= 0) { resBox.style.display = 'none'; return; }
             const effectiveW = w || l;
 
-            // Korrigierte Formel für Viereckzargen:
-            // 4 gerade Seiten (Innenmaß) + 4 Viertelkreis-Biegungen der neutralen Faser
-            // Gerade Seiten: 2×L + 2×W
-            // Biegezugabe: 4 Ecken à 90° = 1 voller Kreis auf dem Radius der neutralen Faser (= thick/2)
-            // Biegezugabe = 2 × π × (thick / 2) = π × thick
-            const straightLength = 2 * (l + effectiveW);
-            const bendAllowance = Math.PI * thick;
-            length = straightLength + bendAllowance;
+            // Eckige Zargen: 4 Gehrungsteile, KEINE Biegung
+            // Jedes Teil = Innenmaß der Seite + 2× Blechstärke (für 45°-Gehrung an beiden Enden)
+            const longSide = l + (2 * thick);
+            const shortSide = effectiveW + (2 * thick);
 
-            formulaHint.innerText = `Formel: 2×(${l.toFixed(1)}+${effectiveW.toFixed(1)}) + π×${thick.toFixed(1)} = ${length.toFixed(2)} mm`;
+            document.getElementById('bezelMiterLong').innerText = longSide.toFixed(2);
+            document.getElementById('bezelMiterShort').innerText = shortSide.toFixed(2);
+
+            if (stripHeight > 0) {
+                document.getElementById('bezelMiterHeight').innerText = stripHeight.toFixed(2);
+            }
+
+            formulaHint.innerText = 'Formel: Innenma\u00DF + 2\u00D7 Blechst\u00E4rke (Gehrungszugabe je Seite)';
             hintDiv.style.display = 'block';
-            hintDiv.innerHTML = `Die Biegezugabe (π × ${thick.toFixed(1)} = ${bendAllowance.toFixed(2)} mm) berücksichtigt die neutrale Faser in den 4 Ecken (je ein Viertelkreis).`;
+            hintDiv.innerHTML = 'Die 4 Teile werden auf 45\u00B0 gefeilt und verl\u00F6tet. Die Zugabe von 2\u00D7 Blechst\u00E4rke pro Seite deckt die Gehrungsschnitte ab.';
+            resultStrip.style.display = 'none';
+            resultMiter.style.display = 'block';
+            resBox.style.display = 'block';
+            return; // early return — no strip length for miter
         }
 
         if (length > 0) {
             blankSpan.innerText = length.toFixed(2);
-            if (h > 0) {
-                widthSpan.innerText = (h + addH).toFixed(2);
+            if (stripHeight > 0) {
+                widthSpan.innerText = stripHeight.toFixed(2);
                 widthContainer.style.display = 'inline';
             } else { widthContainer.style.display = 'none'; }
             resBox.style.display = 'block';
@@ -1463,24 +1733,30 @@
             gridCR.innerHTML += `<button class="stone-btn" onclick="applyStone('round', ${s.dia}, 0, ${s.h})"><strong>Ø ${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
         });
         STONES.cabOval.forEach(s => {
-            gridCO.innerHTML += `<button class="stone-btn" onclick="applyStone('square', ${s.l}, ${s.w}, ${s.h})"><strong>${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
+            gridCO.innerHTML += `<button class="stone-btn" onclick="applyStone('oval', ${s.l}, ${s.w}, ${s.h})"><strong>${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
         });
     }
 
     function applyStone(shape, dim1, dim2, h) {
-        document.getElementById('bezelShape').value = shape;
-        toggleBezelInputs();
-
         if (shape === 'round') {
+            document.getElementById('bezelShape').value = 'round';
+            toggleBezelInputs();
             document.getElementById('bezelDia').value = dim1;
-        } else {
+        } else if (shape === 'oval') {
+            document.getElementById('bezelShape').value = 'oval';
+            toggleBezelInputs();
+            document.getElementById('bezelOvalL').value = dim1;
+            document.getElementById('bezelOvalW').value = dim2;
+        } else if (shape === 'square') {
+            document.getElementById('bezelShape').value = 'square';
+            toggleBezelInputs();
             document.getElementById('bezelLen').value = dim1;
             document.getElementById('bezelWid').value = dim2;
         }
         document.getElementById('bezelHeight').value = h;
         calcBezel();
         navigateTo('bezel', 'Zargen-Rechner');
-        showToast(`Stein-Maß übernommen → Zargen-Rechner`);
+        showToast('Stein-Ma\u00df \u00fcbernommen \u2192 Zargen-Rechner');
     }
 
     // ============================================================
@@ -1865,8 +2141,10 @@
     // ============================================================
     window.addEventListener('DOMContentLoaded', () => {
         initStoneDB();
+        updateDensityBadge();
         const loaded = loadState();
         if (!loaded) addCostPart();
+        updateDensityBadge(); // refresh after loadState may change density
 
         // Register Service Worker for offline PWA
         if ('serviceWorker' in navigator) {
