@@ -728,6 +728,2177 @@
     <div id="page-ring" class="page">
         <div class="card">
             <h2>Ringweiten-Umrechner</h2>
+            <div class="subtitle">Berechnet die gestreckte Materiallänge für Ringschienen. Die neutrale Faser wird je nach Profil korrekt berechnet.</div>
+
+            <label>Schienen-Profil</label>
+            <select id="ringProfile" onchange="toggleRingProfile(); convertRing('profile');">
+                <option value="round">Runddraht</option>
+                <option value="flat">Flachschiene (Rechteck)</option>
+                <option value="halfround">Halbrund</option>
+            </select>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 15px;">
+                <div style="min-width: 140px;">
+                    <label>Ø Innenmaß (mm)</label>
+                    <input type="number" id="ringDia" step="0.1" min="0" placeholder="17.2" oninput="convertRing('dia')">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>EU Größe / Umfang</label>
+                    <div class="combo-input">
+                        <select id="ringSizeSelect" onchange="document.getElementById('ringSize').value=this.value; convertRing('size');">
+                            <option value="">--</option>
+                            <option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option>
+                            <option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option>
+                            <option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option>
+                            <option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option>
+                            <option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option>
+                            <option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option>
+                            <option value="75">75</option>
+                        </select>
+                        <input type="number" id="ringSize" step="0.1" min="0" placeholder="54.0" oninput="convertRing('size')">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="flex-wrap: wrap;">
+                <div id="ringThickWrap">
+                    <label id="ringThickLabel">Draht-Ø (mm)</label>
+                    <input type="number" id="ringThick" step="0.1" min="0" placeholder="1.5" oninput="convertRing('thick')">
+                </div>
+                <div id="ringWidthWrap" style="display: none;">
+                    <label>Breite (mm)</label>
+                    <input type="number" id="ringWidth" step="0.1" min="0" placeholder="3.0" oninput="convertRing('thick')">
+                </div>
+            </div>
+            <div id="ringRes" class="result-area">
+                Gestreckte Länge (Säge-Maß / Neutrale Faser):<br>
+                <span class="result-value" id="blankLength">0.00</span><span class="unit">mm</span>
+                <button class="copy-btn" onclick="copyVal('blankLength')">Kopieren</button>
+                <div style="font-size: 0.75rem; margin-top: 8px; color: var(--text-dim);" id="ringFormulaHint"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('ring')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- ZARGEN-RECHNER -->
+    <div id="page-bezel" class="page">
+        <div class="card">
+            <h2>Zargen-Rechner</h2>
+            <div class="subtitle">Berechnet den Blechzuschnitt für Steinfassungen. Runde/ovale Zargen über die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).</div>
+
+            <label>Stein-Form</label>
+            <select id="bezelShape" onchange="toggleBezelInputs(); calcBezel();">
+                <option value="round">Rund</option>
+                <option value="oval">Oval</option>
+                <option value="square">Vierkant / Rechteckig (Gehrung)</option>
+            </select>
+
+            <div class="row" style="margin-top:20px; flex-wrap: wrap;" id="bezel-round-inputs">
+                <div style="min-width: 140px;">
+                    <label>Stein-Ø (mm)</label>
+                    <input type="number" id="bezelDia" step="0.1" min="0" placeholder="z.B. 5.0" oninput="calcBezel()">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px; flex-wrap: wrap; display: none;" id="bezel-oval-inputs">
+                <div style="min-width: 140px;">
+                    <label>Länge / L (mm)</label>
+                    <input type="number" id="bezelOvalL" step="0.1" min="0" placeholder="z.B. 10.0" oninput="calcBezel()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Breite / B (mm)</label>
+                    <input type="number" id="bezelOvalW" step="0.1" min="0" placeholder="z.B. 8.0" oninput="calcBezel()">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px; flex-wrap: wrap; display: none;" id="bezel-square-inputs">
+                <div style="min-width: 140px;">
+                    <label>Länge (mm)</label>
+                    <input type="number" id="bezelLen" step="0.1" min="0" placeholder="z.B. 6.0" oninput="calcBezel()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Breite (mm)</label>
+                    <input type="number" id="bezelWid" step="0.1" min="0" placeholder="z.B. 4.0" oninput="calcBezel()">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:5px; flex-wrap: wrap;">
+                <div style="min-width: 140px;">
+                    <label>Blechstärke (mm)</label>
+                    <input type="number" id="bezelThick" step="0.1" min="0" placeholder="z.B. 0.5" oninput="calcBezel()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Stein-Höhe (mm)</label>
+                    <input type="number" id="bezelHeight" step="0.1" min="0" placeholder="z.B. 3.0" oninput="calcBezel()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Zugabe (Auflage/Fassen)</label>
+                    <input type="number" id="bezelAddH" step="0.1" min="0" value="1.0" oninput="calcBezel()">
+                </div>
+            </div>
+
+            <div id="bezelRes" class="result-area">
+                <!-- Rund / Oval: ein Streifen -->
+                <div id="bezelResultStrip">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Zuschnitt Blechstreifen</span><br>
+                    <span class="result-value" id="bezelBlankLength">0.00</span><span class="unit">mm (Länge)</span>
+                    <span id="bezelWidthContainer" style="display:none;">
+                        <span style="color: var(--text-dim); margin: 0 8px; font-size: 1.2em;">×</span>
+                        <span class="result-value" id="bezelBlankWidth">0.00</span><span class="unit">mm (Breite)</span>
+                    </span>
+                </div>
+                <!-- Eckig: 4 Gehrungsteile -->
+                <div id="bezelResultMiter" style="display: none;">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Gehrungszuschnitt (4 Teile)</span><br>
+                    <div style="margin-top: 10px; font-size: 1.05rem; line-height: 1.8;">
+                        <strong>2 × Langseite:</strong> <span id="bezelMiterLong">0.00</span> mm<br>
+                        <strong>2 × Kurzseite:</strong> <span id="bezelMiterShort">0.00</span> mm
+                    </div>
+                    <div style="margin-top: 8px; font-size: 0.95rem;">
+                        Streifenbreite: <strong><span id="bezelMiterHeight">0.00</span> mm</strong>
+                    </div>
+                </div>
+                <div id="bezelFormulaHint" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim);"></div>
+                <div id="bezelHint" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 0.8rem; color: var(--text-dim); display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEIN-DATENBANK -->
+    <div id="page-stones" class="page">
+        <div class="card">
+            <h2>Stein-Datenbank</h2>
+            <div class="subtitle">Standard-Maße für gängige Brillantschliffe und Cabochons. Antippen überträgt die Maße in den Zargen-Rechner.</div>
+
+            <label>Brillanten (rund, Ø mm)</label>
+            <div class="stone-grid" id="stoneGridBrillant"></div>
+
+            <label style="margin-top: 25px;">Cabochons (rund, Ø mm)</label>
+            <div class="stone-grid" id="stoneGridCabRound"></div>
+
+            <label style="margin-top: 25px;">Cabochons (oval, L × B mm)</label>
+            <div class="stone-grid" id="stoneGridCabOval"></div>
+        </div>
+    </div>
+
+    <!-- ALTMETALL LEGIEREN -->
+    <div id="page-alloy" class="page">
+        <div class="card">
+            <h2>Legieren (Altmetall)</h2>
+            <div class="subtitle">Bestimmt die exakte Zugabe von Feinmetall oder Vorlegierung zur Veränderung des Feingehaltes.</div>
+            <div class="row">
+                <div>
+                    <label>Ausgangsgewicht (g)</label>
+                    <input type="number" id="alloyWeight" step="0.01" min="0" placeholder="10.5" oninput="calcAlloy()">
+                </div>
+            </div>
+            <div class="row" style="flex-wrap: wrap;">
+                <div style="min-width: 140px;">
+                    <label>Ist-Gehalt (‰)</label>
+                    <div class="combo-input">
+                        <select onchange="document.getElementById('currentFine').value=this.value; calcAlloy();">
+                            <option value="">--</option>
+                            <option value="1000">1000</option><option value="999">999</option><option value="950">950</option>
+                            <option value="925">925</option><option value="900">900</option><option value="835">835</option>
+                            <option value="800">800</option><option value="750">750</option><option value="585">585</option>
+                            <option value="375">375</option><option value="333">333</option><option value="0">0</option>
+                        </select>
+                        <input type="number" id="currentFine" step="1" min="0" max="1000" oninput="calcAlloy()">
+                    </div>
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Soll-Gehalt (‰)</label>
+                    <div class="combo-input">
+                        <select onchange="document.getElementById('targetFine').value=this.value; calcAlloy();">
+                            <option value="">--</option>
+                            <option value="1000">1000</option><option value="999">999</option><option value="950">950</option>
+                            <option value="925">925</option><option value="900">900</option><option value="835">835</option>
+                            <option value="800">800</option><option value="750">750</option><option value="585">585</option>
+                            <option value="375">375</option><option value="333">333</option>
+                        </select>
+                        <input type="number" id="targetFine" step="1" min="0" max="1000" oninput="calcAlloy()">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Gehalt des Zusatzes (‰)</label>
+                    <div class="combo-input">
+                        <select onchange="document.getElementById('addFine').value=this.value; calcAlloy();">
+                            <option value="">Auto (1000 / 0)</option>
+                            <option value="1000">1000</option><option value="999">999</option><option value="950">950</option>
+                            <option value="925">925</option><option value="835">835</option><option value="750">750</option>
+                            <option value="585">585</option><option value="333">333</option><option value="0">0</option>
+                        </select>
+                        <input type="number" id="addFine" step="1" min="0" max="1000" placeholder="Auto" oninput="calcAlloy()">
+                    </div>
+                </div>
+            </div>
+            <div id="alloyRes" class="result-area">
+                <span style="font-size: 0.85rem; text-transform: uppercase; font-weight: 600; color: var(--text-dim);" id="alloyActionText">Aktion</span><br>
+                <span class="result-value" id="alloyAddAmount">0.00</span><span class="unit">g</span>
+                <div style="font-size: 0.85rem; margin-top: 10px;" id="alloyTotalWeight"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEGIERUNG ANMISCHEN -->
+    <div id="page-mix" class="page">
+        <div class="card">
+            <h2>Legierung anmischen</h2>
+            <div class="subtitle">Stellt eine Legierung aus reinen Elementen (Feinmetall + Zusatz) zusammen.</div>
+            <div class="row">
+                <div>
+                    <label>Ziel-Gewicht (g)</label>
+                    <input type="number" id="mixWeight" step="0.01" min="0" placeholder="10.0" oninput="calcMix()">
+                </div>
+                <div>
+                    <label>Ziel-Gehalt (‰)</label>
+                    <input type="number" id="mixFine" step="1" min="1" max="1000" placeholder="750" value="750" oninput="calcMix()">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Eigenschaften / Farbe</label>
+                    <select id="mixType" onchange="calcMix()">
+                        <option value="yellow">Gelbgold (Ag 50% / Cu 50%)</option>
+                        <option value="rose">Roségold (Ag 20% / Cu 80%)</option>
+                        <option value="red">Rotgold (Cu 100%)</option>
+                        <option value="white_pt">Weißgold (Pd/Pt)</option>
+                        <option value="white_ni">Weißgold (Ni)</option>
+                        <option value="silver">Silberlegierung (Cu)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="mixRes" class="result-area">
+                <span style="font-size: 0.85rem; text-transform: uppercase; font-weight: 600; color: var(--text-dim);">Komponenten:</span><br>
+                <div id="mixBreakdown" style="margin-top: 10px; font-size: 1.1rem; line-height: 1.6;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VERLUST-RECHNER (NEU) -->
+    <div id="page-loss" class="page">
+        <div class="card">
+            <h2>Verlust-Rechner</h2>
+            <div class="subtitle">Schätzt den Materialverlust durch verschiedene Bearbeitungsschritte. Werte basieren auf Erfahrungswerten und variieren je nach Werkstatt.</div>
+
+            <div class="row">
+                <div>
+                    <label>Startgewicht (g)</label>
+                    <input type="number" id="lossStartWeight" step="0.01" min="0" placeholder="10.0" oninput="calcLoss()">
+                </div>
+            </div>
+
+            <label style="margin-top: 20px;">Bearbeitungsschritte (Verlust %)</label>
+            <div id="lossStepsContainer"></div>
+            <button onclick="addLossStep()" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); width: 100%; padding: 12px; border-radius: 2px; font-weight: bold; cursor: pointer; margin-top: 10px;">+ SCHRITT HINZUFÜGEN</button>
+
+            <div id="lossRes" class="result-area">
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Gesamt-Verlust</span><br>
+                        <span class="result-value" id="lossTotal">0.00</span><span class="unit">g</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.75rem; color: var(--accent); font-weight: bold; text-transform: uppercase;">Endgewicht (ca.)</span><br>
+                        <span class="result-value" style="color: var(--accent); font-size: 1.4em;" id="lossFinal">0.00</span><span class="unit" style="color: var(--accent);">g</span>
+                    </div>
+                </div>
+                <div id="lossBreakdown" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-dim);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MATERIALKOSTEN -->
+    <div id="page-cost" class="page">
+        <div class="card">
+            <h2>Materialkosten</h2>
+            <label>1. Basis-Kurse (Feinmetall €/g)</label>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                <button id="fetchPricesBtn" onclick="fetchLivePrices()" style="background: var(--text); color: #fff; border: none; border-radius: 2px; padding: 10px 16px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer; font-family: inherit; transition: opacity 0.2s; white-space: nowrap;">
+                    ↻ Live-Kurse laden
+                </button>
+                <span id="priceStatus" style="font-size: 0.8rem; color: var(--text-dim);"></span>
+            </div>
+            <div class="row" style="flex-wrap: wrap; margin-bottom: 25px;">
+                <div style="min-width: 70px;">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">GOLD</div>
+                    <input type="number" id="price_au_1000" step="0.5" min="0" value="123.24" oninput="updateAlloyPrices('au')">
+                </div>
+                <div style="min-width: 70px;">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">SILBER</div>
+                    <input type="number" id="price_ag_1000" step="0.01" min="0" value="1.94" oninput="updateAlloyPrices('ag')">
+                </div>
+                <div style="min-width: 70px;">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">PLATIN</div>
+                    <input type="number" id="price_pt_1000" step="0.5" min="0" value="52.30" oninput="updateAlloyPrices('pt')">
+                </div>
+            </div>
+
+            <label>2. Legierungs-Kurse (€/g)</label>
+            <div class="subtitle" style="margin-top: -10px; margin-bottom: 15px;">Automatisch skaliert. Manuell überschreibbar.</div>
+            <div class="row" style="flex-wrap: wrap; margin-bottom: 30px; gap: 8px;">
+                <div style="flex: 1; min-width: 60px;"><div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">AU 750</div><input type="number" id="price_au_750" step="0.1" min="0" value="92.43" oninput="calcCosts()"></div>
+                <div style="flex: 1; min-width: 60px;"><div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">AU 585</div><input type="number" id="price_au_585" step="0.1" min="0" value="72.10" oninput="calcCosts()"></div>
+                <div style="flex: 1; min-width: 60px;"><div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">AU 333</div><input type="number" id="price_au_333" step="0.1" min="0" value="41.04" oninput="calcCosts()"></div>
+                <div style="flex: 1; min-width: 60px;"><div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">AG 925</div><input type="number" id="price_ag_925" step="0.01" min="0" value="1.79" oninput="calcCosts()"></div>
+                <div style="flex: 1; min-width: 60px;"><div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom:4px;">PT 950</div><input type="number" id="price_pt_950" step="0.1" min="0" value="49.69" oninput="calcCosts()"></div>
+            </div>
+
+            <label style="border-bottom: 2px solid var(--text); padding-bottom: 5px; margin-bottom: 15px;">3. Bauteile</label>
+            <div id="costPartsContainer"></div>
+            <button onclick="addCostPart()" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); width: 100%; padding: 12px; border-radius: 2px; font-weight: bold; cursor: pointer; margin-top: 10px;">+ BAUTEIL HINZUFÜGEN</button>
+
+            <div class="row" style="margin-top: 30px;">
+                <div style="max-width: 200px;">
+                    <label>Faktor (Marge)</label>
+                    <input type="number" id="costFactor" step="0.1" min="0" value="2.5" oninput="calcCosts()">
+                </div>
+            </div>
+
+            <div class="result-area" style="display: block; margin-top: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Einkauf</span><br>
+                        <span class="result-value" id="totalCost" style="font-size: 1.2em; color: var(--text);">0.00</span><span class="unit">€</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.75rem; color: var(--accent); font-weight: bold; text-transform: uppercase;">Kunden-VK (Material)</span><br>
+                        <span class="result-value" id="finalSalesPrice" style="font-size: 1.6em; color: var(--accent);">0.00</span><span class="unit" style="color: var(--accent);">€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const RHO_WAX = 0.96;
+    const STORAGE_KEY = 'benchtool_state';
+
+    // ============================================================
+    //  STONE DATABASE
+    // ============================================================
+    const STONES = {
+        brillant: [
+            { label: '0.8', dia: 0.8, h: 0.5 },
+            { label: '1.0', dia: 1.0, h: 0.6 },
+            { label: '1.25', dia: 1.25, h: 0.8 },
+            { label: '1.5', dia: 1.5, h: 0.9 },
+            { label: '1.75', dia: 1.75, h: 1.1 },
+            { label: '2.0', dia: 2.0, h: 1.2 },
+            { label: '2.25', dia: 2.25, h: 1.4 },
+            { label: '2.5', dia: 2.5, h: 1.5 },
+            { label: '2.75', dia: 2.75, h: 1.7 },
+            { label: '3.0', dia: 3.0, h: 1.8 },
+            { label: '3.5', dia: 3.5, h: 2.1 },
+            { label: '4.0', dia: 4.0, h: 2.4 },
+            { label: '4.5', dia: 4.5, h: 2.7 },
+            { label: '5.0', dia: 5.0, h: 3.0 },
+            { label: '5.5', dia: 5.5, h: 3.3 },
+            { label: '6.0', dia: 6.0, h: 3.6 },
+            { label: '6.5', dia: 6.5, h: 3.9 },
+            { label: '7.0', dia: 7.0, h: 4.1 },
+            { label: '8.0', dia: 8.0, h: 4.8 },
+            { label: '9.0', dia: 9.0, h: 5.4 },
+            { label: '10.0', dia: 10.0, h: 6.0 },
+        ],
+        cabRound: [
+            { label: '3', dia: 3, h: 1.5 },
+            { label: '4', dia: 4, h: 2.0 },
+            { label: '5', dia: 5, h: 2.5 },
+            { label: '6', dia: 6, h: 3.0 },
+            { label: '8', dia: 8, h: 3.5 },
+            { label: '10', dia: 10, h: 4.5 },
+            { label: '12', dia: 12, h: 5.0 },
+            { label: '14', dia: 14, h: 5.5 },
+            { label: '16', dia: 16, h: 6.0 },
+            { label: '18', dia: 18, h: 6.5 },
+            { label: '20', dia: 20, h: 7.0 },
+            { label: '25', dia: 25, h: 8.0 },
+        ],
+        cabOval: [
+            { label: '5×3', l: 5, w: 3, h: 1.5 },
+            { label: '6×4', l: 6, w: 4, h: 2.0 },
+            { label: '7×5', l: 7, w: 5, h: 2.5 },
+            { label: '8×6', l: 8, w: 6, h: 3.0 },
+            { label: '9×7', l: 9, w: 7, h: 3.0 },
+            { label: '10×8', l: 10, w: 8, h: 3.5 },
+            { label: '12×10', l: 12, w: 10, h: 4.5 },
+            { label: '14×10', l: 14, w: 10, h: 4.5 },
+            { label: '16×12', l: 16, w: 12, h: 5.0 },
+            { label: '18×13', l: 18, w: 13, h: 5.5 },
+            { label: '20×15', l: 20, w: 15, h: 6.0 },
+            { label: '25×18', l: 25, w: 18, h: 7.0 },
+            { label: '30×22', l: 30, w: 22, h: 8.0 },
+            { label: '40×30', l: 40, w: 30, h: 9.0 },
+        ]
+    };
+
+    // ============================================================
+    //  LOSS PRESETS
+    // ============================================================
+    const LOSS_PRESETS = [
+        { name: 'Feilen / Schleifen', pct: 3.0 },
+        { name: 'Polieren (Vorpolitur)', pct: 1.5 },
+        { name: 'Hochglanzpolitur', pct: 1.0 },
+        { name: 'Säurebad / Beizen', pct: 0.5 },
+        { name: 'Feuervergolden (Säure)', pct: 2.0 },
+        { name: 'Rhodinieren', pct: 0.3 },
+        { name: 'Galvanisches Bad', pct: 0.2 },
+        { name: 'Sandstrahlen', pct: 1.0 },
+        { name: 'Fassen (Verschnitt)', pct: 2.0 },
+        { name: 'Benutzerdefiniert', pct: 0 },
+    ];
+
+    // ============================================================
+    //  TOAST
+    // ============================================================
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    // ============================================================
+    //  CLIPBOARD COPY
+    // ============================================================
+    function copyVal(spanId) {
+        const el = document.getElementById(spanId);
+        if (el) {
+            navigator.clipboard.writeText(el.innerText).then(() => showToast(el.innerText + ' kopiert')).catch(() => showToast('Kopieren fehlgeschlagen'));
+        }
+    }
+
+    // ============================================================
+    //  RESET PAGE
+    // ============================================================
+    function resetPage(pageId) {
+        const page = document.getElementById('page-' + pageId);
+        if (!page) return;
+        page.querySelectorAll('input[type="number"]').forEach(i => { i.value = ''; });
+        page.querySelectorAll('.result-area').forEach(r => { r.style.display = 'none'; });
+        showToast('Felder zur\u00fcckgesetzt');
+    }
+
+    // ============================================================
+    //  DENSITY BADGE
+    // ============================================================
+    function updateDensityBadge() {
+        const sel = document.getElementById('globalDensity');
+        const short = sel.options[sel.selectedIndex].text.replace(/\s*\([\d.]+\)/, '');
+        document.getElementById('densityBadge').innerText = short;
+    }
+
+    // ============================================================
+    //  NAVIGATION
+    // ============================================================
+    function openNav() {
+        document.getElementById("sidebar").classList.add("open");
+        document.getElementById("sidebarOverlay").style.display = "block";
+    }
+
+    function closeNav() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebarOverlay").style.display = "none";
+    }
+
+    function navigateTo(pageId, title) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + pageId).classList.add('active');
+        document.querySelectorAll('.sidebar-menu a').forEach(btn => btn.classList.remove('active'));
+        const navEl = document.getElementById('nav-' + pageId);
+        if (navEl) navEl.classList.add('active');
+        document.getElementById('navTitle').innerText = title;
+        closeNav();
+        window.scrollTo(0, 0);
+    }
+
+    // ============================================================
+    //  GLOBAL UPDATE (when density changes)
+    // ============================================================
+    function updateAll() {
+        updateDensityBadge();
+        if (document.getElementById('waxWeight').value) calcCast();
+        if (document.getElementById('wireDim1').value) calcWire();
+        if (document.getElementById('revWeight') && document.getElementById('revWeight').value) calcReverse();
+        calcHemisphereBlank();
+    }
+
+    // ============================================================
+    //  WACHS ZU METALL (with Anguss)
+    // ============================================================
+    function calcCast() {
+        const wax = parseFloat(document.getElementById('waxWeight').value);
+        const rhoMetal = parseFloat(document.getElementById('globalDensity').value);
+        const anguss = parseFloat(document.getElementById('castAnguss').value) || 1;
+        const resBox = document.getElementById('castRes');
+        if (wax > 0) {
+            const metalNeeded = (wax / RHO_WAX) * rhoMetal;
+            resBox.style.display = 'block';
+            document.getElementById('castVal').innerText = metalNeeded.toFixed(2);
+            document.getElementById('castValAnguss').innerText = (metalNeeded * anguss).toFixed(2);
+        } else { resBox.style.display = 'none'; }
+    }
+
+    // ============================================================
+    //  HALBZEUG
+    // ============================================================
+    function toggleWireInputs() {
+        const type = document.getElementById('wireType').value;
+        const label1 = document.getElementById('label-dim1');
+        const dim2Container = document.getElementById('input-dim2');
+        const label2 = document.getElementById('label-dim2');
+
+        if (type === 'round') {
+            label1.innerText = "Durchmesser (mm)";
+            dim2Container.style.display = 'none';
+        } else if (type === 'tube') {
+            label1.innerText = "Au\u00dfen-\u00d8 (mm)";
+            if (label2) label2.innerText = "Innen-\u00d8 (mm)";
+            dim2Container.style.display = 'block';
+        } else if (type === 'square') {
+            label1.innerText = "Breite (mm)";
+            if (label2) label2.innerText = "H\u00f6he (mm)";
+            dim2Container.style.display = 'block';
+        } else if (type === 'tri') {
+            label1.innerText = "Seitenma\u00df (mm)";
+            dim2Container.style.display = 'none';
+        } else if (type === 'sheet') {
+            label1.innerText = "Breite (mm)";
+            if (label2) label2.innerText = "St\u00e4rke (mm)";
+            dim2Container.style.display = 'block';
+        }
+        document.getElementById('wireRes').style.display = 'none';
+    }
+
+    function calcWire() {
+        const type = document.getElementById('wireType').value;
+        const dim1 = parseFloat(document.getElementById('wireDim1').value);
+        const dim2 = parseFloat(document.getElementById('wireDim2').value) || dim1;
+        const len = parseFloat(document.getElementById('wireLength').value);
+        const rho = parseFloat(document.getElementById('globalDensity').value);
+        if (!dim1 || !len || dim1 <= 0 || len <= 0) { document.getElementById('wireRes').style.display = 'none'; return; }
+
+        let volume = 0;
+        if (type === 'round') volume = Math.PI * Math.pow(dim1 / 2, 2) * len;
+        else if (type === 'tube') {
+            if (dim2 >= dim1) { document.getElementById('wireRes').style.display = 'none'; return; }
+            volume = Math.PI * (Math.pow(dim1 / 2, 2) - Math.pow(dim2 / 2, 2)) * len;
+        }
+        else if (type === 'square' || type === 'sheet') volume = dim1 * dim2 * len;
+        else if (type === 'tri') volume = (Math.sqrt(3) / 4) * Math.pow(dim1, 2) * len;
+
+        document.getElementById('wireRes').style.display = 'block';
+        document.getElementById('wireVal').innerText = ((volume / 1000) * rho).toFixed(2);
+    }
+
+    // ============================================================
+    //  REVERSE: GEWICHT → DRAHTLÄNGE
+    // ============================================================
+    function toggleRevInputs() {
+        const type = document.getElementById('revProfile').value;
+        const l1 = document.getElementById('rev-label1');
+        const wrap2 = document.getElementById('rev-dim2-wrap');
+        const l2 = document.getElementById('rev-label2');
+
+        if (type === 'round') {
+            l1.innerText = 'Ziel-\u00d8 (mm)';
+            wrap2.style.display = 'none';
+        } else if (type === 'tube') {
+            l1.innerText = 'Au\u00dfen-\u00d8 (mm)';
+            l2.innerText = 'Innen-\u00d8 (mm)';
+            wrap2.style.display = 'block';
+        } else if (type === 'square') {
+            l1.innerText = 'Breite (mm)';
+            l2.innerText = 'H\u00f6he (mm)';
+            wrap2.style.display = 'block';
+        } else if (type === 'sheet') {
+            l1.innerText = 'Breite (mm)';
+            l2.innerText = 'St\u00e4rke (mm)';
+            wrap2.style.display = 'block';
+        }
+        document.getElementById('revRes').style.display = 'none';
+    }
+
+    function calcReverse() {
+        const type = document.getElementById('revProfile').value;
+        const weight = parseFloat(document.getElementById('revWeight').value);
+        const dim1 = parseFloat(document.getElementById('revDim1').value);
+        const dim2 = parseFloat(document.getElementById('revDim2').value) || dim1;
+        const rho = parseFloat(document.getElementById('globalDensity').value);
+        const resBox = document.getElementById('revRes');
+
+        if (!weight || !dim1 || weight <= 0 || dim1 <= 0) { resBox.style.display = 'none'; return; }
+
+        // volume in mm³ = weight / (rho g/cm³) * 1000 mm³/cm³
+        const totalVolume = (weight / rho) * 1000;
+
+        let crossSection = 0; // mm²
+        if (type === 'round') crossSection = Math.PI * Math.pow(dim1 / 2, 2);
+        else if (type === 'tube') {
+            if (dim2 >= dim1) { resBox.style.display = 'none'; return; }
+            crossSection = Math.PI * (Math.pow(dim1 / 2, 2) - Math.pow(dim2 / 2, 2));
+        }
+        else if (type === 'square' || type === 'sheet') crossSection = dim1 * dim2;
+
+        if (crossSection <= 0) { resBox.style.display = 'none'; return; }
+
+        const length = totalVolume / crossSection;
+        document.getElementById('revLength').innerText = length.toFixed(1);
+        document.getElementById('revLengthCm').innerText = (length / 10).toFixed(1);
+        resBox.style.display = 'block';
+    }
+
+    // ============================================================
+    //  HALBKUGEL-RONDEN
+    // ============================================================
+    function calcHemisphereBlank() {
+        const targetDia = parseFloat(document.getElementById('hemiTargetDia').value);
+        const thick = parseFloat(document.getElementById('hemiThick').value) || 0;
+        const resBox = document.getElementById('hemiRes');
+        if (!targetDia || targetDia <= 0) { resBox.style.display = 'none'; return; }
+
+        const neutralDia = targetDia > thick ? targetDia - thick : targetDia;
+        const blankDia = neutralDia * Math.SQRT2;
+        const blankRad = blankDia / 2;
+
+        document.getElementById('hemiBlankDia').innerText = blankDia.toFixed(1);
+        document.getElementById('hemiBlankRad').innerText = blankRad.toFixed(2);
+
+        // Punch sequence
+        const punchSeqDiv = document.getElementById('hemiPunchSeq');
+        let finalPunch = targetDia - (2 * thick);
+        if (finalPunch > 0) {
+            let sequence = [];
+            let currentPunch = Math.round(finalPunch);
+            if (currentPunch < 1) currentPunch = 1;
+            sequence.push(`Ø ${currentPunch} (Ziel)`);
+            let p = currentPunch;
+            let stepSize = targetDia > 20 ? 3 : 2;
+            while (p + stepSize < blankDia - 1.5) {
+                p += stepSize;
+                sequence.unshift(`Ø ${p}`);
+            }
+            let startPunch = Math.floor(blankDia - 1);
+            if (startPunch > p && startPunch > currentPunch) {
+                sequence.unshift(`Ø ${startPunch}`);
+            } else {
+                startPunch = parseFloat(sequence[0].replace(/[^\d.-]/g, ''));
+            }
+
+            punchSeqDiv.innerHTML = `
+                <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border);">
+                    <span style="color: var(--text);">Start-Punze: <strong>Ø ${Math.round(startPunch)} mm</strong></span><br>
+                    <span style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">(Regel: Die Kugelpunze am Anfang 1-2 Nummern kleiner wählen als die Vertiefung)</span>
+                </div>
+                <div style="font-size: 0.95rem; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border);">
+                    ${sequence.join(' <span style="color:var(--text-dim);">➔</span> ')}
+                </div>
+                <div>
+                    <span style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: bold;">Praxis-Tipps</span><br>
+                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Glühen:</strong> Nach jedem 1.–2. Schritt weichglühen, um Risse zu vermeiden.</span>
+                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Riefen vermeiden:</strong> Wölbung muss sauber in der Vertiefung ruhen.</span>
+                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Toleranzen:</strong> Der Ankenverlauf dient als Orientierungshilfe.</span>
+                </div>`;
+        } else {
+            punchSeqDiv.innerHTML = "<span style='color:var(--accent);'>Material zu dick für diesen Durchmesser! (Innenmaß ≤ 0)</span>";
+        }
+        resBox.style.display = 'block';
+    }
+
+    // ============================================================
+    //  WALZEN & ZIEHEN – with cumulative reduction + target
+    // ============================================================
+    function toggleDeform() {
+        const type = document.getElementById('deformType').value;
+        document.getElementById('deformDraw').style.display = type === 'draw' ? 'block' : 'none';
+        document.getElementById('deformRoll').style.display = type === 'roll' ? 'block' : 'none';
+        document.getElementById('deformTube').style.display = type === 'tube' ? 'block' : 'none';
+        if (type === 'draw') calcDrawPossibilities();
+        if (type === 'roll') calcRollPossibilities();
+        if (type === 'tube') calcTubePossibilities();
+    }
+
+    function reductionBarHtml(pct) {
+        let cls = pct < 45 ? '' : (pct < 60 ? 'warn' : 'danger');
+        return `<span style="display:inline-block; width: 40px;"><span class="reduction-bar" style="width:40px;"><span class="reduction-bar-fill ${cls}" style="width:${Math.min(pct, 100)}%;"></span></span></span> <span style="font-size:0.75rem; color: var(--text-dim);">${pct.toFixed(0)}%</span>`;
+    }
+
+    function calcDrawPossibilities() {
+        const d1 = parseFloat(document.getElementById('dd_d1').value);
+        const l1 = parseFloat(document.getElementById('dd_l1').value);
+        const targetD = parseFloat(document.getElementById('dd_target').value) || 0;
+        const possBox = document.getElementById('drawPossibilities');
+        const tableBox = document.getElementById('drawTableContainer');
+        if (!d1 || !l1 || d1 <= 0 || l1 <= 0) { possBox.style.display = 'none'; return; }
+
+        possBox.style.display = 'block';
+        const a1 = Math.PI * Math.pow(d1 / 2, 2);
+
+        let steps = [];
+        let currentD = d1;
+        while (currentD > 0.1) {
+            let stepSize = currentD > 1.01 ? 0.1 : 0.05;
+            let nextD = stepSize === 0.1 ? Math.floor((currentD - 0.01) * 10) / 10 : Math.floor((currentD - 0.01) * 20) / 20;
+            if (nextD < 0.1) { if (currentD !== 0.1) steps.push(0.1); break; }
+            steps.push(nextD);
+            currentD = nextD;
+            if (steps.length > 35) break;
+        }
+
+        // Cumulative reduction tracking (reset after anneal)
+        let lastAnnealArea = a1;
+        let html = `<table><tr><th>Loch (Ø)</th><th>Länge</th><th>Kum. Red.</th><th>Info</th></tr>`;
+
+        steps.forEach(d2 => {
+            const a2 = Math.PI * Math.pow(d2 / 2, 2);
+            const l2 = l1 * (a1 / a2);
+            const cumRed = (1 - (a2 / lastAnnealArea)) * 100;
+            const isTarget = targetD > 0 && Math.abs(d2 - targetD) < 0.025;
+            const needsAnneal = cumRed >= 60;
+
+            let infoHtml = '';
+            let rowClass = '';
+            if (needsAnneal) {
+                infoHtml = '<span class="anneal-badge">Glühen!</span>';
+                rowClass = 'anneal-row';
+                lastAnnealArea = a2; // reset after anneal
+            } else if (cumRed >= 45) {
+                infoHtml = '<span style="font-size:0.8rem; color: var(--warn);">Bald glühen</span>';
+            }
+            if (isTarget) rowClass = 'target-row';
+
+            html += `<tr class="${rowClass}">
+                <td><strong>${d2.toFixed(2)}</strong>${isTarget ? ' ★' : ''}</td>
+                <td class="highlight-col">${Math.round(l2)} mm</td>
+                <td>${reductionBarHtml(cumRed)}</td>
+                <td>${infoHtml}</td>
+            </tr>`;
+        });
+
+        tableBox.innerHTML = html + "</table>";
+    }
+
+    function calcRollPossibilities() {
+        const l1 = parseFloat(document.getElementById('dr_l1').value);
+        const w1 = parseFloat(document.getElementById('dr_w1').value);
+        const t1 = parseFloat(document.getElementById('dr_t1').value);
+        const targetT = parseFloat(document.getElementById('dr_target').value) || 0;
+        const possBox = document.getElementById('rollPossibilities');
+        const tableBox = document.getElementById('rollTableContainer');
+        if (!l1 || !w1 || !t1 || t1 <= 0 || l1 <= 0 || w1 <= 0) { possBox.style.display = 'none'; return; }
+
+        possBox.style.display = 'block';
+        const a1 = w1 * t1;
+
+        let steps = [];
+        let currentT = t1;
+        while (currentT > 0.1) {
+            let stepSize = currentT > 2.01 ? 0.2 : (currentT > 1.01 ? 0.1 : 0.05);
+            let nextT = Math.round((currentT - stepSize) * 100) / 100;
+            if (nextT < 0.1) { if (currentT !== 0.1) steps.push(0.1); break; }
+            steps.push(nextT);
+            currentT = nextT;
+            if (steps.length > 30) break;
+        }
+
+        let lastAnnealArea = a1;
+        let html = `<table><tr><th>Stärke</th><th>Breite</th><th>Länge</th><th>Kum. Red.</th><th>Info</th></tr>`;
+
+        steps.forEach(t2 => {
+            const a2 = w1 * t2;
+            const l2 = l1 * (a1 / a2);
+            const cumRed = (1 - (a2 / lastAnnealArea)) * 100;
+            const isTarget = targetT > 0 && Math.abs(t2 - targetT) < 0.025;
+            const needsAnneal = cumRed >= 60;
+
+            let infoHtml = '';
+            let rowClass = '';
+            if (needsAnneal) {
+                infoHtml = '<span class="anneal-badge">Glühen!</span>';
+                rowClass = 'anneal-row';
+                lastAnnealArea = a2;
+            } else if (cumRed >= 45) {
+                infoHtml = '<span style="font-size:0.8rem; color: var(--warn);">Bald glühen</span>';
+            }
+            if (isTarget) rowClass = 'target-row';
+
+            html += `<tr class="${rowClass}">
+                <td><strong>${t2.toFixed(2)}</strong>${isTarget ? ' ★' : ''}</td>
+                <td>${w1.toFixed(1)}</td>
+                <td class="highlight-col">${Math.round(l2)} mm</td>
+                <td>${reductionBarHtml(cumRed)}</td>
+                <td>${infoHtml}</td>
+            </tr>`;
+        });
+        tableBox.innerHTML = html + "</table>";
+    }
+
+    function calcTubePossibilities() {
+        const d1 = parseFloat(document.getElementById('dt_d1').value);
+        const t1 = parseFloat(document.getElementById('dt_t1').value);
+        const l1 = parseFloat(document.getElementById('dt_l1').value);
+        const method = document.getElementById('tubeMethod') ? document.getElementById('tubeMethod').value : 'hollow';
+        const hint = document.getElementById('dt_hint1');
+        const possBox = document.getElementById('tubePossibilities');
+        const tableBox = document.getElementById('tubeTableContainer');
+
+        if (!d1 || !t1 || !l1 || d1 <= 2 * t1 || t1 <= 0 || l1 <= 0) {
+            hint.innerText = "INNEN-Ø: -- mm";
+            possBox.style.display = 'none'; return;
+        }
+
+        const inner1 = d1 - 2 * t1;
+        hint.innerText = `INNEN-Ø: ${inner1.toFixed(2)} mm`;
+        possBox.style.display = 'block';
+        const a1 = Math.PI * (Math.pow(d1 / 2, 2) - Math.pow(inner1 / 2, 2));
+
+        let steps = [];
+        let currentD = d1;
+        while (true) {
+            let stepSize = currentD > 4.01 ? 0.5 : 0.2;
+            let nextD = stepSize === 0.5 ? Math.floor((currentD - 0.01) * 2) / 2 : Math.floor((currentD - 0.01) * 5) / 5;
+            nextD = Math.round(nextD * 10) / 10;
+            if (method === 'hollow') {
+                let limitD = Math.round((2 * t1) * 10) / 10;
+                if (nextD <= limitD) { steps.push(nextD === limitD ? nextD : limitD); break; }
+                steps.push(nextD);
+            } else {
+                let limitD = Math.round((inner1 + 0.2) * 10) / 10;
+                if (nextD <= limitD) { steps.push(nextD === limitD ? nextD : limitD); break; }
+                steps.push(nextD);
+            }
+            currentD = nextD;
+            if (steps.length > 25) break;
+        }
+
+        let html = `<table><tr><th>Außen</th><th>Wand</th><th>Innen</th><th>Länge</th></tr>`;
+        steps.forEach(d2 => {
+            let t2 = method === 'hollow' ? t1 : (d2 - inner1) / 2;
+            let inner2 = method === 'hollow' ? d2 - 2 * t1 : inner1;
+            if (t2 < 0) t2 = 0; if (inner2 < 0) inner2 = 0;
+            const a2 = Math.PI * (Math.pow(d2 / 2, 2) - Math.pow(inner2 / 2, 2));
+            let l2 = a2 > 0 ? l1 * (a1 / a2) : 0;
+            let limitAlert = (method === 'hollow' && inner2 <= 0.01) ? "<br><span style='color:var(--accent); font-size:0.75rem;'>Massiv</span>" : ((method === 'core' && t2 <= 0.11) ? "<br><span style='color:var(--accent); font-size:0.75rem;'>Limit</span>" : "");
+            html += `<tr>
+                <td><strong>${d2.toFixed(1)}</strong></td>
+                <td>${t2.toFixed(2)}</td>
+                <td>${inner2.toFixed(1)}</td>
+                <td class="highlight-col">${Math.round(l2)} mm ${limitAlert}</td>
+            </tr>`;
+        });
+        tableBox.innerHTML = html + "</table>";
+    }
+
+    // ============================================================
+    //  RINGWEITEN – corrected neutral axis formula
+    // ============================================================
+    function toggleRingProfile() {
+        const profile = document.getElementById('ringProfile').value;
+        const thickLabel = document.getElementById('ringThickLabel');
+        const widthWrap = document.getElementById('ringWidthWrap');
+
+        if (profile === 'round') {
+            thickLabel.innerText = 'Draht-\u00d8 (mm)';
+            widthWrap.style.display = 'none';
+        } else if (profile === 'flat') {
+            thickLabel.innerText = 'St\u00e4rke / radial (mm)';
+            widthWrap.style.display = 'block';
+        } else if (profile === 'halfround') {
+            thickLabel.innerText = 'H\u00f6he / radial (mm)';
+            widthWrap.style.display = 'block';
+        }
+    }
+
+    function convertRing(source) {
+        const diaInput = document.getElementById('ringDia');
+        const sizeInput = document.getElementById('ringSize');
+        const sizeSelect = document.getElementById('ringSizeSelect');
+        const thickInput = document.getElementById('ringThick');
+        const resBox = document.getElementById('ringRes');
+        const blankSpan = document.getElementById('blankLength');
+        const formulaHint = document.getElementById('ringFormulaHint');
+        const profile = document.getElementById('ringProfile').value;
+
+        let dia = parseFloat(diaInput.value);
+        let size = parseFloat(sizeInput.value);
+        let thick = parseFloat(thickInput.value) || 0;
+
+        if (source === 'dia') {
+            if (dia > 0) {
+                size = dia * Math.PI;
+                sizeInput.value = size.toFixed(1);
+                sizeSelect.value = Math.round(size) || "";
+            } else { sizeInput.value = ""; sizeSelect.value = ""; size = 0; }
+        } else if (source === 'size') {
+            if (size > 0) {
+                dia = size / Math.PI;
+                diaInput.value = dia.toFixed(1);
+            } else { diaInput.value = ""; dia = 0; }
+        }
+
+        if (dia > 0) {
+            // Neutrale Faser je nach Profil:
+            // Runddraht: Innen-Ø + Draht-Ø (Mitte = halber Durchmesser von Innen)
+            // Flachschiene: Innen-Ø + Stärke (die radiale Dimension, nicht die Breite)
+            // Halbrund: Innen-Ø + Höhe (die radiale Dimension)
+            // In allen Fällen: neutralDia = Innen-Ø + radiale Stärke
+            const neutralDia = dia + thick;
+            const blankLen = neutralDia * Math.PI;
+            blankSpan.innerText = blankLen.toFixed(1);
+
+            let profileName = '';
+            if (profile === 'round') profileName = 'Runddraht \u00d8' + thick.toFixed(1);
+            else if (profile === 'flat') profileName = 'Flach ' + thick.toFixed(1) + ' (radial)';
+            else if (profile === 'halfround') profileName = 'Halbrund ' + thick.toFixed(1) + ' (radial)';
+
+            formulaHint.innerHTML = '<strong>' + profileName + ':</strong> (' + dia.toFixed(1) + ' + ' + thick.toFixed(1) + ') \u00d7 \u03c0 = ' + blankLen.toFixed(1) + ' mm';
+
+            if (profile === 'flat' || profile === 'halfround') {
+                const w = parseFloat(document.getElementById('ringWidth').value) || 0;
+                if (w > 0 && w !== thick) {
+                    formulaHint.innerHTML += '<br><span style="color: var(--accent); font-size: 0.7rem;">Hinweis: Die Breite (' + w.toFixed(1) + ' mm) beeinflusst nicht die gestreckte L\u00e4nge \u2014 nur die radiale St\u00e4rke (' + thick.toFixed(1) + ' mm) ist relevant f\u00fcr die neutrale Faser.</span>';
+                }
+            }
+
+            resBox.style.display = 'block';
+        } else { resBox.style.display = 'none'; }
+    }
+
+    // ============================================================
+    //  ZARGEN – corrected bending allowance for square bezels
+    // ============================================================
+    function toggleBezelInputs() {
+        const shape = document.getElementById('bezelShape').value;
+        document.getElementById('bezel-round-inputs').style.display = shape === 'round' ? 'flex' : 'none';
+        document.getElementById('bezel-oval-inputs').style.display = shape === 'oval' ? 'flex' : 'none';
+        document.getElementById('bezel-square-inputs').style.display = shape === 'square' ? 'flex' : 'none';
+    }
+
+    // Ramanujan approximation for ellipse circumference
+    function ellipseCircumference(a, b) {
+        // a = semi-major axis, b = semi-minor axis
+        const h = Math.pow((a - b), 2) / Math.pow((a + b), 2);
+        return Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
+    }
+
+    function calcBezel() {
+        const shape = document.getElementById('bezelShape').value;
+        const thick = parseFloat(document.getElementById('bezelThick').value) || 0;
+        const h = parseFloat(document.getElementById('bezelHeight').value) || 0;
+        const addH = parseFloat(document.getElementById('bezelAddH').value) || 0;
+        const resBox = document.getElementById('bezelRes');
+        const blankSpan = document.getElementById('bezelBlankLength');
+        const widthSpan = document.getElementById('bezelBlankWidth');
+        const widthContainer = document.getElementById('bezelWidthContainer');
+        const hintDiv = document.getElementById('bezelHint');
+        const formulaHint = document.getElementById('bezelFormulaHint');
+        const resultStrip = document.getElementById('bezelResultStrip');
+        const resultMiter = document.getElementById('bezelResultMiter');
+
+        let length = 0;
+        let stripHeight = h > 0 ? h + addH : 0;
+
+        if (shape === 'round') {
+            const dia = parseFloat(document.getElementById('bezelDia').value);
+            if (!dia || dia <= 0) { resBox.style.display = 'none'; return; }
+
+            // Neutrale Faser: (Stein-Ø + Blechstärke) × π
+            length = (dia + thick) * Math.PI;
+            formulaHint.innerText = 'Formel: (' + dia.toFixed(1) + ' + ' + thick.toFixed(1) + ') \u00D7 \u03C0 = ' + length.toFixed(2) + ' mm';
+            hintDiv.style.display = 'none';
+            resultStrip.style.display = 'block';
+            resultMiter.style.display = 'none';
+
+        } else if (shape === 'oval') {
+            const ol = parseFloat(document.getElementById('bezelOvalL').value);
+            const ow = parseFloat(document.getElementById('bezelOvalW').value);
+            if (!ol || ol <= 0 || !ow || ow <= 0) { resBox.style.display = 'none'; return; }
+
+            // Neutrale Faser der Ellipse: Ramanujan-Näherung
+            // Halbachsen: (Steinmaß + Blechstärke) / 2
+            const a = (ol + thick) / 2; // Halbachse lang
+            const b = (ow + thick) / 2; // Halbachse kurz
+            length = ellipseCircumference(a, b);
+            formulaHint.innerText = 'Ellipsen-Umfang (Ramanujan): a=' + a.toFixed(2) + ', b=' + b.toFixed(2) + ' \u2192 ' + length.toFixed(2) + ' mm';
+            hintDiv.style.display = 'block';
+            hintDiv.innerHTML = 'Die Berechnung nutzt die Ramanujan-N\u00E4herung f\u00FCr den Ellipsen-Umfang auf der neutralen Faser (Stein + Blechst\u00E4rke). F\u00FCr die Formgebung wird der Blechstreifen um einen ovalen Kern gebogen.';
+            resultStrip.style.display = 'block';
+            resultMiter.style.display = 'none';
+
+        } else if (shape === 'square') {
+            const l = parseFloat(document.getElementById('bezelLen').value);
+            const w = parseFloat(document.getElementById('bezelWid').value);
+            if (!l || l <= 0) { resBox.style.display = 'none'; return; }
+            const effectiveW = w || l;
+
+            // Eckige Zargen: 4 Gehrungsteile, KEINE Biegung
+            // Jedes Teil = Innenmaß der Seite + 2× Blechstärke (für 45°-Gehrung an beiden Enden)
+            const longSide = l + (2 * thick);
+            const shortSide = effectiveW + (2 * thick);
+
+            document.getElementById('bezelMiterLong').innerText = longSide.toFixed(2);
+            document.getElementById('bezelMiterShort').innerText = shortSide.toFixed(2);
+
+            if (stripHeight > 0) {
+                document.getElementById('bezelMiterHeight').innerText = stripHeight.toFixed(2);
+            }
+
+            formulaHint.innerText = 'Formel: Innenma\u00DF + 2\u00D7 Blechst\u00E4rke (Gehrungszugabe je Seite)';
+            hintDiv.style.display = 'block';
+            hintDiv.innerHTML = 'Die 4 Teile werden auf 45\u00B0 gefeilt und verl\u00F6tet. Die Zugabe von 2\u00D7 Blechst\u00E4rke pro Seite deckt die Gehrungsschnitte ab.';
+            resultStrip.style.display = 'none';
+            resultMiter.style.display = 'block';
+            resBox.style.display = 'block';
+            return; // early return — no strip length for miter
+        }
+
+        if (length > 0) {
+            blankSpan.innerText = length.toFixed(2);
+            if (stripHeight > 0) {
+                widthSpan.innerText = stripHeight.toFixed(2);
+                widthContainer.style.display = 'inline';
+            } else { widthContainer.style.display = 'none'; }
+            resBox.style.display = 'block';
+        } else { resBox.style.display = 'none'; }
+    }
+
+    // ============================================================
+    //  STEIN-DATENBANK
+    // ============================================================
+    function initStoneDB() {
+        const gridB = document.getElementById('stoneGridBrillant');
+        const gridCR = document.getElementById('stoneGridCabRound');
+        const gridCO = document.getElementById('stoneGridCabOval');
+
+        STONES.brillant.forEach(s => {
+            gridB.innerHTML += `<button class="stone-btn" onclick="applyStone('round', ${s.dia}, 0, ${s.h})"><strong>${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
+        });
+        STONES.cabRound.forEach(s => {
+            gridCR.innerHTML += `<button class="stone-btn" onclick="applyStone('round', ${s.dia}, 0, ${s.h})"><strong>Ø ${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
+        });
+        STONES.cabOval.forEach(s => {
+            gridCO.innerHTML += `<button class="stone-btn" onclick="applyStone('oval', ${s.l}, ${s.w}, ${s.h})"><strong>${s.label}</strong><span style="font-size:0.7rem; color:var(--text-dim);">H ${s.h}</span></button>`;
+        });
+    }
+
+    function applyStone(shape, dim1, dim2, h) {
+        if (shape === 'round') {
+            document.getElementById('bezelShape').value = 'round';
+            toggleBezelInputs();
+            document.getElementById('bezelDia').value = dim1;
+        } else if (shape === 'oval') {
+            document.getElementById('bezelShape').value = 'oval';
+            toggleBezelInputs();
+            document.getElementById('bezelOvalL').value = dim1;
+            document.getElementById('bezelOvalW').value = dim2;
+        } else if (shape === 'square') {
+            document.getElementById('bezelShape').value = 'square';
+            toggleBezelInputs();
+            document.getElementById('bezelLen').value = dim1;
+            document.getElementById('bezelWid').value = dim2;
+        }
+        document.getElementById('bezelHeight').value = h;
+        calcBezel();
+        navigateTo('bezel', 'Zargen-Rechner');
+        showToast('Stein-Ma\u00df \u00fcbernommen \u2192 Zargen-Rechner');
+    }
+
+    // ============================================================
+    //  LEGIEREN (ALTMETALL) – with division-by-zero guard
+    // ============================================================
+    function calcAlloy() {
+        const m = parseFloat(document.getElementById('alloyWeight').value);
+        const c = parseFloat(document.getElementById('currentFine').value);
+        const t = parseFloat(document.getElementById('targetFine').value);
+        const addInput = document.getElementById('addFine').value;
+        const resBox = document.getElementById('alloyRes');
+        const actionTextSpan = document.getElementById('alloyActionText');
+        const addAmountSpan = document.getElementById('alloyAddAmount');
+        const totalSpan = document.getElementById('alloyTotalWeight');
+
+        if (!m || isNaN(c) || isNaN(t)) { resBox.style.display = 'none'; return; }
+
+        // Guard: Ist = Soll → nothing to do
+        if (c === t) {
+            resBox.style.display = 'block';
+            actionTextSpan.innerText = "Bereits korrekt";
+            addAmountSpan.innerText = "0.00";
+            totalSpan.innerText = `Ist-Gehalt entspricht dem Soll-Gehalt (${t} ‰).`;
+            return;
+        }
+
+        let f_add, actionText = "";
+        if (t > c) {
+            f_add = addInput !== "" ? parseFloat(addInput) : 1000;
+            if (f_add <= t) {
+                resBox.style.display = 'block'; actionTextSpan.innerText = "Fehler";
+                addAmountSpan.innerText = "0.00"; totalSpan.innerText = "Zusatz muss höher als das Ziel sein.";
+                return;
+            }
+            actionText = f_add >= 999 ? "Feinmetall hinzufügen" : "Legierung (" + f_add + "‰) hinzufügen";
+        } else {
+            f_add = addInput !== "" ? parseFloat(addInput) : 0;
+            if (f_add >= t) {
+                resBox.style.display = 'block'; actionTextSpan.innerText = "Fehler";
+                addAmountSpan.innerText = "0.00"; totalSpan.innerText = "Zusatz muss niedriger als das Ziel sein.";
+                return;
+            }
+            actionText = f_add === 0 ? "Zusatz (z.B. Cu) hinzufügen" : "Legierung (" + f_add + "‰) hinzufügen";
+        }
+
+        const divisor = f_add - t;
+        if (Math.abs(divisor) < 0.001) {
+            resBox.style.display = 'block'; actionTextSpan.innerText = "Fehler";
+            addAmountSpan.innerText = "0.00"; totalSpan.innerText = "Division durch Null — bitte Werte prüfen.";
+            return;
+        }
+
+        const x = (m * (t - c)) / divisor;
+        resBox.style.display = 'block';
+        actionTextSpan.innerText = actionText;
+        addAmountSpan.innerText = x.toFixed(2);
+        totalSpan.innerText = "Gesamtgewicht danach: " + (m + x).toFixed(2) + " g";
+    }
+
+    // ============================================================
+    //  LEGIERUNG ANMISCHEN
+    // ============================================================
+    function calcMix() {
+        const w = parseFloat(document.getElementById('mixWeight').value);
+        const f = parseFloat(document.getElementById('mixFine').value);
+        const type = document.getElementById('mixType').value;
+        const resBox = document.getElementById('mixRes');
+        const breakdown = document.getElementById('mixBreakdown');
+        if (!w || !f || f > 1000 || f <= 0) { resBox.style.display = 'none'; return; }
+
+        let fineMetal = (w * f) / 1000;
+        let remainder = w - fineMetal;
+        let html = "";
+
+        if (f === 1000 || f === 999) {
+            html += `<strong>${w.toFixed(2)}g</strong> Feinmetall<br>`;
+        } else if (type === 'silver') {
+            html += `<strong>${fineMetal.toFixed(2)}g</strong> Feinsilber<br>`;
+            html += `<strong>${remainder.toFixed(2)}g</strong> Kupfer (Cu)<br>`;
+        } else {
+            html += `<strong>${fineMetal.toFixed(2)}g</strong> Feingold<br>`;
+            if (type === 'yellow') {
+                html += `<strong>${(remainder / 2).toFixed(2)}g</strong> Feinsilber<br>`;
+                html += `<strong>${(remainder / 2).toFixed(2)}g</strong> Kupfer (Cu)<br>`;
+            } else if (type === 'rose') {
+                html += `<strong>${(remainder * 0.2).toFixed(2)}g</strong> Feinsilber<br>`;
+                html += `<strong>${(remainder * 0.8).toFixed(2)}g</strong> Kupfer (Cu)<br>`;
+            } else if (type === 'red') {
+                html += `<strong>${remainder.toFixed(2)}g</strong> Kupfer (Cu)<br>`;
+            } else if (type === 'white_pt') {
+                html += `<strong>${remainder.toFixed(2)}g</strong> Pd / Pt<br>`;
+            } else if (type === 'white_ni') {
+                html += `<strong>${remainder.toFixed(2)}g</strong> Nickel (Ni)<br>`;
+            }
+        }
+        resBox.style.display = 'block';
+        breakdown.innerHTML = html;
+    }
+
+    // ============================================================
+    //  VERLUST-RECHNER (NEU)
+    // ============================================================
+    let lossStepIdCounter = 0;
+
+    function addLossStep() {
+        const container = document.getElementById('lossStepsContainer');
+        const id = lossStepIdCounter++;
+        const row = document.createElement('div');
+        row.className = 'row'; row.style.alignItems = 'flex-end'; row.style.marginBottom = '15px'; row.style.flexWrap = 'wrap'; row.id = 'lossStep_' + id;
+
+        let optionsHtml = LOSS_PRESETS.map(p => `<option value="${p.pct}" data-name="${p.name}">${p.name} (${p.pct}%)</option>`).join('');
+
+        row.innerHTML = `
+            <div style="flex: 2; min-width: 140px;">
+                <label style="margin-top:0;">Schritt</label>
+                <select class="loss-preset" onchange="applyLossPreset(this)">
+                    ${optionsHtml}
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 70px;">
+                <label style="margin-top:0;">Verlust %</label>
+                <input type="number" class="loss-pct" step="0.1" min="0" max="100" value="${LOSS_PRESETS[0].pct}" oninput="calcLoss()">
+            </div>
+            <div style="flex: 0 0 auto;">
+                <button onclick="removeLossStep(${id})" style="padding: 12px 10px; background: transparent; border: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer;">✕</button>
+            </div>
+        `;
+        container.appendChild(row);
+        calcLoss();
+    }
+
+    function applyLossPreset(sel) {
+        const pctInput = sel.closest('.row').querySelector('.loss-pct');
+        pctInput.value = sel.value;
+        calcLoss();
+    }
+
+    function removeLossStep(id) {
+        const row = document.getElementById('lossStep_' + id);
+        if (row) { row.remove(); calcLoss(); }
+    }
+
+    function calcLoss() {
+        const startW = parseFloat(document.getElementById('lossStartWeight').value) || 0;
+        const resBox = document.getElementById('lossRes');
+        if (startW <= 0) { resBox.style.display = 'none'; return; }
+
+        let currentW = startW;
+        let breakdownHtml = '';
+        let totalLoss = 0;
+
+        document.querySelectorAll('#lossStepsContainer .row').forEach(row => {
+            const preset = row.querySelector('.loss-preset');
+            const pct = parseFloat(row.querySelector('.loss-pct').value) || 0;
+            const name = preset.options[preset.selectedIndex].dataset.name || 'Schritt';
+            const loss = currentW * (pct / 100);
+            totalLoss += loss;
+            currentW -= loss;
+            breakdownHtml += `${name}: −${loss.toFixed(3)}g (${pct}%) → ${currentW.toFixed(3)}g<br>`;
+        });
+
+        document.getElementById('lossTotal').innerText = totalLoss.toFixed(3);
+        document.getElementById('lossFinal').innerText = currentW.toFixed(3);
+        document.getElementById('lossBreakdown').innerHTML = breakdownHtml || 'Keine Schritte definiert.';
+        resBox.style.display = 'block';
+    }
+
+    // ============================================================
+    //  LIVE PRICE FETCH (Anthropic API + Web Search)
+    // ============================================================
+    async function fetchLivePrices() {
+        const btn = document.getElementById('fetchPricesBtn');
+        const status = document.getElementById('priceStatus');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.textContent = '⏳ Lade…';
+        status.textContent = 'Suche aktuelle Kurse…';
+        status.style.color = 'var(--text-dim)';
+
+        try {
+            const response = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "claude-sonnet-4-20250514",
+                    max_tokens: 1000,
+                    tools: [{ type: "web_search_20250305", name: "web_search" }],
+                    messages: [{
+                        role: "user",
+                        content: "Finde die aktuellen Edelmetall-Spotpreise für Gold, Silber und Platin in Euro PRO GRAMM (nicht pro Unze). Suche auf gold.de/kurse oder einer ähnlichen deutschen Quelle. Antworte NUR mit einem JSON-Objekt in diesem Format, ohne Markdown-Backticks oder Erklärungen: {\"gold_eur_g\": 123.45, \"silver_eur_g\": 1.23, \"platinum_eur_g\": 45.67, \"timestamp\": \"2026-03-23 14:00\"}"
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const fullText = data.content
+                .map(item => (item.type === "text" ? item.text : ""))
+                .filter(Boolean)
+                .join("\n");
+
+            // Try to extract JSON from response
+            const jsonMatch = fullText.match(/\{[\s\S]*?"gold_eur_g"[\s\S]*?\}/);
+            if (jsonMatch) {
+                const prices = JSON.parse(jsonMatch[0]);
+
+                if (prices.gold_eur_g && prices.gold_eur_g > 0) {
+                    document.getElementById('price_au_1000').value = prices.gold_eur_g.toFixed(2);
+                    updateAlloyPrices('au');
+                }
+                if (prices.silver_eur_g && prices.silver_eur_g > 0) {
+                    document.getElementById('price_ag_1000').value = prices.silver_eur_g.toFixed(2);
+                    updateAlloyPrices('ag');
+                }
+                if (prices.platinum_eur_g && prices.platinum_eur_g > 0) {
+                    document.getElementById('price_pt_1000').value = prices.platinum_eur_g.toFixed(2);
+                    updateAlloyPrices('pt');
+                }
+
+                const ts = prices.timestamp || new Date().toLocaleString('de-DE');
+                status.textContent = '\u2713 Aktualisiert (' + ts + ')';
+                status.style.color = 'var(--success)';
+                showToast('Live-Kurse geladen!');
+                saveState();
+            } else {
+                throw new Error('Kein gueltiges JSON in Antwort');
+            }
+        } catch (err) {
+            console.error('Price fetch error:', err);
+            status.textContent = '\u2717 Fehler beim Laden. Bitte manuell eintragen.';
+            status.style.color = 'var(--accent)';
+            showToast('Kurse konnten nicht geladen werden');
+        } finally {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.textContent = '\u21BB Live-Kurse laden';
+        }
+    }
+
+    // ============================================================
+    //  MATERIALKOSTEN
+    // ============================================================
+    let costPartIdCounter = 0;
+
+    function updateAlloyPrices(base) {
+        const finePrice = parseFloat(document.getElementById(`price_${base}_1000`).value) || 0;
+        if (base === 'au') {
+            document.getElementById('price_au_750').value = (finePrice * 0.75).toFixed(2);
+            document.getElementById('price_au_585').value = (finePrice * 0.585).toFixed(2);
+            document.getElementById('price_au_333').value = (finePrice * 0.333).toFixed(2);
+        } else if (base === 'ag') {
+            document.getElementById('price_ag_925').value = (finePrice * 0.925).toFixed(2);
+        } else if (base === 'pt') {
+            document.getElementById('price_pt_950').value = (finePrice * 0.950).toFixed(2);
+        }
+        calcCosts();
+    }
+
+    function addCostPart() {
+        const container = document.getElementById('costPartsContainer');
+        const id = costPartIdCounter++;
+        const row = document.createElement('div');
+        row.className = 'row'; row.style.alignItems = 'flex-end'; row.style.marginBottom = '20px'; row.style.flexWrap = 'wrap'; row.id = 'costPart_' + id;
+
+        row.innerHTML = `
+            <div style="flex: 1.5; min-width: 140px;">
+                <label style="margin-top:0;">Bezeichnung</label>
+                <input type="text" class="cost-name" placeholder="z.B. Ringschiene">
+            </div>
+            <div style="flex: 1; min-width: 80px;">
+                <label style="margin-top:0;">Metall</label>
+                <select class="cost-base" onchange="calcCosts()"><option value="au" selected>Gold</option><option value="ag">Silber</option><option value="pt">Platin</option></select>
+            </div>
+            <div style="flex: 1; min-width: 70px;">
+                <label style="margin-top:0;">Gehalt</label>
+                <input type="number" class="cost-fine" step="1" min="0" max="1000" value="750" oninput="calcCosts()">
+            </div>
+            <div style="flex: 1; min-width: 70px;">
+                <label style="margin-top:0;">Gewicht</label>
+                <input type="number" class="cost-weight" step="0.01" min="0" placeholder="0.0" oninput="calcCosts()">
+            </div>
+            <div style="flex: 0 0 auto; display: flex; align-items: flex-end; gap: 10px;">
+                <div style="padding-bottom: 12px; font-weight: bold; min-width: 55px; text-align: right;"><span class="part-price">0.00</span>€</div>
+                <button onclick="removeCostPart(${id})" style="margin-top:0; padding: 12px 10px; background: transparent; border: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer;">✕</button>
+            </div>
+        `;
+        container.appendChild(row); calcCosts();
+    }
+
+    function removeCostPart(id) {
+        const row = document.getElementById('costPart_' + id);
+        if (row) { row.remove(); calcCosts(); }
+    }
+
+    function calcCosts() {
+        let total = 0;
+        document.querySelectorAll('#costPartsContainer .row').forEach(part => {
+            const baseMetal = part.querySelector('.cost-base').value;
+            const fineness = parseFloat(part.querySelector('.cost-fine').value) || 0;
+            const weight = parseFloat(part.querySelector('.cost-weight').value) || 0;
+            const specificInput = document.getElementById(`price_${baseMetal}_${fineness}`);
+            let gramPrice = (specificInput && specificInput.value !== "") ? parseFloat(specificInput.value) : (parseFloat(document.getElementById(`price_${baseMetal}_1000`)?.value || 0) * (fineness / 1000));
+            const partTotal = weight * gramPrice; total += partTotal;
+            const partPriceSpan = part.querySelector('.part-price');
+            if (partPriceSpan) partPriceSpan.innerText = partTotal.toFixed(2);
+        });
+        document.getElementById('totalCost').innerText = total.toFixed(2);
+        document.getElementById('finalSalesPrice').innerText = (total * (parseFloat(document.getElementById('costFactor').value) || 1)).toFixed(2);
+    }
+
+    // ============================================================
+    //  PERSISTENCE (localStorage)
+    // ============================================================
+    function saveState() {
+        try {
+            const state = {
+                density: document.getElementById('globalDensity').value,
+                prices: {
+                    au_1000: document.getElementById('price_au_1000').value,
+                    ag_1000: document.getElementById('price_ag_1000').value,
+                    pt_1000: document.getElementById('price_pt_1000').value,
+                    au_750: document.getElementById('price_au_750').value,
+                    au_585: document.getElementById('price_au_585').value,
+                    au_333: document.getElementById('price_au_333').value,
+                    ag_925: document.getElementById('price_ag_925').value,
+                    pt_950: document.getElementById('price_pt_950').value,
+                },
+                costParts: [],
+            };
+            document.querySelectorAll('#costPartsContainer .row').forEach(part => {
+                state.costParts.push({
+                    name: part.querySelector('.cost-name')?.value || '',
+                    base: part.querySelector('.cost-base')?.value || 'au',
+                    fine: part.querySelector('.cost-fine')?.value || '750',
+                    weight: part.querySelector('.cost-weight')?.value || '',
+                });
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) { /* silent */ }
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return false;
+            const state = JSON.parse(raw);
+            if (state.density) document.getElementById('globalDensity').value = state.density;
+            if (state.prices) {
+                Object.keys(state.prices).forEach(k => {
+                    const el = document.getElementById('price_' + k);
+                    if (el) el.value = state.prices[k];
+                });
+            }
+            if (state.costParts && state.costParts.length > 0) {
+                state.costParts.forEach(p => {
+                    addCostPart();
+                    const rows = document.querySelectorAll('#costPartsContainer .row');
+                    const lastRow = rows[rows.length - 1];
+                    if (lastRow) {
+                        const nameEl = lastRow.querySelector('.cost-name');
+                        const baseEl = lastRow.querySelector('.cost-base');
+                        const fineEl = lastRow.querySelector('.cost-fine');
+                        const weightEl = lastRow.querySelector('.cost-weight');
+                        if (nameEl) nameEl.value = p.name;
+                        if (baseEl) baseEl.value = p.base;
+                        if (fineEl) fineEl.value = p.fine;
+                        if (weightEl) weightEl.value = p.weight;
+                    }
+                });
+                calcCosts();
+                return true;
+            }
+        } catch (e) { /* silent */ }
+        return false;
+    }
+
+    // Save on any interaction
+    document.addEventListener('input', () => { clearTimeout(window._saveTimer); window._saveTimer = setTimeout(saveState, 500); });
+    document.addEventListener('change', () => { clearTimeout(window._saveTimer); window._saveTimer = setTimeout(saveState, 500); });
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    window.addEventListener('DOMContentLoaded', () => {
+        initStoneDB();
+        updateDensityBadge();
+        const loaded = loadState();
+        if (!loaded) addCostPart();
+        updateDensityBadge(); // refresh after loadState may change density
+
+        // Register Service Worker for offline PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('SW registered:', reg.scope))
+                .catch(err => console.log('SW registration failed:', err));
+        }
+    });
+</script>
+
+</body>
+</html>
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: calc(55px + env(safe-area-inset-top, 0px));
+            padding-top: env(safe-area-inset-top, 0px);
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            padding-left: max(20px, env(safe-area-inset-left, 0px));
+            padding-right: max(20px, env(safe-area-inset-right, 0px));
+            z-index: 98;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 15px;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .nav-title {
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(17, 17, 17, 0.4);
+            z-index: 99;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0; left: -280px; width: 280px; height: 100%;
+            background: var(--bg);
+            z-index: 100;
+            transition: left 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open { left: 0; }
+
+        .sidebar-header {
+            padding: 20px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h2 {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .close-btn {
+            background: none; border: none; color: var(--text);
+            font-size: 1.5rem; cursor: pointer; font-weight: bold;
+        }
+
+        .sidebar-menu {
+            list-style: none; padding: 0; margin: 0;
+            background: var(--card);
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid var(--bg);
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 16px 20px;
+            color: var(--text);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--input-bg);
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            padding-left: 16px;
+        }
+
+        .sidebar-section-label {
+            padding: 12px 20px 6px 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            background: var(--card);
+        }
+
+        /* --- APP CONTENT --- */
+        .app-container {
+            width: 100%;
+            max-width: 650px;
+            padding: calc(75px + env(safe-area-inset-top, 0px)) 15px calc(30px + env(safe-area-inset-bottom, 0px)) 15px;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fade 0.2s ease-out; }
+
+        @keyframes fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- CARDS & ELEMENTS --- */
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--text);
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            margin-top: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            background: #ffffff;
+            border-style: solid;
+        }
+
+        /* Prevent negative values visually */
+        input[type="number"][min="0"]:invalid {
+            border-color: var(--accent);
+        }
+
+        .row { display: flex; gap: 15px; margin-bottom: 5px; }
+        .row > div { flex: 1; }
+
+        button.action-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: var(--accent);
+            border: none;
+            border-radius: 2px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            color: #ffffff;
+            transition: opacity 0.2s;
+        }
+        button.action-btn:active { opacity: 0.8; }
+
+        .result-area {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 2px 2px 0;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .result-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .unit {
+            font-size: 0.85em;
+            color: var(--text-dim);
+            margin-left: 4px;
+            font-weight: normal;
+        }
+
+        .combo-input { display: flex; gap: 8px; margin-top: 5px; }
+        .combo-input select, .combo-input input { margin-top: 0; flex: 1; min-width: 0; padding: 12px 10px; }
+
+        /* TABELLEN STYLING */
+        table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        th {
+            padding: 10px 5px;
+            font-weight: 600;
+            color: var(--text-dim);
+            border-bottom: 2px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        td {
+            padding: 12px 5px;
+            border-bottom: 1px solid var(--border);
+        }
+        .highlight-col { font-weight: 700; }
+
+        tr.anneal-row { background: var(--accent-light); }
+        tr.anneal-row td { border-bottom-color: #f0d0c8; }
+
+        tr.target-row { background: #e8f5e9; }
+        tr.target-row td { font-weight: 700; }
+
+        .anneal-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            padding: 2px 6px;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        .reduction-bar {
+            display: inline-block;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .reduction-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--success);
+        }
+        .reduction-bar-fill.warn { background: var(--warn); }
+        .reduction-bar-fill.danger { background: var(--accent); }
+
+        /* TARGET HIGHLIGHT INPUT */
+        .target-input-group {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--accent-light);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 2px 2px 0;
+        }
+        .target-input-group label {
+            margin-top: 0;
+            color: var(--accent);
+        }
+
+        /* STONE DB */
+        .stone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .stone-btn {
+            padding: 8px 4px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.8rem;
+            font-family: inherit;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .stone-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+        .stone-btn strong { display: block; font-size: 0.9rem; }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 200;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* COPY BUTTON */
+        .copy-btn {
+            display: inline-block;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 2px;
+            cursor: pointer;
+            margin-left: 8px;
+            font-family: inherit;
+            vertical-align: middle;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .copy-btn:active { color: var(--accent); border-color: var(--accent); }
+
+        /* DENSITY BADGE */
+        .density-badge {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            background: var(--input-bg);
+            padding: 3px 10px;
+            border-radius: 2px;
+            margin-left: auto;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* RESET LINK */
+        .reset-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 0;
+        }
+        .reset-link:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- TOP NAVIGATION -->
+<div class="top-nav">
+    <button class="menu-btn" onclick="openNav()">☰</button>
+    <div class="nav-title" id="navTitle">BenchTool</div>
+    <span class="density-badge" id="densityBadge">750 GG</span>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeNav()"></div>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>MENÜ</h2>
+        <button class="close-btn" onclick="closeNav()">✕</button>
+    </div>
+
+    <div style="padding: 20px; background: var(--bg); border-bottom: 1px solid var(--border);">
+        <label style="margin-top:0;">Globale Dichte</label>
+        <select id="globalDensity" onchange="updateAll()" style="background: var(--card); border: 1px solid var(--border);">
+            <option value="10.40">925 Silber (10.40)</option>
+            <option value="10.55">333 Gelbgold (10.55)</option>
+            <option value="13.40">585 Gelbgold (13.40)</option>
+            <option value="15.50" selected>750 Gelbgold (15.50)</option>
+            <option value="12.90">585 Weißgold (12.90)</option>
+            <option value="14.70">750 Weißgold (14.70)</option>
+            <option value="20.10">950 Platin (20.10)</option>
+            <option value="19.30">999 Feingold (19.30)</option>
+            <option value="10.50">999 Feinsilber (10.50)</option>
+        </select>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li><a id="nav-home" class="active" onclick="navigateTo('home', 'Startseite')">Startseite</a></li>
+
+        <div class="sidebar-section-label">Berechnung</div>
+        <li><a id="nav-cast" onclick="navigateTo('cast', 'Wachs zu Metall')">Wachs zu Metall</a></li>
+        <li><a id="nav-semi" onclick="navigateTo('semi', 'Halbzeug-Gewicht')">Halbzeug-Gewicht</a></li>
+        <li><a id="nav-reverse" onclick="navigateTo('reverse', 'Gewicht → Drahtlänge')">Gewicht → Drahtlänge</a></li>
+        <li><a id="nav-shapes" onclick="navigateTo('shapes', 'Halbkugel-Ronden')">Halbkugel-Ronden</a></li>
+        <li><a id="nav-deform" onclick="navigateTo('deform', 'Walzen & Ziehen')">Walzen & Ziehen</a></li>
+
+        <div class="sidebar-section-label">Fassung & Ring</div>
+        <li><a id="nav-ring" onclick="navigateTo('ring', 'Ringweiten')">Ringweiten</a></li>
+        <li><a id="nav-bezel" onclick="navigateTo('bezel', 'Zargen-Rechner')">Zargen-Rechner</a></li>
+        <li><a id="nav-stones" onclick="navigateTo('stones', 'Stein-Datenbank')">Stein-Datenbank</a></li>
+
+        <div class="sidebar-section-label">Legierung & Kosten</div>
+        <li><a id="nav-alloy" onclick="navigateTo('alloy', 'Legieren (Altmetall)')">Legieren (Altmetall)</a></li>
+        <li><a id="nav-mix" onclick="navigateTo('mix', 'Legierung anmischen')">Legierung anmischen</a></li>
+        <li><a id="nav-loss" onclick="navigateTo('loss', 'Verlust-Rechner')">Verlust-Rechner</a></li>
+        <li><a id="nav-cost" onclick="navigateTo('cost', 'Materialkosten')">Materialkosten</a></li>
+    </ul>
+</div>
+
+<!-- APP CONTENT -->
+<div class="app-container">
+
+    <!-- HOME -->
+    <div id="page-home" class="page active">
+        <div class="card">
+            <h2>BenchTool</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text);">
+                Ein funktionales Präzisionswerkzeug für das Goldschmiedehandwerk.
+            </p>
+            <p style="line-height: 1.6; font-size: 0.95rem; color: var(--text-dim); margin-bottom: 25px;">
+                Diese Applikation bündelt branchenspezifische Berechnungen in einer reduzierten, ablenkungsfreien Oberfläche. Die globale Materialdichte (im Menü einstellbar) dient als Basis für alle relevanten Module.
+            </p>
+            <label>Funktionsumfang</label>
+            <ul style="line-height: 1.8; font-size: 0.95rem; color: var(--text); padding-left: 20px; margin-top: 10px;">
+                <li><strong>Guss:</strong> Wachs zu Metall inkl. Anguss-Faktor.</li>
+                <li><strong>Halbzeug:</strong> Gewichtsberechnung für alle Profile inkl. Rohrdraht.</li>
+                <li><strong>Rückwärts-Rechner:</strong> Drahtlänge aus gegebenem Metallgewicht.</li>
+                <li><strong>Halbkugeln:</strong> Blechzuschnitt (Ronde) inkl. Zirkel-Einstellung.</li>
+                <li><strong>Umformung:</strong> Walz-/Ziehstufen mit Ziel-Maß und Glüh-Markierungen.</li>
+                <li><strong>Ringweiten:</strong> Gestreckte Länge (Neutrale Faser).</li>
+                <li><strong>Zargen:</strong> Runde, ovale (Ramanujan) und eckige Fassungen (Gehrung).</li>
+                <li><strong>Steine:</strong> Datenbank mit Standard-Maßen für Brillanten & Cabochons.</li>
+                <li><strong>Legierungen:</strong> Feinmetall- oder Vorlegierungszusätze berechnen.</li>
+                <li><strong>Verlust:</strong> Materialverluste bei Bearbeitungsschritten schätzen.</li>
+                <li><strong>Kosten:</strong> Materialwertkalkulation mit Live-Kursen.</li>
+            </ul>
+            <button class="action-btn" onclick="openNav()" style="background: var(--text); margin-top: 30px;">Menü öffnen</button>
+        </div>
+    </div>
+
+    <!-- WACHS ZU METALL -->
+    <div id="page-cast" class="page">
+        <div class="card">
+            <h2>Wachs zu Metall (Guss)</h2>
+            <div class="subtitle">Wandelt das Gewicht eines Wachsmodells in das benötigte Metallgewicht um. Basierend auf der im Menü gewählten Legierung.</div>
+            <label>Gewicht Wachsmodell (g)</label>
+            <input type="number" id="waxWeight" step="0.01" min="0" placeholder="0.00" oninput="calcCast()">
+            <label>Anguss-Faktor (optional)</label>
+            <div class="combo-input">
+                <select id="castAngussSelect" onchange="document.getElementById('castAnguss').value=this.value; calcCast();">
+                    <option value="1">Kein Anguss (×1)</option>
+                    <option value="1.5">Leicht (×1.5)</option>
+                    <option value="2.0" selected>Standard (×2.0)</option>
+                    <option value="2.5">Reichlich (×2.5)</option>
+                </select>
+                <input type="number" id="castAnguss" step="0.1" min="1" value="2.0" style="max-width: 80px;" oninput="calcCast()">
+            </div>
+            <div id="castRes" class="result-area">
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Reines Stückgewicht</span><br>
+                <span class="result-value" id="castVal">0.00</span><span class="unit">g</span>
+                <button class="copy-btn" onclick="copyVal('castVal')">Kopieren</button>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border);">
+                    <span style="font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: bold;">Inkl. Anguss</span><br>
+                    <span class="result-value" style="color: var(--accent);" id="castValAnguss">0.00</span><span class="unit" style="color: var(--accent);">g</span>
+                    <button class="copy-btn" onclick="copyVal('castValAnguss')">Kopieren</button>
+                </div>
+                <div style="font-size: 0.75rem; margin-top:8px; color: var(--text-dim);">Dichte Wachs: 0.96 g/cm³</div>
+            </div>
+            <button class="reset-link" onclick="resetPage('cast')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- HALBZEUG -->
+    <div id="page-semi" class="page">
+        <div class="card">
+            <h2>Halbzeug-Kalkulator</h2>
+            <div class="subtitle">Berechnet das theoretische Gewicht eines Blechs oder Drahtes.</div>
+            <label>Profil / Form</label>
+            <select id="wireType" onchange="toggleWireInputs()">
+                <option value="round">Runddraht</option>
+                <option value="tube">Rohrdraht (Hohlprofil)</option>
+                <option value="square">Vierkant- / Flachdraht</option>
+                <option value="tri">Dreikantdraht (gleichseitig)</option>
+                <option value="sheet">Blech</option>
+            </select>
+            <div class="row" style="margin-top:20px; flex-wrap: wrap;">
+                <div id="input-dim1">
+                    <label id="label-dim1">Durchmesser (mm)</label>
+                    <input type="number" id="wireDim1" step="0.01" min="0" placeholder="1.0" oninput="calcWire()">
+                </div>
+                <div id="input-dim2" style="display: none;">
+                    <label id="label-dim2">Höhe (mm)</label>
+                    <input type="number" id="wireDim2" step="0.01" min="0" placeholder="1.0" oninput="calcWire()">
+                </div>
+                <div>
+                    <label>Länge (mm)</label>
+                    <input type="number" id="wireLength" step="1" min="0" placeholder="100" oninput="calcWire()">
+                </div>
+            </div>
+            <div id="wireRes" class="result-area">
+                Theoretisches Gewicht:<br>
+                <span class="result-value" id="wireVal">0.00</span><span class="unit">g</span>
+                <button class="copy-btn" onclick="copyVal('wireVal')">Kopieren</button>
+            </div>
+            <button class="reset-link" onclick="resetPage('semi')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- GEWICHT → DRAHTLÄNGE (RÜCKWÄRTS) -->
+    <div id="page-reverse" class="page">
+        <div class="card">
+            <h2>Gewicht → Drahtlänge</h2>
+            <div class="subtitle">Berechnet die erreichbare Drahtlänge aus einem gegebenen Metallgewicht. Basierend auf der im Menü gewählten Legierung.</div>
+            <label>Profil</label>
+            <select id="revProfile" onchange="toggleRevInputs(); calcReverse();">
+                <option value="round">Runddraht</option>
+                <option value="tube">Rohrdraht</option>
+                <option value="square">Vierkant- / Flachdraht</option>
+                <option value="sheet">Blech</option>
+            </select>
+            <div class="row" style="margin-top: 20px; flex-wrap: wrap;">
+                <div>
+                    <label>Gewicht (g)</label>
+                    <input type="number" id="revWeight" step="0.01" min="0" placeholder="5.0" oninput="calcReverse()">
+                </div>
+            </div>
+            <div class="row" style="flex-wrap: wrap;">
+                <div id="rev-dim1-wrap">
+                    <label id="rev-label1">Ziel-Ø (mm)</label>
+                    <input type="number" id="revDim1" step="0.01" min="0" placeholder="1.0" oninput="calcReverse()">
+                </div>
+                <div id="rev-dim2-wrap" style="display: none;">
+                    <label id="rev-label2">Höhe (mm)</label>
+                    <input type="number" id="revDim2" step="0.01" min="0" placeholder="1.0" oninput="calcReverse()">
+                </div>
+            </div>
+            <div id="revRes" class="result-area">
+                Erreichbare Länge:<br>
+                <span class="result-value" id="revLength">0.00</span><span class="unit">mm</span>
+                <span style="margin-left: 10px; font-size: 0.85rem; color: var(--text-dim);">(<span id="revLengthCm">0.0</span> cm)</span>
+                <button class="copy-btn" onclick="copyVal('revLength')">Kopieren</button>
+            </div>
+            <button class="reset-link" onclick="resetPage('reverse')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- HALBKUGEL-RONDEN -->
+    <div id="page-shapes" class="page">
+        <div class="card">
+            <h2>Halbkugel-Ronden</h2>
+            <div class="subtitle">Berechnet den benötigten Blechzuschnitt (Ronde) für eine gewölbte Halbkugel aus dem Ankenblock.</div>
+            <div class="row" style="margin-top:20px; flex-wrap: wrap;">
+                <div style="min-width: 140px;">
+                    <label>Außen-Ø Halbkugel (mm)</label>
+                    <input type="number" id="hemiTargetDia" step="0.1" min="0" placeholder="10.0" oninput="calcHemisphereBlank()">
+                </div>
+                <div style="min-width: 140px;">
+                    <label>Materialstärke (mm)</label>
+                    <input type="number" id="hemiThick" step="0.1" min="0" placeholder="1.0" oninput="calcHemisphereBlank()">
+                </div>
+            </div>
+            <div id="hemiRes" class="result-area">
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Benötigte Ronde (Ø Blech)</span><br>
+                <span class="result-value" id="hemiBlankDia">0.00</span><span class="unit">mm</span>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
+                    <span style="font-size: 0.75rem; color: var(--accent); font-weight: bold; text-transform: uppercase;">Zirkel-Radius (Anreißen)</span><br>
+                    <span class="result-value" style="color: var(--accent); font-size: 1.6em;" id="hemiBlankRad">0.00</span><span class="unit" style="color: var(--accent);">mm</span>
+                </div>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase;">Ankenverlauf</span><br>
+                    <div id="hemiPunchSeq" style="margin-top: 10px; font-size: 0.95rem; color: var(--text); line-height: 1.6; font-weight: 500;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WALZEN & ZIEHEN -->
+    <div id="page-deform" class="page">
+        <div class="card">
+            <h2>Walzen & Ziehen</h2>
+            <div class="subtitle">Simuliert den Umformungsprozess bei gleichbleibendem Volumen. Die Glühmarkierung bezieht sich auf die kumulative Reduktion seit dem letzten Glühen (≥ 60%).</div>
+            <label>Umformungs-Methode</label>
+            <select id="deformType" onchange="toggleDeform()">
+                <option value="draw">Draht ziehen (Zieheisen)</option>
+                <option value="roll">Blech walzen</option>
+                <option value="tube">Rohr ziehen (Scharnier)</option>
+            </select>
+
+            <!-- Draht ziehen -->
+            <div id="deformDraw" style="display:block; margin-top: 25px;">
+                <div class="row">
+                    <div><label>Start-Ø (mm)</label><input type="number" id="dd_d1" step="0.1" min="0.1" placeholder="1.0" oninput="calcDrawPossibilities()"></div>
+                    <div><label>Start-Länge (mm)</label><input type="number" id="dd_l1" step="1" min="1" placeholder="100" oninput="calcDrawPossibilities()"></div>
+                </div>
+                <div class="target-input-group">
+                    <label>Ziel-Ø (optional)</label>
+                    <input type="number" id="dd_target" step="0.01" min="0.1" placeholder="Leer = alle Stufen" oninput="calcDrawPossibilities()">
+                </div>
+                <div id="drawPossibilities" style="display: none; background: var(--card); padding: 0; margin-top: 25px;">
+                    <label>Zieheisen-Stufen</label>
+                    <div id="drawTableContainer" style="overflow-x: auto;"></div>
+                </div>
+            </div>
+
+            <!-- Blech walzen -->
+            <div id="deformRoll" style="display:none; margin-top: 25px;">
+                <div class="row" style="flex-wrap: wrap;">
+                    <div><label>Start-Länge (mm)</label><input type="number" id="dr_l1" step="1" min="1" placeholder="50" oninput="calcRollPossibilities()"></div>
+                    <div><label>Breite (mm)</label><input type="number" id="dr_w1" step="0.1" min="0.1" placeholder="10" oninput="calcRollPossibilities()"></div>
+                    <div><label>Start-Stärke (mm)</label><input type="number" id="dr_t1" step="0.1" min="0.1" placeholder="2.0" oninput="calcRollPossibilities()"></div>
+                </div>
+                <div class="target-input-group">
+                    <label>Ziel-Stärke (optional)</label>
+                    <input type="number" id="dr_target" step="0.01" min="0.1" placeholder="Leer = alle Stufen" oninput="calcRollPossibilities()">
+                </div>
+                <div id="rollPossibilities" style="display: none; background: var(--card); padding: 0; margin-top: 25px;">
+                    <label>Walz-Stufen</label>
+                    <div id="rollTableContainer" style="overflow-x: auto;"></div>
+                </div>
+            </div>
+
+            <!-- Rohr ziehen -->
+            <div id="deformTube" style="display:none; margin-top: 25px;">
+                <div class="row" style="flex-wrap: wrap;">
+                    <div><label>Außen-Ø Start (mm)</label><input type="number" id="dt_d1" step="0.1" min="0.1" placeholder="5.0" oninput="calcTubePossibilities()"></div>
+                    <div><label>Wandstärke (mm)</label><input type="number" id="dt_t1" step="0.1" min="0.1" placeholder="1.0" oninput="calcTubePossibilities()"></div>
+                    <div><label>Länge Start (mm)</label><input type="number" id="dt_l1" step="1" min="1" placeholder="50" oninput="calcTubePossibilities()"></div>
+                </div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim); margin-top: 8px;" id="dt_hint1">INNEN-Ø: -- mm</div>
+                <div id="tubePossibilities" style="display: none; background: var(--card); padding: 0; margin-top: 25px;">
+                    <label>Ziehkern Option</label>
+                    <select id="tubeMethod" onchange="calcTubePossibilities()" style="margin-bottom: 20px;">
+                        <option value="hollow">Hohlziehen (ohne Kern)</option>
+                        <option value="core">Mit Kern (fixer Innen-Ø)</option>
+                    </select>
+                    <label>Zieh-Stufen</label>
+                    <div id="tubeTableContainer" style="overflow-x: auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RINGWEITEN -->
+    <div id="page-ring" class="page">
+        <div class="card">
+            <h2>Ringweiten-Umrechner</h2>
             <div class="subtitle">Berechnet die exakte gestreckte Materiallänge für Ringschienen. Die neutrale Faser liegt auf halber Materialstärke (Innen-Ø + ½ Stärke).</div>
             <div class="row" style="flex-wrap: wrap;">
                 <div style="min-width: 140px;">
