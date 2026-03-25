@@ -94,8 +94,7 @@
             transition: left 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
             border-right: 1px solid var(--border);
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            -webkit-overflow-scrolling: touch;
         }
 
         .sidebar.open { left: 0; }
@@ -148,13 +147,50 @@
         }
 
         .sidebar-section-label {
-            padding: 12px 20px 6px 20px;
-            font-size: 0.7rem;
+            padding: 0;
+            margin: 0;
+            background: var(--card);
+        }
+
+        .sidebar-category-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--bg);
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .sidebar-category-btn:active { background: var(--input-bg); }
+
+        .sidebar-category-btn .chevron {
+            transition: transform 0.2s ease;
+            font-size: 0.7rem;
             color: var(--text-dim);
-            background: var(--card);
+        }
+
+        .sidebar-category-btn.open .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-sub {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+
+        .sidebar-sub.open {
+            max-height: 500px;
         }
 
         /* --- APP CONTENT --- */
@@ -431,6 +467,232 @@
             padding: 0;
         }
         .reset-link:hover { color: var(--accent); }
+
+        /* HOME TILES */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .home-tile {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 16px 14px;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            text-align: left;
+            font-family: inherit;
+        }
+        .home-tile:active { background: var(--input-bg); border-color: var(--accent); }
+        .home-tile .tile-icon { font-size: 1.3rem; margin-bottom: 6px; display: block; }
+        .home-tile .tile-name { font-size: 0.85rem; font-weight: 700; color: var(--text); display: block; }
+        .home-tile .tile-hint { font-size: 0.72rem; color: var(--text-dim); display: block; margin-top: 3px; line-height: 1.3; }
+        .home-tile.tile-accent { border-left: 3px solid var(--accent); }
+
+        /* RANGE SLIDER */
+        .range-wrap {
+            margin-top: 5px;
+        }
+        .range-wrap input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            border: none;
+            padding: 0;
+        }
+        .range-wrap input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .range-wrap input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        /* PLANNER */
+        .project-tab {
+            display: inline-block;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 2px 2px 0 0;
+            cursor: pointer;
+            font-family: inherit;
+            color: var(--text-dim);
+            margin-right: 4px;
+            position: relative;
+            bottom: -1px;
+        }
+        .project-tab.active { background: var(--card); color: var(--accent); border-bottom: 1px solid var(--card); }
+        .project-tab .tab-close {
+            margin-left: 6px; font-size: 0.7rem; color: var(--text-dim);
+            cursor: pointer; opacity: 0.6;
+        }
+        .project-tab .tab-close:hover { opacity: 1; color: var(--accent); }
+        .project-tabs { display: flex; flex-wrap: wrap; gap: 0; align-items: flex-end; border-bottom: 1px solid var(--border); padding: 0 0 0 0; margin-bottom: 20px; }
+        .tab-add-btn {
+            display: inline-block; padding: 8px 12px; font-size: 1rem;
+            background: none; border: 1px solid var(--border); border-bottom: none;
+            border-radius: 2px 2px 0 0; cursor: pointer; color: var(--text-dim);
+            font-family: inherit; position: relative; bottom: -1px;
+        }
+        .tab-add-btn:active { color: var(--accent); }
+
+        .step-row {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 0; border-bottom: 1px solid var(--bg);
+            flex-wrap: wrap;
+        }
+        .step-row:last-child { border-bottom: none; }
+        .step-name-col { flex: 2; min-width: 120px; }
+        .step-time-col { flex: 0 0 auto; display: flex; align-items: center; gap: 2px; }
+        .scroll-picker {
+            display: flex; flex-direction: column; align-items: center; gap: 0;
+            user-select: none; -webkit-user-select: none;
+        }
+        .scroll-picker .sp-btn {
+            width: 30px; height: 20px; display: flex; align-items: center; justify-content: center;
+            background: var(--input-bg); border: none; cursor: pointer; font-size: 0.65rem;
+            color: var(--text-dim); border-radius: 2px; font-family: inherit;
+            transition: background 0.1s;
+        }
+        .scroll-picker .sp-btn:active { background: var(--accent-light); color: var(--accent); }
+        .scroll-picker .sp-val {
+            width: 30px; text-align: center; padding: 3px 1px;
+            font-size: 1rem; font-weight: 700; color: var(--text);
+            background: var(--card); border: 1px solid var(--border); border-radius: 2px;
+        }
+        .time-sep { font-weight: 700; color: var(--text-dim); font-size: 1rem; margin: 0; align-self: center; }
+        .step-del { background: none; border: none; color: var(--text-dim); font-size: 1.1rem; cursor: pointer; padding: 4px; flex: 0 0 auto; }
+        .step-del:hover { color: var(--accent); }
+
+        /* INLINE MATERIAL PER STEP */
+        .step-mat-toggle {
+            font-size: 0.7rem; color: var(--text-dim); cursor: pointer;
+            text-decoration: underline; margin-top: 4px; display: inline-block;
+        }
+        .step-mat-toggle:hover { color: var(--accent); }
+        .step-mat-row {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;
+            padding: 8px; background: var(--bg); border-radius: 2px;
+        }
+        .step-mat-row select, .step-mat-row input {
+            padding: 6px 8px; font-size: 0.8rem; min-width: 0;
+        }
+        .step-mat-row .sml { flex: 1; min-width: 50px; }
+        .step-mat-row .smw { flex: 0.8; min-width: 45px; }
+        .step-mat-row .smp { flex: 0.7; min-width: 45px; font-weight: 700; }
+
+        /* NOTES */
+        .planner-notes {
+            width: 100%; min-height: 80px; max-height: 200px;
+            padding: 12px; border: 1px solid var(--border); border-radius: 2px;
+            background: var(--input-bg); color: var(--text); font-family: inherit;
+            font-size: 0.9rem; resize: vertical; outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .planner-notes:focus { border-color: var(--accent); background: #fff; }
+
+        /* CUSTOM STEPS MANAGER */
+        .custom-step-row {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+        }
+        .custom-step-row input { flex: 1; padding: 8px 10px; font-size: 0.85rem; }
+        .custom-step-row button { flex: 0 0 auto; }
+
+        /* STOPWATCH */
+        .sw-btn {
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--text);
+            font-size: 0.6rem; cursor: pointer; font-family: inherit;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: background 0.15s; flex: 0 0 auto;
+        }
+        .sw-play { background: var(--card); color: var(--text); }
+        .sw-pause { background: var(--text); color: var(--card); }
+        .sw-actual { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; text-align: center; font-family: monospace; }
+
+        /* PLANNER MATERIAL PARTS */
+        .step-mat-toggle {
+            font-size: 0.7rem; color: var(--text-dim); cursor: pointer;
+            margin-top: 4px; display: block; text-align: left;
+        }
+        .step-mat-toggle:hover { color: var(--accent); }
+        .step-mat-area {
+            display: none; padding: 8px 0 4px 0; margin-top: 6px;
+            border-top: 1px dashed var(--border);
+        }
+        .step-mat-area.open { display: block; }
+        .step-mat-area .mat-fields {
+            display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-end;
+        }
+        .step-mat-area .mat-fields > div { flex: 1; min-width: 55px; }
+        .step-mat-area label { margin-top: 0; font-size: 0.65rem; margin-bottom: 2px; }
+        .step-mat-area input, .step-mat-area select { padding: 6px; font-size: 0.8rem; }
+        .step-mat-price { font-weight: 700; font-size: 0.85rem; color: var(--accent); margin-top: 4px; }
+
+        .step-mat-row {
+            display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+            margin-top: 6px; padding: 8px 0 4px 0;
+            border-top: 1px dashed var(--border);
+        }
+        .step-mat-row .sml { flex: 0 0 60px; padding: 6px; font-size: 0.8rem; }
+        .step-mat-row .smw { flex: 1; min-width: 45px; padding: 6px; font-size: 0.8rem; }
+        .step-mat-row .smp { flex: 0 0 60px; padding: 6px; font-size: 0.8rem; font-weight: 700; color: var(--accent); }
+
+        /* PLANNER SUMMARY */
+        .planner-summary { margin-top: 20px; }
+        .summary-line {
+            display: flex; justify-content: space-between; padding: 6px 0;
+            font-size: 0.95rem; border-bottom: 1px solid var(--bg);
+        }
+        .summary-line.total {
+            border-top: 2px solid var(--text); border-bottom: none;
+            font-weight: 700; font-size: 1.05rem; padding-top: 10px;
+        }
+
+        .planner-total {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            flex-wrap: wrap; gap: 15px; padding: 20px;
+            background: var(--bg); border-left: 4px solid var(--accent);
+            border-radius: 0 2px 2px 0; margin-top: 20px;
+        }
+
+        @media print {
+            .top-nav, .sidebar, .sidebar-overlay, .toast, .step-del,
+            .tab-add-btn, .reset-link, .action-btn, .planner-actions { display: none !important; }
+            .app-container { padding-top: 10px !important; }
+            .page { display: none !important; }
+            .page.active { display: block !important; }
+            .card { border: none !important; box-shadow: none !important; }
+            body { background: #fff; }
+        }
     </style>
 </head>
 <body>
@@ -469,26 +731,65 @@
     </div>
 
     <ul class="sidebar-menu">
-        <li><a id="nav-home" class="active" onclick="navigateTo('home', 'Startseite')">Startseite</a></li>
-
-        <div class="sidebar-section-label">Berechnung</div>
-        <li><a id="nav-cast" onclick="navigateTo('cast', 'Wachs zu Metall')">Wachs zu Metall</a></li>
-        <li><a id="nav-semi" onclick="navigateTo('semi', 'Halbzeug-Gewicht')">Halbzeug-Gewicht</a></li>
-        <li><a id="nav-reverse" onclick="navigateTo('reverse', 'Gewicht → Drahtlänge')">Gewicht → Drahtlänge</a></li>
-        <li><a id="nav-shapes" onclick="navigateTo('shapes', 'Halbkugel-Ronden')">Halbkugel-Ronden</a></li>
-        <li><a id="nav-deform" onclick="navigateTo('deform', 'Walzen & Ziehen')">Walzen & Ziehen</a></li>
-
-        <div class="sidebar-section-label">Fassung & Ring</div>
-        <li><a id="nav-ring" onclick="navigateTo('ring', 'Ringweiten')">Ringweiten</a></li>
-        <li><a id="nav-bezel" onclick="navigateTo('bezel', 'Zargen-Rechner')">Zargen-Rechner</a></li>
-        <li><a id="nav-stones" onclick="navigateTo('stones', 'Stein-Datenbank')">Stein-Datenbank</a></li>
-
-        <div class="sidebar-section-label">Legierung & Kosten</div>
-        <li><a id="nav-alloy" onclick="navigateTo('alloy', 'Legieren (Altmetall)')">Legieren (Altmetall)</a></li>
-        <li><a id="nav-mix" onclick="navigateTo('mix', 'Legierung anmischen')">Legierung anmischen</a></li>
-        <li><a id="nav-loss" onclick="navigateTo('loss', 'Verlust-Rechner')">Verlust-Rechner</a></li>
-        <li><a id="nav-cost" onclick="navigateTo('cost', 'Materialkosten')">Materialkosten</a></li>
+        <li><a id="nav-home" class="active" onclick="navigateTo('home', 'BenchTool')">Start</a></li>
+        <li><a id="nav-planner" onclick="navigateTo('planner', 'Arbeitsplaner')" style="font-weight: 700;">⏱ Arbeitsplaner</a></li>
     </ul>
+
+    <!-- Ring & Zargen — open by default -->
+    <div class="sidebar-section-label">
+        <button class="sidebar-category-btn open" onclick="toggleCategory(this)">
+            Ring & Zargen <span class="chevron">▸</span>
+        </button>
+    </div>
+    <div class="sidebar-sub open">
+        <ul class="sidebar-menu">
+            <li><a id="nav-ring" onclick="navigateTo('ring', 'Ringmaß')">Ringmaß</a></li>
+            <li><a id="nav-bezel" onclick="navigateTo('bezel', 'Zargen')">Zargen</a></li>
+            <li><a id="nav-stones" onclick="navigateTo('stones', 'Steinmaße')">Steinmaße</a></li>
+        </ul>
+    </div>
+
+    <!-- Material & Umformung -->
+    <div class="sidebar-section-label">
+        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+            Material & Umformung <span class="chevron">▸</span>
+        </button>
+    </div>
+    <div class="sidebar-sub">
+        <ul class="sidebar-menu">
+            <li><a id="nav-cast" onclick="navigateTo('cast', 'Guss')">Guss (Wachs → Metall)</a></li>
+            <li><a id="nav-semi" onclick="navigateTo('semi', 'Halbzeug')">Halbzeug wiegen</a></li>
+            <li><a id="nav-reverse" onclick="navigateTo('reverse', 'Drahtlänge')">Gewicht → Drahtlänge</a></li>
+            <li><a id="nav-shapes" onclick="navigateTo('shapes', 'Ronden')">Ronden & Halbkugeln</a></li>
+            <li><a id="nav-deform" onclick="navigateTo('deform', 'Umformen')">Walzen & Ziehen</a></li>
+        </ul>
+    </div>
+
+    <!-- Legierung -->
+    <div class="sidebar-section-label">
+        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+            Legierung <span class="chevron">▸</span>
+        </button>
+    </div>
+    <div class="sidebar-sub">
+        <ul class="sidebar-menu">
+            <li><a id="nav-alloy" onclick="navigateTo('alloy', 'Umlegieren')">Umlegieren (Altgold)</a></li>
+            <li><a id="nav-mix" onclick="navigateTo('mix', 'Anmischen')">Legierung anmischen</a></li>
+        </ul>
+    </div>
+
+    <!-- Kalkulation -->
+    <div class="sidebar-section-label">
+        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+            Kalkulation <span class="chevron">▸</span>
+        </button>
+    </div>
+    <div class="sidebar-sub">
+        <ul class="sidebar-menu">
+            <li><a id="nav-loss" onclick="navigateTo('loss', 'Verluste')">Verluste schätzen</a></li>
+            <li><a id="nav-cost" onclick="navigateTo('cost', 'Materialwert')">Materialwert</a></li>
+        </ul>
+    </div>
 </div>
 
 <!-- APP CONTENT -->
@@ -496,29 +797,71 @@
 
     <!-- HOME -->
     <div id="page-home" class="page active">
-        <div class="card">
-            <h2>BenchTool</h2>
-            <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text);">
-                Ein funktionales Präzisionswerkzeug für das Goldschmiedehandwerk.
-            </p>
-            <p style="line-height: 1.6; font-size: 0.95rem; color: var(--text-dim); margin-bottom: 25px;">
-                Diese Applikation bündelt branchenspezifische Berechnungen in einer reduzierten, ablenkungsfreien Oberfläche. Die globale Materialdichte (im Menü einstellbar) dient als Basis für alle relevanten Module.
-            </p>
-            <label>Funktionsumfang</label>
-            <ul style="line-height: 1.8; font-size: 0.95rem; color: var(--text); padding-left: 20px; margin-top: 10px;">
-                <li><strong>Guss:</strong> Wachs zu Metall inkl. Anguss-Faktor.</li>
-                <li><strong>Halbzeug:</strong> Gewichtsberechnung für alle Profile inkl. Rohrdraht.</li>
-                <li><strong>Rückwärts-Rechner:</strong> Drahtlänge aus gegebenem Metallgewicht.</li>
-                <li><strong>Halbkugeln:</strong> Blechzuschnitt (Ronde) inkl. Zirkel-Einstellung.</li>
-                <li><strong>Umformung:</strong> Walz-/Ziehstufen mit Ziel-Maß und Glüh-Markierungen.</li>
-                <li><strong>Ringweiten:</strong> Gestreckte Länge (Neutrale Faser).</li>
-                <li><strong>Zargen:</strong> Runde, ovale (Ramanujan) und eckige Fassungen (Gehrung).</li>
-                <li><strong>Steine:</strong> Datenbank mit Standard-Maßen für Brillanten & Cabochons.</li>
-                <li><strong>Legierungen:</strong> Feinmetall- oder Vorlegierungszusätze berechnen.</li>
-                <li><strong>Verlust:</strong> Materialverluste bei Bearbeitungsschritten schätzen.</li>
-                <li><strong>Kosten:</strong> Materialwertkalkulation mit Live-Kursen.</li>
-            </ul>
-            <button class="action-btn" onclick="openNav()" style="background: var(--text); margin-top: 30px;">Menü öffnen</button>
+        <div class="card" style="border: none; background: transparent; padding: 0;">
+            <h2 style="font-size: 1.4rem; border-bottom: none; margin-bottom: 5px; padding-bottom: 0;">BenchTool</h2>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0; margin-bottom: 20px;">Rechner fürs Goldschmiedehandwerk</p>
+        </div>
+
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px;">Häufig genutzt</div>
+        <div class="home-grid">
+            <button class="home-tile tile-accent" onclick="navigateTo('ring', 'Ringmaß')">
+                <span class="tile-icon">◎</span>
+                <span class="tile-name">Ringmaß</span>
+                <span class="tile-hint">Gestreckte Länge</span>
+            </button>
+            <button class="home-tile tile-accent" onclick="navigateTo('bezel', 'Zargen')">
+                <span class="tile-icon">▣</span>
+                <span class="tile-name">Zargen</span>
+                <span class="tile-hint">Rund · Oval · Eckig</span>
+            </button>
+        </div>
+
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;">Material</div>
+        <div class="home-grid">
+            <button class="home-tile" onclick="navigateTo('cast', 'Guss')">
+                <span class="tile-icon">♨</span>
+                <span class="tile-name">Guss</span>
+                <span class="tile-hint">Wachs → Metall</span>
+            </button>
+            <button class="home-tile" onclick="navigateTo('semi', 'Halbzeug')">
+                <span class="tile-icon">⊟</span>
+                <span class="tile-name">Halbzeug</span>
+                <span class="tile-hint">Profil wiegen</span>
+            </button>
+            <button class="home-tile" onclick="navigateTo('reverse', 'Drahtlänge')">
+                <span class="tile-icon">↔</span>
+                <span class="tile-name">Drahtlänge</span>
+                <span class="tile-hint">Gramm → mm</span>
+            </button>
+            <button class="home-tile" onclick="navigateTo('deform', 'Umformen')">
+                <span class="tile-icon">⇥</span>
+                <span class="tile-name">Umformen</span>
+                <span class="tile-hint">Walzen & Ziehen</span>
+            </button>
+        </div>
+
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;">Legierung & Kalkulation</div>
+        <div class="home-grid">
+            <button class="home-tile" onclick="navigateTo('alloy', 'Umlegieren')">
+                <span class="tile-icon">⚗</span>
+                <span class="tile-name">Umlegieren</span>
+                <span class="tile-hint">Altgold aufbereiten</span>
+            </button>
+            <button class="home-tile" onclick="navigateTo('cost', 'Materialwert')">
+                <span class="tile-icon">€</span>
+                <span class="tile-name">Materialwert</span>
+                <span class="tile-hint">Kalkulation</span>
+            </button>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button class="home-tile tile-accent" onclick="navigateTo('planner', 'Arbeitsplaner')" style="width: 100%; display: flex; align-items: center; gap: 12px;">
+                <span class="tile-icon" style="margin: 0;">⏱</span>
+                <div>
+                    <span class="tile-name">Arbeitsplaner</span>
+                    <span class="tile-hint">Projekte · Zeiterfassung · Drucken</span>
+                </div>
+            </button>
         </div>
     </div>
 
@@ -745,7 +1088,7 @@
                 <div style="min-width: 140px;">
                     <label>EU Größe / Umfang</label>
                     <div class="combo-input">
-                        <select id="ringSizeSelect" onchange="document.getElementById('ringSize').value=this.value; convertRing('size');">
+                        <select id="ringSizeSelect" onchange="document.getElementById('ringSize').value=this.value; document.getElementById('ringSlider').value=this.value; convertRing('size');">
                             <option value="">--</option>
                             <option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option>
                             <option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option>
@@ -755,7 +1098,11 @@
                             <option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option>
                             <option value="75">75</option>
                         </select>
-                        <input type="number" id="ringSize" step="0.1" min="0" placeholder="54.0" oninput="convertRing('size')">
+                        <input type="number" id="ringSize" step="0.1" min="0" placeholder="54.0" oninput="document.getElementById('ringSlider').value=Math.round(this.value)||45; convertRing('size')">
+                    </div>
+                    <div class="range-wrap">
+                        <input type="range" id="ringSlider" min="42" max="76" value="54" step="0.5" oninput="document.getElementById('ringSize').value=this.value; document.getElementById('ringSizeSelect').value=Math.round(this.value)||''; convertRing('size')">
+                        <div class="range-labels"><span>42</span><span>54</span><span>64</span><span>76</span></div>
                     </div>
                 </div>
             </div>
@@ -1071,6 +1418,114 @@
         </div>
     </div>
 
+    <!-- ARBEITSPLANER -->
+    <div id="page-planner" class="page">
+        <div class="card">
+            <h2>Arbeitsplaner</h2>
+            <div class="project-tabs" id="projectTabs"></div>
+
+            <div id="projectContent">
+                <label>Projektname</label>
+                <input type="text" id="projectName" placeholder="z.B. Ehering Müller" oninput="savePlanner()" style="margin-bottom: 15px;">
+
+                <!-- ARBEITSSCHRITTE -->
+                <label>Arbeitsschritte</label>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px;">Soll = geplante Zeit · ▶ = Stoppuhr (Ist-Zeit)</div>
+                <div id="plannerSteps"></div>
+
+                <div style="margin-top: 10px;">
+                    <label style="margin-top: 0;">Schritt hinzufügen</label>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch;">
+                        <select id="plannerPreset" style="flex: 2; min-width: 140px; padding: 12px; font-family: inherit;">
+                            <option value="">— Vorlage wählen —</option>
+                            <optgroup label="Standard" id="presetStandard">
+                                <option value="Sägen">Sägen</option>
+                                <option value="Feilen">Feilen</option>
+                                <option value="Bohren">Bohren</option>
+                                <option value="Biegen">Biegen</option>
+                                <option value="Löten">Löten</option>
+                                <option value="Fassen">Fassen</option>
+                                <option value="Polieren">Polieren</option>
+                                <option value="Gravieren">Gravieren</option>
+                                <option value="Gießen">Gießen</option>
+                                <option value="Walzen">Walzen</option>
+                                <option value="Ziehen">Ziehen</option>
+                                <option value="Schmieden">Schmieden</option>
+                                <option value="Glühen">Glühen</option>
+                                <option value="Beizen">Beizen</option>
+                                <option value="Rhodinieren">Rhodinieren</option>
+                                <option value="Mattieren">Mattieren</option>
+                                <option value="Montage">Montage</option>
+                                <option value="Qualitätskontrolle">Qualitätskontrolle</option>
+                            </optgroup>
+                            <optgroup label="Eigene" id="presetCustom"></optgroup>
+                            <optgroup label="">
+                                <option value="__custom__">✎ Freier Schritt…</option>
+                            </optgroup>
+                        </select>
+                        <button onclick="addSelectedStep()" style="flex: 0 0 auto; background: var(--accent); color: #fff; border: none; padding: 12px 18px; border-radius: 2px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.9rem; white-space: nowrap;">Hinzufügen</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <details>
+                        <summary style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim); cursor: pointer; text-transform: uppercase;">Eigene Vorlagen verwalten</summary>
+                        <div style="margin-top: 10px;" id="customStepsList"></div>
+                        <div class="custom-step-row" style="margin-top: 8px;">
+                            <input type="text" id="newCustomStep" placeholder="Neuer Schritt-Name" style="font-size: 0.85rem; padding: 8px 10px;">
+                            <button onclick="addCustomPreset()" style="padding: 8px 14px; background: var(--text); color: #fff; border: none; border-radius: 2px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.8rem; white-space: nowrap;">Speichern</button>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- NOTIZEN -->
+                <label style="margin-top: 25px;">Notizen</label>
+                <textarea class="planner-notes" id="plannerNotes" placeholder="Notizen, Skizzen-Hinweise, Besonderheiten…" oninput="savePlanner()"></textarea>
+
+                <!-- STUNDENSATZ -->
+                <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border);">
+                    <label style="margin-top: 0;">
+                        <input type="checkbox" id="plannerShowRate" onchange="togglePlannerRate(); savePlanner();" style="width: auto; margin-right: 6px; vertical-align: middle;">
+                        Stundensatz einblenden
+                    </label>
+                    <div id="plannerRateWrap" style="display: none; margin-top: 10px;">
+                        <div class="row"><div>
+                            <label>Stundensatz (€/h)</label>
+                            <input type="number" id="plannerRate" step="1" min="0" value="65" oninput="calcPlannerTotal(); savePlanner();">
+                        </div></div>
+                    </div>
+                </div>
+
+                <!-- GESAMTÜBERSICHT -->
+                <div class="planner-total" style="margin-top: 20px;">
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Soll-Zeit</span><br>
+                        <span class="result-value" id="plannerTotalTime" style="font-size: 1.2em;">0:00</span><span class="unit">h</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-size: 0.7rem; color: var(--warn); text-transform: uppercase; font-weight: 600;">Ist-Zeit</span><br>
+                        <span class="result-value" id="plannerTotalActual" style="font-size: 1.2em; color: var(--warn);">0:00</span><span class="unit" style="color: var(--warn);">h</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Bauteile</span><br>
+                        <span class="result-value" id="plannerTotalMat" style="font-size: 1.2em;">0.00</span><span class="unit">€</span>
+                    </div>
+                </div>
+                <div id="plannerCostSummary" style="display: none; margin-top: 10px; padding: 15px; background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 2px 2px 0;">
+                    <div class="summary-line"><span>Arbeitskosten (Soll)</span><span id="summaryLabor">0.00 €</span></div>
+                    <div class="summary-line"><span>Bauteilkosten</span><span id="summaryMat">0.00 €</span></div>
+                    <div class="summary-line total"><span>Gesamt</span><span id="summaryTotal" style="color: var(--accent);">0.00 €</span></div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="planner-actions" style="display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap;">
+                    <button class="action-btn" onclick="exportPlannerPDF()" style="flex: 1; min-width: 120px;">Drucken / Als PDF speichern</button>
+                    <button class="reset-link" onclick="clearCurrentProject()" style="margin: 0; padding: 12px;">Projekt leeren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -1205,12 +1660,27 @@
         document.getElementById("sidebarOverlay").style.display = "none";
     }
 
+    function toggleCategory(btn) {
+        btn.classList.toggle('open');
+        const sub = btn.parentElement.nextElementSibling;
+        if (sub) sub.classList.toggle('open');
+    }
+
     function navigateTo(pageId, title) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-' + pageId).classList.add('active');
         document.querySelectorAll('.sidebar-menu a').forEach(btn => btn.classList.remove('active'));
         const navEl = document.getElementById('nav-' + pageId);
-        if (navEl) navEl.classList.add('active');
+        if (navEl) {
+            navEl.classList.add('active');
+            // Auto-open parent category
+            const parentSub = navEl.closest('.sidebar-sub');
+            if (parentSub && !parentSub.classList.contains('open')) {
+                parentSub.classList.add('open');
+                const catBtn = parentSub.previousElementSibling?.querySelector('.sidebar-category-btn');
+                if (catBtn) catBtn.classList.add('open');
+            }
+        }
         document.getElementById('navTitle').innerText = title;
         closeNav();
         window.scrollTo(0, 0);
@@ -1632,11 +2102,13 @@
                 size = dia * Math.PI;
                 sizeInput.value = size.toFixed(1);
                 sizeSelect.value = Math.round(size) || "";
+                document.getElementById('ringSlider').value = Math.round(size) || 54;
             } else { sizeInput.value = ""; sizeSelect.value = ""; size = 0; }
         } else if (source === 'size') {
             if (size > 0) {
                 dia = size / Math.PI;
                 diaInput.value = dia.toFixed(1);
+                document.getElementById('ringSlider').value = Math.round(size) || 54;
             } else { diaInput.value = ""; dia = 0; }
         }
 
@@ -2185,6 +2657,417 @@
     document.addEventListener('change', () => { clearTimeout(window._saveTimer); window._saveTimer = setTimeout(saveState, 500); });
 
     // ============================================================
+    //  ARBEITSPLANER
+    // ============================================================
+    const PLANNER_KEY = 'benchtool_planner';
+    const CUSTOM_STEPS_KEY = 'benchtool_custom_steps';
+    let plannerProjects = [];
+    let plannerActiveIdx = 0;
+    let plannerStepId = 0;
+    let plannerPartId = 0;
+    let customPresets = [];
+    let swTimers = {}; // stopwatch intervals per step id
+
+    function loadCustomPresets() {
+        try { const r = localStorage.getItem(CUSTOM_STEPS_KEY); if (r) customPresets = JSON.parse(r); } catch(e) {}
+        renderCustomPresets();
+    }
+    function saveCustomPresets() {
+        try { localStorage.setItem(CUSTOM_STEPS_KEY, JSON.stringify(customPresets)); } catch(e) {}
+        renderCustomPresets();
+    }
+    function renderCustomPresets() {
+        const grp = document.getElementById('presetCustom');
+        if (grp) { grp.innerHTML = ''; customPresets.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; grp.appendChild(o); }); }
+        const list = document.getElementById('customStepsList');
+        if (list) { list.innerHTML = ''; customPresets.forEach((n, i) => { const r = document.createElement('div'); r.className = 'custom-step-row'; r.innerHTML = '<input type="text" value="' + n + '" disabled style="background:var(--bg);color:var(--text);"><button onclick="removeCustomPreset(' + i + ')" class="step-del">\u2715</button>'; list.appendChild(r); }); }
+    }
+    function addCustomPreset() {
+        const input = document.getElementById('newCustomStep');
+        const name = (input.value || '').trim();
+        if (!name) return;
+        if (customPresets.includes(name)) { showToast('Existiert bereits'); return; }
+        customPresets.push(name); saveCustomPresets(); input.value = '';
+        showToast('"' + name + '" gespeichert');
+    }
+    function removeCustomPreset(idx) { customPresets.splice(idx, 1); saveCustomPresets(); }
+
+    function loadPlanner() {
+        loadCustomPresets();
+        try { const r = localStorage.getItem(PLANNER_KEY); if (r) plannerProjects = JSON.parse(r); } catch(e) {}
+        if (!plannerProjects.length) plannerProjects = [newProject()];
+        plannerActiveIdx = 0;
+        renderProjectTabs(); renderActiveProject();
+    }
+    function newProject() { return { name: '', steps: [], parts: [], notes: '', showRate: false, rate: 65 }; }
+
+    function savePlanner() {
+        const p = plannerProjects[plannerActiveIdx];
+        if (!p) return;
+        p.name = document.getElementById('projectName').value;
+        p.notes = document.getElementById('plannerNotes').value;
+        p.showRate = document.getElementById('plannerShowRate').checked;
+        p.rate = parseFloat(document.getElementById('plannerRate').value) || 0;
+        p.steps = [];
+        document.querySelectorAll('#plannerSteps .step-row').forEach(row => {
+            const name = row.querySelector('.step-name-input').value;
+            const h = parseInt(row.querySelector('.sp-h-val').textContent) || 0;
+            const m = parseInt(row.querySelector('.sp-m-val').textContent) || 0;
+            const ah = parseInt(row.querySelector('.sw-ah').textContent) || 0;
+            const am = parseInt(row.querySelector('.sw-am').textContent) || 0;
+            const as = parseInt(row.querySelector('.sw-as').textContent) || 0;
+            const matRow = row.querySelector('.step-mat-row');
+            let mat = null;
+            if (matRow && matRow.style.display !== 'none') {
+                const metal = matRow.querySelector('.sm-metal').value;
+                const partNameEl = matRow.querySelector('.sm-part-name');
+                mat = {
+                    partName: partNameEl ? partNameEl.value : '',
+                    metal: metal,
+                    fine: matRow.querySelector('.sm-fine').value,
+                    weight: matRow.querySelector('.sm-weight').value,
+                    price: matRow.querySelector('.sm-price').value,
+                };
+            }
+            p.steps.push({ name, h, m, ah, am, as, mat });
+        });
+        p.parts = []; // legacy compat
+        try { localStorage.setItem(PLANNER_KEY, JSON.stringify(plannerProjects)); } catch(e) {}
+        renderProjectTabs();
+    }
+
+    function renderProjectTabs() {
+        const tabs = document.getElementById('projectTabs');
+        let html = '';
+        plannerProjects.forEach((p, i) => {
+            const label = p.name || ('Projekt ' + (i + 1));
+            const active = i === plannerActiveIdx ? 'active' : '';
+            const close = plannerProjects.length > 1 ? '<span class="tab-close" onclick="event.stopPropagation();removeProject(' + i + ');">\u2715</span>' : '';
+            html += '<button class="project-tab ' + active + '" onclick="switchProject(' + i + ')">' + label.substring(0, 16) + close + '</button>';
+        });
+        html += '<button class="tab-add-btn" onclick="addProject()">+</button>';
+        tabs.innerHTML = html;
+    }
+
+    function renderActiveProject() {
+        stopAllTimers();
+        const p = plannerProjects[plannerActiveIdx];
+        if (!p) return;
+        document.getElementById('projectName').value = p.name || '';
+        document.getElementById('plannerNotes').value = p.notes || '';
+        document.getElementById('plannerShowRate').checked = !!p.showRate;
+        document.getElementById('plannerRate').value = p.rate || 65;
+        togglePlannerRate();
+
+        const sc = document.getElementById('plannerSteps'); sc.innerHTML = ''; plannerStepId = 0;
+        if (p.steps && p.steps.length) p.steps.forEach(s => addPlannerStep(s.name, s.h, s.m, s.ah, s.am, s.as, s.mat));
+
+        calcPlannerTotal();
+    }
+
+    function switchProject(idx) { savePlanner(); plannerActiveIdx = idx; renderProjectTabs(); renderActiveProject(); }
+    function addProject() { savePlanner(); plannerProjects.push(newProject()); plannerActiveIdx = plannerProjects.length - 1; renderProjectTabs(); renderActiveProject(); savePlanner(); showToast('Neues Projekt'); }
+    function removeProject(idx) { if (plannerProjects.length <= 1) return; plannerProjects.splice(idx, 1); if (plannerActiveIdx >= plannerProjects.length) plannerActiveIdx--; renderProjectTabs(); renderActiveProject(); savePlanner(); }
+    function clearCurrentProject() { stopAllTimers(); const p = plannerProjects[plannerActiveIdx]; Object.assign(p, newProject()); renderActiveProject(); savePlanner(); showToast('Projekt geleert'); }
+
+    // --- Scroll-wheel time picker ---
+    function spAdj(btn, delta, max) {
+        const el = btn.parentElement.querySelector('.sp-val');
+        let v = parseInt(el.textContent) || 0;
+        v += delta; if (v < 0) v = max; if (v > max) v = 0;
+        el.textContent = v; calcPlannerTotal(); savePlanner();
+    }
+
+    function spAdjIst(btn, delta, max) {
+        const el = btn.parentElement.querySelector('.sp-val');
+        let v = parseInt(el.textContent) || 0;
+        v += delta; if (v < 0) v = max; if (v > max) v = 0;
+        el.textContent = v;
+        // Sync stopwatch display
+        const row = btn.closest('.step-row');
+        if (row) {
+            const dh = row.querySelector('.sw-display-h');
+            const dm = row.querySelector('.sw-display-m');
+            const ah = row.querySelector('.sw-ah');
+            const am = row.querySelector('.sw-am');
+            if (dh && ah) dh.textContent = ah.textContent;
+            if (dm && am) dm.textContent = String(parseInt(am.textContent)||0).padStart(2,'0');
+        }
+        calcPlannerTotal(); savePlanner();
+    }
+
+    // --- Stopwatch per step ---
+    function swToggle(id) {
+        const row = document.getElementById('plannerStep_' + id);
+        if (!row) return;
+        const btn = row.querySelector('.sw-toggle');
+        if (!btn) return;
+        if (swTimers[id]) {
+            // PAUSE
+            clearInterval(swTimers[id]); delete swTimers[id];
+            btn.textContent = '\u25B6';
+            btn.className = 'sw-btn sw-play sw-toggle';
+            savePlanner();
+        } else {
+            // START / RESUME
+            btn.textContent = '\u23F8';
+            btn.className = 'sw-btn sw-pause sw-toggle';
+            swTimers[id] = setInterval(() => {
+                const ahEl = row.querySelector('.sw-ah');
+                const amEl = row.querySelector('.sw-am');
+                const asEl = row.querySelector('.sw-as');
+                let s = parseInt(asEl.textContent) || 0;
+                let m = parseInt(amEl.textContent) || 0;
+                let h = parseInt(ahEl.textContent) || 0;
+                s++;
+                if (s >= 60) { s = 0; m++; }
+                if (m >= 60) { m = 0; h++; }
+                // Update Ist pickers
+                ahEl.textContent = h;
+                amEl.textContent = m;
+                asEl.textContent = String(s).padStart(2, '0');
+                // Update display readout
+                const dh = row.querySelector('.sw-display-h');
+                const dm = row.querySelector('.sw-display-m');
+                if (dh) dh.textContent = h;
+                if (dm) dm.textContent = String(m).padStart(2, '0');
+                calcPlannerTotal();
+            }, 1000);
+        }
+    }
+    function swReset(id) {
+        if (swTimers[id]) { clearInterval(swTimers[id]); delete swTimers[id]; }
+        const row = document.getElementById('plannerStep_' + id);
+        if (!row) return;
+        row.querySelector('.sw-ah').textContent = '0';
+        row.querySelector('.sw-am').textContent = '0';
+        row.querySelector('.sw-as').textContent = '0';
+        const btn = row.querySelector('.sw-toggle');
+        btn.textContent = '\u25B6'; btn.className = 'sw-btn sw-play sw-toggle';
+        calcPlannerTotal(); savePlanner();
+    }
+    function stopAllTimers() { Object.keys(swTimers).forEach(id => { clearInterval(swTimers[id]); }); swTimers = {}; }
+
+    function addPlannerStep(name, h, m, ah, am, as, mat) {
+        const container = document.getElementById('plannerSteps');
+        const id = plannerStepId++;
+        const hasMat = mat && (mat.metal || mat.partName);
+        const row = document.createElement('div');
+        row.className = 'step-row'; row.id = 'plannerStep_' + id;
+        row.style.flexDirection = 'column';
+        row.innerHTML =
+            // Single row: Name | Soll | Ist | Stopwatch | Delete
+            '<div style="display:flex;align-items:center;gap:6px;width:100%;">' +
+                '<input type="text" class="step-name-input" value="' + (name || '') + '" placeholder="Schritt" oninput="savePlanner()" style="flex:1;min-width:60px;padding:6px 8px;font-size:0.85rem;">' +
+                // Soll
+                '<div style="flex:0 0 auto;text-align:center;">' +
+                    '<div style="font-size:0.55rem;color:var(--text-dim);font-weight:600;">SOLL</div>' +
+                    '<div style="display:flex;align-items:center;">' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,1,99)">\u25B2</button><div class="sp-val sp-h-val">' + (h||0) + '</div><button class="sp-btn" onclick="spAdj(this,-1,99)">\u25BC</button></div>' +
+                        '<span class="time-sep">:</span>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,5,55)">\u25B2</button><div class="sp-val sp-m-val">' + (m||0) + '</div><button class="sp-btn" onclick="spAdj(this,-5,55)">\u25BC</button></div>' +
+                    '</div>' +
+                '</div>' +
+                // Ist
+                '<div style="flex:0 0 auto;text-align:center;">' +
+                    '<div style="font-size:0.55rem;color:var(--warn);font-weight:600;">IST</div>' +
+                    '<div style="display:flex;align-items:center;">' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,1,99)">\u25B2</button><div class="sp-val sw-ah">' + (ah||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-1,99)">\u25BC</button></div>' +
+                        '<span class="time-sep">:</span>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,5,55)">\u25B2</button><div class="sp-val sw-am">' + (am||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-5,55)">\u25BC</button></div>' +
+                    '</div>' +
+                '</div>' +
+                // Stopwatch button + running time
+                '<div style="flex:0 0 auto;text-align:center;">' +
+                    '<button class="sw-btn sw-play sw-toggle" onclick="swToggle(' + id + ')">\u25B6</button>' +
+                    '<div style="font-family:monospace;font-size:0.6rem;color:var(--text-dim);white-space:nowrap;margin-top:1px;"><span class="sw-display-h">' + (ah||0) + '</span>:<span class="sw-display-m">' + String(am||0).padStart(2,'0') + '</span>:<span class="sw-as">' + String(as||0).padStart(2,'0') + '</span></div>' +
+                    '<div style="font-size:0.5rem;color:var(--text-dim);cursor:pointer;" onclick="swReset(' + id + ')">Reset</div>' +
+                '</div>' +
+                '<button class="step-del" onclick="removePlannerStep(' + id + ')">\u2715</button>' +
+            '</div>' +
+            // Bauteil toggle
+            '<div style="width:100%;margin-top:2px;">' +
+                '<span class="step-mat-toggle" onclick="toggleStepMat(' + id + ')">' + (hasMat ? '\u25BE Bauteil ausblenden' : '\u25B8 Bauteil hinzuf\u00fcgen') + '</span>' +
+                '<div class="step-mat-row" id="stepMat_' + id + '" style="display:' + (hasMat ? 'block' : 'none') + ';">' +
+                    '<input type="text" class="smw sm-part-name" placeholder="z.B. Ringschiene, Zarge\u2026" value="' + (mat&&mat.partName||'') + '" oninput="savePlanner();" style="width:100%;margin-bottom:6px;font-size:0.85rem;padding:7px 8px;">' +
+                    '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">' +
+                        '<select class="sml sm-metal" onchange="calcStepPrice(this);savePlanner();"><option value="">--</option><option value="au">Gold</option><option value="ag">Silber</option><option value="pt">Platin</option></select>' +
+                        '<input type="number" class="smw sm-fine" placeholder="\u2030" step="1" min="0" max="1000" value="' + (mat&&mat.fine||'') + '" oninput="calcStepPrice(this);savePlanner();">' +
+                        '<input type="number" class="smw sm-weight" placeholder="g" step="0.01" min="0" value="' + (mat&&mat.weight||'') + '" oninput="calcStepPrice(this);savePlanner();">' +
+                        '<input type="number" class="smp sm-price" placeholder="\u20ac" step="0.01" min="0" value="' + (mat&&mat.price||'') + '" style="font-weight:700;" oninput="savePlanner();">' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        container.appendChild(row);
+        if (hasMat && mat.metal) row.querySelector('.sm-metal').value = mat.metal;
+        calcPlannerTotal();
+    }
+
+    function toggleStepMat(id) {
+        const matRow = document.getElementById('stepMat_' + id);
+        const row = document.getElementById('plannerStep_' + id);
+        const toggle = row.querySelector('.step-mat-toggle');
+        if (!matRow) return;
+        if (matRow.style.display === 'none') {
+            matRow.style.display = 'block';
+            toggle.innerHTML = '\u25BE Bauteil ausblenden';
+        } else {
+            matRow.style.display = 'none';
+            toggle.innerHTML = '\u25B8 Bauteil hinzuf\u00fcgen';
+        }
+    }
+
+    function calcStepPrice(el) {
+        const matRow = el.closest('.step-mat-row');
+        const metal = matRow.querySelector('.sm-metal').value;
+        const fine = parseFloat(matRow.querySelector('.sm-fine').value) || 0;
+        const weight = parseFloat(matRow.querySelector('.sm-weight').value) || 0;
+        if (!metal || !fine || !weight) return;
+        const specificEl = document.getElementById('price_' + metal + '_' + Math.round(fine));
+        let gramPrice = 0;
+        if (specificEl && specificEl.value) {
+            gramPrice = parseFloat(specificEl.value);
+        } else {
+            const fineEl = document.getElementById('price_' + metal + '_1000');
+            gramPrice = fineEl ? (parseFloat(fineEl.value) || 0) * (fine / 1000) : 0;
+        }
+        matRow.querySelector('.sm-price').value = (weight * gramPrice).toFixed(2);
+        calcPlannerTotal();
+    }
+
+    function addSelectedStep() {
+        const sel = document.getElementById('plannerPreset');
+        if (!sel.value) { showToast('Bitte erst einen Schritt ausw\u00e4hlen'); return; }
+        if (sel.value === '__custom__') {
+            addPlannerStep('', 0, 0, 0, 0, 0, null);
+            const rows = document.querySelectorAll('#plannerSteps .step-row');
+            if (rows.length) rows[rows.length-1].querySelector('.step-name-input').focus();
+        } else {
+            addPlannerStep(sel.value, 0, 0, 0, 0, 0, null);
+        }
+        sel.value = ''; savePlanner();
+    }
+    function addPresetStep(name) { if (!name) return; addPlannerStep(name,0,0,0,0,0,null); savePlanner(); }
+    function removePlannerStep(id) {
+        if (swTimers[id]) { clearInterval(swTimers[id]); delete swTimers[id]; }
+        const row = document.getElementById('plannerStep_' + id);
+        if (row) { row.remove(); calcPlannerTotal(); savePlanner(); }
+    }
+
+    function togglePlannerRate() {
+        const show = document.getElementById('plannerShowRate').checked;
+        document.getElementById('plannerRateWrap').style.display = show ? 'block' : 'none';
+        document.getElementById('plannerCostSummary').style.display = show ? 'block' : 'none';
+        calcPlannerTotal();
+    }
+
+    function calcPlannerTotal() {
+        let sollMin = 0, istMin = 0, matTotal = 0;
+        document.querySelectorAll('#plannerSteps .step-row').forEach(row => {
+            sollMin += (parseInt(row.querySelector('.sp-h-val').textContent)||0)*60 + (parseInt(row.querySelector('.sp-m-val').textContent)||0);
+            istMin += (parseInt(row.querySelector('.sw-ah').textContent)||0)*60 + (parseInt(row.querySelector('.sw-am').textContent)||0);
+            istMin += (parseInt(row.querySelector('.sw-as').textContent)||0) / 60;
+            const priceEl = row.querySelector('.sm-price');
+            if (priceEl) matTotal += parseFloat(priceEl.value) || 0;
+        });
+
+        const sh = Math.floor(sollMin/60), sm = Math.round(sollMin%60);
+        const ih = Math.floor(istMin/60), im = Math.round(istMin%60);
+        document.getElementById('plannerTotalTime').textContent = sh + ':' + String(sm).padStart(2,'0');
+        document.getElementById('plannerTotalActual').textContent = ih + ':' + String(im).padStart(2,'0');
+        document.getElementById('plannerTotalMat').textContent = matTotal.toFixed(2);
+
+        if (document.getElementById('plannerShowRate').checked) {
+            const rate = parseFloat(document.getElementById('plannerRate').value) || 0;
+            const labor = (sollMin / 60) * rate;
+            document.getElementById('summaryLabor').textContent = labor.toFixed(2) + ' \u20ac';
+            document.getElementById('summaryMat').textContent = matTotal.toFixed(2) + ' \u20ac';
+            document.getElementById('summaryTotal').textContent = (labor + matTotal).toFixed(2) + ' \u20ac';
+        }
+    }
+
+    function exportPlannerPDF() {
+        savePlanner();
+        const p = plannerProjects[plannerActiveIdx];
+        if (!p) return;
+        const pn = p.name || 'Arbeitsplan';
+        const date = new Date().toLocaleDateString('de-DE');
+        let steps = [], sollMin = 0, istMin = 0, matTotal = 0;
+        document.querySelectorAll('#plannerSteps .step-row').forEach(row => {
+            const nm = row.querySelector('.step-name-input').value || '-';
+            const h = parseInt(row.querySelector('.sp-h-val').textContent)||0;
+            const m = parseInt(row.querySelector('.sp-m-val').textContent)||0;
+            const ah = parseInt(row.querySelector('.sw-ah').textContent)||0;
+            const am = parseInt(row.querySelector('.sw-am').textContent)||0;
+            const priceEl = row.querySelector('.sm-price');
+            const matPrice = priceEl ? (parseFloat(priceEl.value)||0) : 0;
+            const partNameEl = row.querySelector('.sm-part-name');
+            const partName = partNameEl ? partNameEl.value : '';
+            steps.push({ name: nm, soll: h+':'+String(m).padStart(2,'0'), ist: ah+':'+String(am).padStart(2,'0'), matPrice, partName });
+            sollMin += h*60+m; istMin += ah*60+am; matTotal += matPrice;
+        });
+        const rate = p.showRate ? (p.rate||0) : 0;
+        const labor = rate ? ((sollMin/60)*rate) : 0;
+        let html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+escapeHtml(pn)+'</title><style>';
+        html += 'body{font-family:Helvetica Neue,Helvetica,Arial,sans-serif;color:#111;margin:0;padding:20px;font-size:11pt;}';
+        html += 'h1{font-size:16pt;margin:0 0 4px;text-transform:uppercase;letter-spacing:.05em}';
+        html += '.meta{color:#666;font-size:9pt;margin-bottom:20px}';
+        html += 'table{width:100%;border-collapse:collapse;margin:15px 0}';
+        html += 'th{text-align:left;padding:8px 6px;border-bottom:2px solid #111;font-size:8pt;text-transform:uppercase;color:#666}';
+        html += 'td{padding:8px 6px;border-bottom:1px solid #ddd;font-size:10pt}';
+        html += 'td.r{text-align:right;font-weight:bold;font-family:monospace;width:60px}';
+        html += '.tot td{border-top:2px solid #111;border-bottom:none;font-weight:bold}';
+        html += '.notes{margin-top:20px;padding:12px;border:1px solid #ddd;border-radius:2px;min-height:40px;white-space:pre-wrap;font-size:10pt;color:#333}';
+        html += '.nl{font-size:8pt;text-transform:uppercase;color:#666;font-weight:bold;margin-bottom:4px}';
+        html += '.sum{margin-top:15px;padding:12px;background:#f4f4f2;border-left:4px solid #dd3e23}';
+        html += '.sl{display:flex;justify-content:space-between;padding:4px 0;font-size:10pt}';
+        html += '.sl.t{border-top:2px solid #111;font-weight:bold;font-size:11pt;padding-top:8px;margin-top:4px}';
+        html += '.footer{margin-top:30px;padding-top:10px;border-top:1px solid #ddd;font-size:8pt;color:#999;text-align:center}';
+        html += '.np{margin:20px 0;text-align:center}.np button{padding:12px 30px;font-size:12pt;font-weight:bold;border:none;border-radius:4px;cursor:pointer;font-family:inherit;margin:0 8px}';
+        html += '.bp{background:#dd3e23;color:#fff}.bc{background:#e9e9e7;color:#111}';
+        html += '@media print{.np{display:none!important}}';
+        html += '</style></head><body>';
+        html += '<h1>'+escapeHtml(pn)+'</h1><div class="meta">Datum: '+date+'</div>';
+        if (steps.length) {
+            html += '<table><tr><th>Nr.</th><th>Arbeitsschritt</th><th style="text-align:right">Soll</th><th style="text-align:right">Ist</th><th style="text-align:right">Bauteil</th></tr>';
+            steps.forEach((s,i) => {
+                let matStr = '';
+                if (s.partName || s.matPrice > 0) {
+                    matStr = (s.partName ? escapeHtml(s.partName) : '') + (s.matPrice > 0 ? '<br><strong>' + s.matPrice.toFixed(2) + ' \u20ac</strong>' : '');
+                }
+                html += '<tr><td>'+(i+1)+'</td><td>'+escapeHtml(s.name)+'</td><td class="r">'+s.soll+'</td><td class="r">'+s.ist+'</td><td style="text-align:right;font-size:9pt;">'+matStr+'</td></tr>';
+            });
+            html += '<tr class="tot"><td></td><td>Gesamt</td><td class="r">'+Math.floor(sollMin/60)+':'+String(Math.round(sollMin%60)).padStart(2,'0')+'</td><td class="r">'+Math.floor(istMin/60)+':'+String(Math.round(istMin%60)).padStart(2,'0')+'</td><td class="r">'+(matTotal > 0 ? matTotal.toFixed(2)+' \u20ac' : '')+'</td></tr></table>';
+        }
+        // Remove old separate parts table
+        if (false) {
+            html += '<table><tr><th>Bauteil</th><th style="text-align:right">Gew.</th><th style="text-align:right">\u20ac</th></tr>';
+            parts.forEach(pt => { html += '<tr><td>'+escapeHtml(pt.name)+'</td><td class="r">'+(pt.weight||'-')+'</td><td class="r">'+pt.price+'</td></tr>'; });
+            html += '<tr class="tot"><td>Material gesamt</td><td></td><td class="r">'+matTotal.toFixed(2)+'</td></tr></table>';
+        }
+        if (rate > 0) {
+            html += '<div class="sum"><div class="sl"><span>Arbeitskosten ('+rate.toFixed(0)+' \u20ac/h)</span><span>'+labor.toFixed(2)+' \u20ac</span></div>';
+            html += '<div class="sl"><span>Bauteilkosten</span><span>'+matTotal.toFixed(2)+' \u20ac</span></div>';
+            html += '<div class="sl t"><span>Gesamt</span><span>'+(labor+matTotal).toFixed(2)+' \u20ac</span></div></div>';
+        }
+        if (p.notes) { html += '<div class="nl">Notizen</div><div class="notes">'+escapeHtml(p.notes)+'</div>'; }
+        html += '<div class="footer">BenchTool \u2014 Arbeitsplaner</div>';
+        html += '<div class="np"><button class="bp" onclick="window.print()">Als PDF speichern / Drucken</button><button class="bc" onclick="window.close()">Schlie\u00dfen</button></div>';
+        html += '</body></html>';
+        const win = window.open('','_blank');
+        if (win) { win.document.write(html); win.document.close(); }
+        else {
+            const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = (pn.replace(/[^a-zA-Z0-9\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\- _]/g,'')||'Arbeitsplan')+'.html';
+            a.click(); URL.revokeObjectURL(a.href);
+            showToast('HTML heruntergeladen \u2014 \u00f6ffnen + drucken = PDF');
+        }
+    }
+
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    // ============================================================
     //  INIT
     // ============================================================
     window.addEventListener('DOMContentLoaded', () => {
@@ -2192,7 +3075,8 @@
         updateDensityBadge();
         const loaded = loadState();
         if (!loaded) addCostPart();
-        updateDensityBadge(); // refresh after loadState may change density
+        updateDensityBadge();
+        loadPlanner();
 
         // Register Service Worker for offline PWA
         if ('serviceWorker' in navigator) {
