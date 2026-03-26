@@ -1,4 +1,4 @@
-const CACHE_NAME = 'benchtool-v20';
+const CACHE_NAME = 'benchtool-v22';
 const ASSETS = [
   './',
   './index.html',
