@@ -15,6 +15,9 @@
 
     <!-- Prevent text selection / zoom on double-tap for app feel -->
     <meta name="format-detection" content="telephone=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* DIETER RAMS / BAUHAUS MINIMALISMUS */
         :root {
@@ -46,7 +49,7 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             margin: 0;
@@ -733,6 +736,11 @@
         .conv-row input { font-size: 1.1rem; font-weight: 700; }
         .conv-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; font-weight: 600; }
 
+        .page-disclaimer {
+            margin-top: 25px; padding-top: 12px; border-top: 1px solid var(--border);
+            font-size: 0.7rem; color: var(--text-dim); line-height: 1.5;
+        }
+
         .planner-total {
             display: flex; justify-content: space-between; align-items: flex-end;
             flex-wrap: wrap; gap: 15px; padding: 20px;
@@ -965,7 +973,7 @@
     <!-- HALBZEUG -->
     <div id="page-semi" class="page">
         <div class="card">
-            <h2>Halbzeug-Kalkulator</h2>
+            <h2 data-i18n="semi.title">Halbzeug-Kalkulator</h2>
             <div class="subtitle">Berechnet das theoretische Gewicht eines Blechs oder Drahtes.</div>
             <label>Profil / Form</label>
             <select id="wireType" onchange="toggleWireInputs()">
@@ -1002,7 +1010,7 @@
     <!-- GEWICHT → DRAHTLÄNGE (RÜCKWÄRTS) -->
     <div id="page-reverse" class="page">
         <div class="card">
-            <h2>Gewicht → Drahtlänge</h2>
+            <h2 data-i18n="reverse.title">Gewicht → Drahtlänge</h2>
             <div class="subtitle">Berechnet die erreichbare Drahtlänge aus einem gegebenen Metallgewicht. Basierend auf der im Menü gewählten Legierung.</div>
             <label>Profil</label>
             <select id="revProfile" onchange="toggleRevInputs(); calcReverse();">
@@ -1041,8 +1049,8 @@
     <!-- HALBKUGEL-RONDEN -->
     <div id="page-shapes" class="page">
         <div class="card">
-            <h2>Halbkugel-Ronden</h2>
-            <div class="subtitle">Berechnet den benötigten Blechzuschnitt (Ronde) für eine gewölbte Halbkugel aus dem Ankenblock.</div>
+            <h2 data-i18n="shapes.title">Halbkugel-Ronden</h2>
+            <div class="subtitle">Berechnet den benötigten Blechzuschnitt (Ronde) für eine gewölbte Halbkugel.</div>
             <div class="row" style="margin-top:20px; flex-wrap: wrap;">
                 <div style="min-width: 140px;">
                     <label>Außen-Ø Halbkugel (mm)</label>
@@ -1060,9 +1068,10 @@
                     <span style="font-size: 0.75rem; color: var(--accent); font-weight: bold; text-transform: uppercase;">Zirkel-Radius (Anreißen)</span><br>
                     <span class="result-value" style="color: var(--accent); font-size: 1.6em;" id="hemiBlankRad">0.00</span><span class="unit" style="color: var(--accent);">mm</span>
                 </div>
-                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
-                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase;">Ankenverlauf</span><br>
-                    <div id="hemiPunchSeq" style="margin-top: 10px; font-size: 0.95rem; color: var(--text); line-height: 1.6; font-weight: 500;"></div>
+                <div id="hemiFormulaHint" style="font-size: 0.75rem; margin-top:8px; color: var(--text-dim);"></div>
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed var(--border);">
+                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: bold; text-transform: uppercase;"><span class="help-de">Praxis-Tipps</span><span class="help-en" style="display:none;">Practical Tips</span></span><br>
+                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 6px;"><span class="help-de">Nach jedem 1.–2. Umformschritt weichglühen, um Risse zu vermeiden. Wölbung muss sauber in der Vertiefung ruhen. Ronde etwas größer zuschneiden als berechnet — Nachbearbeitung einplanen.</span><span class="help-en" style="display:none;">Anneal after every 1–2 forming steps to prevent cracking. Dome must sit cleanly in the depression. Cut the blank slightly larger than calculated — allow for finishing.</span></span>
                 </div>
             </div>
         </div>
@@ -1071,7 +1080,7 @@
     <!-- WALZEN & ZIEHEN -->
     <div id="page-deform" class="page">
         <div class="card">
-            <h2>Walzen & Ziehen</h2>
+            <h2 data-i18n="deform.title">Walzen & Ziehen</h2>
             <div class="subtitle">Simuliert den Umformungsprozess bei gleichbleibendem Volumen. Die Glühmarkierung bezieht sich auf die kumulative Reduktion seit dem letzten Glühen (≥ 60%).</div>
             <label>Umformungs-Methode</label>
             <select id="deformType" onchange="toggleDeform()">
@@ -1137,7 +1146,7 @@
     <!-- RINGWEITEN -->
     <div id="page-ring" class="page">
         <div class="card">
-            <h2>Ringweiten-Umrechner</h2>
+            <h2 data-i18n="ring.title">Ringweiten-Umrechner</h2>
             <div class="subtitle">Berechnet die gestreckte Materiallänge für Ringschienen. Die neutrale Faser wird je nach Profil korrekt berechnet.</div>
 
             <label>Schienen-Profil</label>
@@ -1263,7 +1272,7 @@
     <!-- ZARGEN-RECHNER -->
     <div id="page-bezel" class="page">
         <div class="card">
-            <h2>Zargen-Rechner</h2>
+            <h2 data-i18n="bezel.title">Zargen-Rechner</h2>
             <div class="subtitle">Berechnet den Blechzuschnitt für Steinfassungen. Runde/ovale Zargen über die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).</div>
 
             <label>Stein-Form</label>
@@ -1347,7 +1356,7 @@
     <!-- STEIN-DATENBANK -->
     <div id="page-stones" class="page">
         <div class="card">
-            <h2>Stein-Datenbank</h2>
+            <h2 data-i18n="stones.title">Stein-Datenbank</h2>
             <div class="subtitle">Standard-Maße für gängige Brillantschliffe und Cabochons. Antippen überträgt die Maße in den Zargen-Rechner.</div>
 
             <label>Brillanten (rund, Ø mm)</label>
@@ -1523,7 +1532,7 @@
     <!-- VERLUST-RECHNER (NEU) -->
     <div id="page-loss" class="page">
         <div class="card">
-            <h2>Verlust-Rechner</h2>
+            <h2 data-i18n="loss.title">Verlust-Rechner</h2>
             <div class="subtitle">Schätzt den Materialverlust durch verschiedene Bearbeitungsschritte. Werte basieren auf Erfahrungswerten und variieren je nach Werkstatt.</div>
 
             <div class="row">
@@ -1556,7 +1565,7 @@
     <!-- MATERIALKOSTEN -->
     <div id="page-cost" class="page">
         <div class="card">
-            <h2>Materialkosten</h2>
+            <h2 data-i18n="cost.title">Materialkosten</h2>
             <label>1. Basis-Kurse (Feinmetall €/g)</label>
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
                 <button id="fetchPricesBtn" onclick="fetchLivePrices()" style="background: var(--text); color: #fff; border: none; border-radius: 2px; padding: 10px 16px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer; font-family: inherit; transition: opacity 0.2s; white-space: nowrap;">
@@ -1959,12 +1968,20 @@
         'lbl.formula': { de: 'Formel', en: 'Formula' },
         // --- CAST ---
         'cast.title': { de: 'Wachs zu Metall (Guss)', en: 'Wax to Metal (Casting)' },
+        'semi.title': { de: 'Halbzeug-Kalkulator', en: 'Stock Weight Calculator' },
+        'reverse.title': { de: 'Gewicht \u2192 Drahtl\u00e4nge', en: 'Weight \u2192 Wire Length' },
+        'shapes.title': { de: 'Halbkugel-Ronden', en: 'Hemisphere Blanks' },
+        'deform.title': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
+        'bezel.title': { de: 'Zargen-Rechner', en: 'Bezel Calculator' },
+        'stones.title': { de: 'Stein-Datenbank', en: 'Stone Database' },
+        'loss.title': { de: 'Verlust-Rechner', en: 'Loss Calculator' },
+        'cost.title': { de: 'Materialkosten', en: 'Material Cost' },
         'cast.waxWeight': { de: 'Gewicht Wachsmodell (g)', en: 'Wax Model Weight (g)' },
         'cast.anguss': { de: 'Anguss-Faktor (optional)', en: 'Sprue Factor (optional)' },
         'cast.pure': { de: 'Reines Stückgewicht', en: 'Net Piece Weight' },
         'cast.withSprue': { de: 'Inkl. Anguss', en: 'Incl. Sprue' },
         // --- RING ---
-        'ring.title': { de: 'Ringmaß-Rechner', en: 'Ring Size Calculator' },
+        'ring.title': { de: 'Ringweiten-Umrechner', en: 'Ring Size Calculator' },
         'ring.profile': { de: 'Profil', en: 'Profile' },
         'ring.size': { de: 'EU-Größe (Innenumfang mm)', en: 'EU Size (Inner Circumference mm)' },
         'ring.thickness': { de: 'Materialstärke (mm)', en: 'Material Thickness (mm)' },
@@ -2113,20 +2130,40 @@
             'Aktuelle Größe (EU)':'Current Size (EU)',
             'Neue Größe (EU)':'New Size (EU)',
             'Basis-Kurse (Feingold / €/g)':'Base Prices (Fine / €/g)',
+            'Basis-Kurse (Feinmetall €/g)':'Base Prices (Fine Metal €/g)',
+            '1. Basis-Kurse (Feinmetall €/g)':'1. Base Prices (Fine Metal €/g)',
+            '2. Legierungs-Kurse (€/g)':'2. Alloy Prices (€/g)',
             'Legierungs-Kurse (automatisch skaliert)':'Alloy Prices (auto-scaled)',
             'Bauteile':'Parts','Faktor / Marge':'Factor / Margin',
+            'Ziel-Ø (mm)':'Target Ø (mm)',
+            'EU Größe / Umfang':'EU Size / Circumference',
+            'Erreichbare Länge:':'Achievable Length:',
         };
         const subMap = {
             'Berechnet den Blechzuschnitt f\u00fcr Steinfassungen. Runde/ovale Zargen \u00fcber die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).':
                 'Calculates sheet cuts for stone settings. Round/oval bezels via neutral axis, square bezels as miter cuts (4 pieces).',
             'Wandelt das Gewicht eines Wachsmodells in das ben\u00f6tigte Metallgewicht um. Basierend auf der im Men\u00fc gew\u00e4hlten Legierung.':
                 'Converts wax model weight to required metal weight based on the selected alloy.',
+            'Berechnet das theoretische Gewicht eines Blechs oder Drahtes.':
+                'Calculates the theoretical weight of a sheet or wire.',
+            'Berechnet die erreichbare Drahtl\u00e4nge aus einem gegebenen Metallgewicht. Basierend auf der im Men\u00fc gew\u00e4hlten Legierung.':
+                'Calculates the achievable wire length from a given metal weight based on the selected alloy.',
+            'Berechnet den ben\u00f6tigten Blechzuschnitt (Ronde) f\u00fcr eine gew\u00f6lbte Halbkugel.':
+                'Calculates the required sheet blank (disc) for a domed hemisphere.',
+            'Simuliert den Umformungsprozess bei gleichbleibendem Volumen. Die Gl\u00fchmarkierung bezieht sich auf die kumulative Reduktion seit dem letzten Gl\u00fchen (\u2265 60%).':
+                'Simulates the forming process at constant volume. Annealing is marked at cumulative reduction since last anneal (\u2265 60%).',
+            'Berechnet die gestreckte Materiall\u00e4nge f\u00fcr Ringschienen. Die neutrale Faser wird je nach Profil korrekt berechnet.':
+                'Calculates the stretched material length for ring bands. Neutral axis is calculated correctly per profile.',
+            'Standard-Ma\u00dfe f\u00fcr g\u00e4ngige Brillantschliffe und Cabochons. Antippen \u00fcbertr\u00e4gt die Ma\u00dfe in den Zargen-Rechner.':
+                'Standard sizes for common brilliant cuts and cabochons. Tap to transfer sizes to the bezel calculator.',
             'Vorhandenes Material hoch- oder runterlegieren.':
                 'Upgrade or downgrade existing material.',
             'Legierung aus reinen Elementen zusammenstellen. Optional mit vorhandenem Ausgangsmaterial.':
                 'Compose alloy from pure elements. Optionally include existing material.',
             'Sch\u00e4tzt den Materialverlust durch verschiedene Bearbeitungsschritte. Werte basieren auf Erfahrungswerten und variieren je nach Werkstatt.':
                 'Estimates material loss from processing steps. Values are approximate.',
+            'Automatisch skaliert. Manuell \u00fcberschreibbar.':
+                'Auto-scaled. Manually adjustable.',
             'Soll = geplante Zeit \u00b7 Stoppuhr (Ist-Zeit)':
                 'Target = planned time \u00b7 Stopwatch (actual)',
             'Ung\u00e4f\u00e4hrer Durchmesser eines runden Brillantschliffs nach Gewicht.':
@@ -2145,6 +2182,9 @@
         };
         const resMap = {
             'Reines St\u00fcckgewicht':'Net Piece Weight','Inkl. Anguss':'Incl. Sprue',
+            'Erreichbare L\u00e4nge:':'Achievable Length:',
+            'Ben\u00f6tigte Ronde (\u00d8 Blech)':'Required Blank (\u00d8 Sheet)',
+            'Zirkel-Radius (Anrei\u00dfen)':'Compass Radius (Marking)',
             'Soll-Zeit':'Target Time','Ist-Zeit':'Actual Time','Bauteile':'Parts',
             'St\u00fcckliste':'Bill of Materials','Gesamt-Verlust':'Total Loss',
             'Endgewicht (ca.)':'Final Weight (approx.)','Komponenten:':'Components:',
@@ -2563,43 +2603,10 @@
         document.getElementById('hemiBlankDia').innerText = blankDia.toFixed(1);
         document.getElementById('hemiBlankRad').innerText = blankRad.toFixed(2);
 
-        // Punch sequence
-        const punchSeqDiv = document.getElementById('hemiPunchSeq');
-        let finalPunch = targetDia - (2 * thick);
-        if (finalPunch > 0) {
-            let sequence = [];
-            let currentPunch = Math.round(finalPunch);
-            if (currentPunch < 1) currentPunch = 1;
-            sequence.push(`Ø ${currentPunch} (Ziel)`);
-            let p = currentPunch;
-            let stepSize = targetDia > 20 ? 3 : 2;
-            while (p + stepSize < blankDia - 1.5) {
-                p += stepSize;
-                sequence.unshift(`Ø ${p}`);
-            }
-            let startPunch = Math.floor(blankDia - 1);
-            if (startPunch > p && startPunch > currentPunch) {
-                sequence.unshift(`Ø ${startPunch}`);
-            } else {
-                startPunch = parseFloat(sequence[0].replace(/[^\d.-]/g, ''));
-            }
-
-            punchSeqDiv.innerHTML = `
-                <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border);">
-                    <span style="color: var(--text);">Start-Punze: <strong>Ø ${Math.round(startPunch)} mm</strong></span><br>
-                    <span style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">(Regel: Die Kugelpunze am Anfang 1-2 Nummern kleiner wählen als die Vertiefung)</span>
-                </div>
-                <div style="font-size: 0.95rem; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border);">
-                    ${sequence.join(' <span style="color:var(--text-dim);">➔</span> ')}
-                </div>
-                <div>
-                    <span style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: bold;">Praxis-Tipps</span><br>
-                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Glühen:</strong> Nach jedem 1.–2. Schritt weichglühen, um Risse zu vermeiden.</span>
-                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Riefen vermeiden:</strong> Wölbung muss sauber in der Vertiefung ruhen.</span>
-                    <span style="font-size: 0.8rem; color: var(--text-dim); display: block; margin-top: 4px;">• <strong>Toleranzen:</strong> Der Ankenverlauf dient als Orientierungshilfe.</span>
-                </div>`;
-        } else {
-            punchSeqDiv.innerHTML = "<span style='color:var(--accent);'>Material zu dick für diesen Durchmesser! (Innenmaß ≤ 0)</span>";
+        const hint = document.getElementById('hemiFormulaHint');
+        if (hint) {
+            const isEN = currentLang === 'en';
+            hint.innerText = (isEN ? 'Formula' : 'Formel') + ': D = (' + targetDia.toFixed(1) + (thick ? ' - ' + thick.toFixed(1) : '') + ') \u00d7 \u221a2 = ' + blankDia.toFixed(1) + ' mm';
         }
         resBox.style.display = 'block';
     }
@@ -4154,6 +4161,15 @@
         loadLang();
         initStoneDB();
         updateDensityBadge();
+
+        // Add disclaimer to all page cards
+        document.querySelectorAll('.page .card').forEach(card => {
+            if (card.querySelector('.page-disclaimer')) return;
+            const d = document.createElement('div');
+            d.className = 'page-disclaimer';
+            d.innerHTML = '<strong>BenchTool</strong> \u2014 <span class="help-de">Alle Berechnungen ohne Gew\u00e4hr.</span><span class="help-en" style="display:none;">All calculations without warranty.</span>';
+            card.appendChild(d);
+        });
         const loaded = loadState();
         if (!loaded) addCostPart();
         updateDensityBadge();
