@@ -500,6 +500,7 @@
         }
         .home-tile:active { background: var(--input-bg); border-color: var(--accent); }
         .home-tile .tile-icon { font-size: 1.3rem; margin-bottom: 6px; display: block; }
+        .home-tile .tile-icon-svg { display: block; margin: 0 auto 6px; color: currentColor; }
         .home-tile .tile-name { font-size: 0.85rem; font-weight: 700; color: var(--text); display: block; }
         .home-tile .tile-hint { font-size: 0.72rem; color: var(--text-dim); display: block; margin-top: 3px; line-height: 1.3; }
         .home-tile.tile-accent { border-left: 3px solid var(--accent); }
@@ -801,6 +802,7 @@
     <div class="sidebar-sub open">
         <ul class="sidebar-menu">
             <li><a id="nav-ring" onclick="navigateTo('ring', t('nav.ring'))" data-i18n="nav.ring">Ringmaß</a></li>
+            <li><a id="nav-ringresize" onclick="navigateTo('ringresize', t('nav.ringresize'))" data-i18n="nav.ringresize">Ringgröße ändern</a></li>
             <li><a id="nav-bezel" onclick="navigateTo('bezel', t('nav.bezel'))" data-i18n="nav.bezel">Zargen</a></li>
             <li><a id="nav-stones" onclick="navigateTo('stones', t('nav.stones'))" data-i18n="nav.stones">Steinmaße</a></li>
         </ul>
@@ -843,14 +845,14 @@
     </div>
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
-            <li><a id="nav-planner" onclick="navigateTo('planner', t('nav.planner'))" style="font-weight: 700;" data-i18n="nav.planner">⏱ Arbeitsplaner</a></li>
+            <li><a id="nav-planner" onclick="navigateTo('planner', t('nav.planner'))" style="font-weight: 700;" data-i18n="nav.planner">Arbeitsplaner</a></li>
             <li><a id="nav-loss" onclick="navigateTo('loss', t('nav.loss'))" data-i18n="nav.loss">Verluste schätzen</a></li>
             <li><a id="nav-cost" onclick="navigateTo('cost', t('nav.cost'))" data-i18n="nav.cost">Materialwert</a></li>
         </ul>
     </div>
 
     <ul class="sidebar-menu" style="margin-top: auto; border-top: 1px solid var(--border);">
-        <li><a id="nav-help" onclick="navigateTo('help', t('nav.help'))" style="color:var(--text-dim); font-size: 0.85rem;">? Hilfe & Tipps</a></li>
+        <li><a id="nav-help" onclick="navigateTo('help', t('nav.help'))" style="color:var(--text-dim); font-size: 0.85rem;" data-i18n="nav.help">Hilfe & Tipps</a></li>
     </ul>
 </div>
 
@@ -867,12 +869,12 @@
         <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px;" data-i18n="home.frequent">Häufig genutzt</div>
         <div class="home-grid">
             <button class="home-tile tile-accent" onclick="navigateTo('ring', t('tile.ring'))">
-                <span class="tile-icon">◎</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
                 <span class="tile-name" data-i18n="tile.ring">Ringmaß</span>
                 <span class="tile-hint" data-i18n="tile.ringHint">Gestreckte Länge</span>
             </button>
             <button class="home-tile tile-accent" onclick="navigateTo('bezel', t('tile.bezel'))">
-                <span class="tile-icon">▣</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><rect x="4" y="4" width="16" height="16" rx="1" stroke="currentColor" stroke-width="2.5" fill="none"/><rect x="8" y="8" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
                 <span class="tile-name" data-i18n="tile.bezel">Zargen</span>
                 <span class="tile-hint" data-i18n="tile.bezelHint">Rund · Oval · Eckig</span>
             </button>
@@ -881,22 +883,22 @@
         <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;" data-i18n="home.material">Material</div>
         <div class="home-grid">
             <button class="home-tile" onclick="navigateTo('cast', t('tile.cast'))">
-                <span class="tile-icon">♨</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><path d="M6 20 L6 10 Q6 4 12 4 Q18 4 18 10 L18 20" stroke="currentColor" stroke-width="2.5" fill="none"/><line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2"/></svg>
                 <span class="tile-name" data-i18n="tile.cast">Guss</span>
                 <span class="tile-hint" data-i18n="tile.castHint">Wachs → Metall</span>
             </button>
             <button class="home-tile" onclick="navigateTo('semi', t('tile.semi'))">
-                <span class="tile-icon">⊟</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="4" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="17" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 <span class="tile-name" data-i18n="tile.semi">Halbzeug</span>
                 <span class="tile-hint" data-i18n="tile.semiHint">Profil wiegen</span>
             </button>
             <button class="home-tile" onclick="navigateTo('reverse', t('tile.reverse'))">
-                <span class="tile-icon">↔</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2.5"/><polyline points="16,8 20,12 16,16" stroke="currentColor" stroke-width="2.5" fill="none"/><polyline points="8,8 4,12 8,16" stroke="currentColor" stroke-width="2.5" fill="none"/></svg>
                 <span class="tile-name" data-i18n="tile.reverse">Drahtlänge</span>
                 <span class="tile-hint" data-i18n="tile.reverseHint">Gramm → mm</span>
             </button>
             <button class="home-tile" onclick="navigateTo('deform', t('tile.deform'))">
-                <span class="tile-icon">⇥</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><polyline points="4,16 8,8 16,16 20,8" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>
                 <span class="tile-name" data-i18n="tile.deform">Umformen</span>
                 <span class="tile-hint" data-i18n="tile.deformHint">Walzen & Ziehen</span>
             </button>
@@ -905,12 +907,12 @@
         <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;" data-i18n="home.legCalc">Legierung & Kalkulation</div>
         <div class="home-grid">
             <button class="home-tile" onclick="navigateTo('alloy', t('tile.alloy'))">
-                <span class="tile-icon">⚗</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><path d="M9 4 L9 10 L4 20 L20 20 L15 10 L15 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/><line x1="8" y1="4" x2="16" y2="4" stroke="currentColor" stroke-width="2"/></svg>
                 <span class="tile-name" data-i18n="tile.alloy">Legierung</span>
                 <span class="tile-hint" data-i18n="tile.alloyHint">Umlegieren & Anmischen</span>
             </button>
             <button class="home-tile" onclick="navigateTo('cost', t('tile.cost'))">
-                <span class="tile-icon">€</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><text x="12" y="17" text-anchor="middle" font-size="16" font-weight="800" fill="currentColor" font-family="inherit">$</text></svg>
                 <span class="tile-name" data-i18n="tile.cost">Materialwert</span>
                 <span class="tile-hint" data-i18n="tile.costHint">Kalkulation</span>
             </button>
@@ -918,7 +920,7 @@
 
         <div style="margin-top: 20px;">
             <button class="home-tile tile-accent" onclick="navigateTo('planner', t('tile.planner'))" style="width: 100%; display: flex; align-items: center; gap: 12px;">
-                <span class="tile-icon" style="margin: 0;">⏱</span>
+                <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26" style="margin:0;flex:0 0 auto;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" fill="none"/><line x1="12" y1="6" x2="12" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="12" x2="17" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 <div>
                     <span class="tile-name" data-i18n="tile.planner">Arbeitsplaner</span>
                     <span class="tile-hint" data-i18n="tile.plannerHint">Projekte · Zeiterfassung · Drucken</span>
@@ -1188,6 +1190,73 @@
                 <div style="font-size: 0.75rem; margin-top: 8px; color: var(--text-dim);" id="ringFormulaHint"></div>
             </div>
             <button class="reset-link" onclick="resetPage('ring')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- RINGGRÖSSE ÄNDERN -->
+    <div id="page-ringresize" class="page">
+        <div class="card">
+            <h2 data-i18n="ringresize.title">Ringgröße ändern</h2>
+            <div class="subtitle"><span class="help-de">Berechnet wie viel Material entfernt oder hinzugefügt werden muss, um eine Ringgröße zu ändern. Basierend auf der neutralen Faser.</span><span class="help-en" style="display:none;">Calculates how much material must be removed or added to resize a ring. Based on the neutral axis.</span></div>
+
+            <label>Profil</label>
+            <select id="resizeProfile" onchange="calcResize()">
+                <option value="round">Runddraht</option>
+                <option value="flat" selected>Flachschiene</option>
+                <option value="halfround">Halbrund</option>
+            </select>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 15px;">
+                <div style="min-width: 130px;">
+                    <label>Aktuelle Größe (EU)</label>
+                    <div class="combo-input">
+                        <select id="resizeFromSelect" onchange="document.getElementById('resizeFrom').value=this.value; calcResize();">
+                            <option value="">--</option>
+                            <option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option>
+                            <option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option>
+                            <option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option>
+                            <option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option>
+                            <option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option>
+                            <option value="70">70</option>
+                        </select>
+                        <input type="number" id="resizeFrom" step="0.5" min="40" max="80" placeholder="54" oninput="calcResize()">
+                    </div>
+                </div>
+                <div style="min-width: 130px;">
+                    <label>Neue Größe (EU)</label>
+                    <div class="combo-input">
+                        <select id="resizeToSelect" onchange="document.getElementById('resizeTo').value=this.value; calcResize();">
+                            <option value="">--</option>
+                            <option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option>
+                            <option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option>
+                            <option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option>
+                            <option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option>
+                            <option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option>
+                            <option value="70">70</option>
+                        </select>
+                        <input type="number" id="resizeTo" step="0.5" min="40" max="80" placeholder="58" oninput="calcResize()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="flex-wrap: wrap;">
+                <div style="min-width: 100px;">
+                    <label>Materialstärke (mm)</label>
+                    <input type="number" id="resizeThick" step="0.1" min="0.1" value="1.5" oninput="calcResize()">
+                </div>
+                <div style="min-width: 100px;">
+                    <label>Breite (mm)</label>
+                    <input type="number" id="resizeWidth" step="0.1" min="0.1" value="3.0" oninput="calcResize()">
+                </div>
+            </div>
+
+            <div id="resizeRes" class="result-area">
+                <div id="resizeDirection" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;"></div>
+                <span class="result-value" id="resizeAmount">0.00</span><span class="unit">mm</span>
+                <button class="copy-btn" onclick="copyVal('resizeAmount')">Kopieren</button>
+                <div id="resizeDetail" style="font-size: 0.85rem; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); line-height: 1.6;"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('ringresize')">Felder zurücksetzen</button>
         </div>
     </div>
 
@@ -1736,75 +1805,89 @@
             <h2 data-i18n="help.title">Hilfe & Tipps</h2>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Globale Dichte</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Globale Dichte</span><span class="help-en" style="display:none;">Global Density</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Die Dichte wird im Seitenmenü (☰) ganz oben eingestellt und gilt für Guss, Halbzeug und Drahtlänge. Sie bestimmt, wie schwer ein bestimmtes Volumen der gewählten Legierung ist.
+                    <span class="help-de">Die Dichte wird im Seitenmenü ganz oben eingestellt und gilt für Guss, Halbzeug und Drahtlänge. Sie bestimmt, wie schwer ein bestimmtes Volumen der gewählten Legierung ist.</span>
+                    <span class="help-en" style="display:none;">Density is set at the top of the sidebar menu and applies to casting, stock weight and wire length. It determines how heavy a given volume of the selected alloy is.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Ringmaß</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Ringmaß</span><span class="help-en" style="display:none;">Ring Size</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Berechnet die gestreckte Länge für Ringschienen. Die neutrale Faser liegt bei Innen-Ø + radiale Stärke. Bei Flachschienen ist das die Stärke (nicht die Breite). Der Slider geht von EU 42 bis 76. Tipp: Die EU-Größe entspricht dem Innenumfang in mm.
+                    <span class="help-de">Berechnet die gestreckte Länge für Ringschienen. Die neutrale Faser liegt bei Innen-Ø + radiale Stärke. Bei Flachschienen ist das die Stärke (nicht die Breite). Der Slider geht von EU 42 bis 76. Tipp: Die EU-Größe entspricht dem Innenumfang in mm.</span>
+                    <span class="help-en" style="display:none;">Calculates the stretched length for ring bands. The neutral axis is at inner Ø + radial thickness. For flat bands, this is the thickness (not the width). The slider goes from EU 42 to 76. Tip: EU size equals inner circumference in mm.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Zargen</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Ringgröße ändern</span><span class="help-en" style="display:none;">Resize Ring</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    <strong>Rund/Oval:</strong> Umfang auf der neutralen Faser (Steinmaß + Blechstärke). Bei Ovalen wird die Ramanujan-Näherung verwendet.<br>
-                    <strong>Eckig:</strong> 4 Gehrungsteile, je Seite = Innenmaß + 2× Blechstärke. Keine Biegezugabe — die Teile werden auf 45° gefeilt und verlötet.
+                    <span class="help-de">Berechnet, wie viel Material herausgesägt oder eingesetzt werden muss, um eine Ringgröße zu ändern. Die EU-Größe entspricht dem Innenumfang in mm — die Differenz zwischen alter und neuer Größe ergibt direkt die Materiallänge. Bei Vergrößerung wird ein Stück eingelötet, bei Verkleinerung herausgesägt.</span>
+                    <span class="help-en" style="display:none;">Calculates how much material to remove or insert for ring resizing. The EU size equals inner circumference in mm — the difference between old and new size directly gives the material length. For enlarging, a piece is soldered in; for reducing, a piece is cut out.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Umlegieren</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Zargen</span><span class="help-en" style="display:none;">Bezels</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Funktioniert in beide Richtungen: Hochlegieren (Feinmetall zugeben) und Runterlegieren (Cu/Ag zugeben). Wähle zuerst das Metall (Gold/Silber/Platin), dann Ist- und Soll-Gehalt. Das Zugabe-Material steht auf "Auto" — das bedeutet Feinmetall zum Hochlegieren, reines Cu/Ag zum Runterlegieren. Du kannst auch eine Vorlegierung als Zusatz wählen.
+                    <span class="help-de"><strong>Rund/Oval:</strong> Umfang auf der neutralen Faser (Steinmaß + Blechstärke). Bei Ovalen wird die Ramanujan-Näherung verwendet.<br><strong>Eckig:</strong> 4 Gehrungsteile, je Seite = Innenmaß + 2x Blechstärke. Keine Biegezugabe — die Teile werden auf 45° gefeilt und verlötet.</span>
+                    <span class="help-en" style="display:none;"><strong>Round/Oval:</strong> Circumference on the neutral axis (stone size + sheet thickness). Ovals use the Ramanujan approximation.<br><strong>Square:</strong> 4 miter-cut pieces, each side = inner dimension + 2x sheet thickness. No bending allowance — pieces are filed to 45° and soldered.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Walzen & Ziehen</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Umlegieren</span><span class="help-en" style="display:none;">Re-alloying</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Die Tabelle zeigt alle Zwischenstufen. Glühen wird bei 60% kumulativer Reduktion seit dem letzten Glühen angezeigt (nicht vom Start). Optional: Ziel-Maß eingeben — die Zielzeile wird grün markiert.
+                    <span class="help-de">Funktioniert in beide Richtungen: Hochlegieren (Feinmetall zugeben) und Runterlegieren (Cu/Ag zugeben). Wähle zuerst das Metall (Gold/Silber/Platin), dann Ist- und Soll-Gehalt. Bei Gold kannst du die Zielfarbe wählen (Gelb/Rosé/Rot/Weiß) — der Rechner zeigt dann die genaue Cu/Ag/Pd-Aufteilung.</span>
+                    <span class="help-en" style="display:none;">Works both ways: upgrading (add fine metal) and downgrading (add Cu/Ag). Choose the metal first (Gold/Silver/Platinum), then current and target fineness. For gold, you can select a target color (Yellow/Rosé/Red/White) — the calculator then shows the exact Cu/Ag/Pd breakdown.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Arbeitsplaner</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Walzen & Ziehen</span><span class="help-en" style="display:none;">Rolling & Drawing</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    <strong>Projekte:</strong> Oben Tabs für mehrere Projekte. Per + ein neues anlegen.<br>
-                    <strong>Soll/Ist:</strong> Soll = geplante Zeit per Scroll-Picker. Ist = tatsächliche Zeit, manuell oder per Stoppuhr (▶). Auf Mobilgeräten kannst du die Werte auch wischen.<br>
-                    <strong>Bauteile:</strong> Pro Schritt optional "Bauteil hinzufügen" — Preis wird aus den Materialwert-Kursen berechnet.<br>
-                    <strong>PDF:</strong> "Drucken / Als PDF" erstellt ein sauberes Dokument mit allen Zeiten und Kosten.
+                    <span class="help-de">Die Tabelle zeigt alle Zwischenstufen. Glühen wird bei 60% kumulativer Reduktion seit dem letzten Glühen angezeigt. Optional: Ziel-Maß eingeben — die Zielzeile wird grün markiert.</span>
+                    <span class="help-en" style="display:none;">The table shows all intermediate steps. Annealing is indicated at 60% cumulative reduction since the last anneal. Optional: enter a target dimension — the target row is highlighted in green.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Einheiten-Umrechner</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Arbeitsplaner</span><span class="help-en" style="display:none;">Work Planner</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Wandelt zwischen Gramm, Feinunze (31.1035g), Karat (0.2g), Pennyweight (1.555g) und Kilogramm um. Dazu Längen (mm/cm/Zoll) und eine Brillant-Näherung: Karat → ungefährer Durchmesser eines runden Brillantschliffs.
+                    <span class="help-de"><strong>Projekte:</strong> Oben Tabs für mehrere Projekte. Per + ein neues anlegen.<br><strong>Soll/Ist:</strong> Soll = geplante Zeit per Scroll-Picker. Ist = tatsächliche Zeit, manuell oder per Stoppuhr. Auf Mobilgeräten kannst du die Werte auch wischen.<br><strong>Bauteile:</strong> Pro Schritt optional "Bauteil hinzufügen" — Preis wird aus den Materialwert-Kursen berechnet.<br><strong>PDF:</strong> "Drucken / Als PDF" erstellt ein sauberes Dokument mit allen Zeiten und Kosten.</span>
+                    <span class="help-en" style="display:none;"><strong>Projects:</strong> Tabs at the top for multiple projects. Use + to create a new one.<br><strong>Target/Actual:</strong> Target = planned time via scroll picker. Actual = real time, manual or via stopwatch. On mobile, you can swipe the values.<br><strong>Parts:</strong> Optionally add a part per step — price is calculated from material cost rates.<br><strong>PDF:</strong> "Print / Save as PDF" creates a clean document with all times and costs.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Dark Mode</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Einheiten-Umrechner</span><span class="help-en" style="display:none;">Unit Converter</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Das ◐ Symbol oben rechts in der Navigation schaltet zwischen Hell und Dunkel um. Die Einstellung wird gespeichert.
+                    <span class="help-de">Wandelt zwischen Gramm, Feinunze (31.1035g), Karat (0.2g), Pennyweight (1.555g) und Kilogramm um. Dazu Längen (mm/cm/Zoll) und eine Brillant-Näherung: Karat → ungefährer Durchmesser eines runden Brillantschliffs.</span>
+                    <span class="help-en" style="display:none;">Converts between grams, troy ounce (31.1035g), carat (0.2g), pennyweight (1.555g) and kilograms. Also lengths (mm/cm/inch) and a brilliant approximation: carat → approximate diameter of a round brilliant cut.</span>
                 </div>
             </details>
 
             <details style="margin-bottom: 15px;">
-                <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Datenspeicherung</summary>
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Dark Mode</span><span class="help-en" style="display:none;">Dark Mode</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    Alle Eingaben (Materialkosten-Kurse, Projekte, eigene Vorlagen, Dark Mode) werden im Browser gespeichert (localStorage). Die Daten bleiben erhalten, solange du den Browser-Speicher nicht löschst. Es werden keine Daten an einen Server gesendet.
+                    <span class="help-de">Das Symbol oben rechts in der Navigation schaltet zwischen Hell und Dunkel um. Die Einstellung wird gespeichert.</span>
+                    <span class="help-en" style="display:none;">The toggle in the top right of the navigation switches between light and dark theme. The setting is saved.</span>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 15px;">
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Datenspeicherung</span><span class="help-en" style="display:none;">Data Storage</span></summary>
+                <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
+                    <span class="help-de">Alle Eingaben (Materialkosten-Kurse, Projekte, eigene Vorlagen, Dark Mode) werden im Browser gespeichert (localStorage). Die Daten bleiben erhalten, solange du den Browser-Speicher nicht löschst. Es werden keine Daten an einen Server gesendet.</span>
+                    <span class="help-en" style="display:none;">All inputs (material prices, projects, custom templates, dark mode) are stored in the browser (localStorage). Data persists as long as you don't clear browser storage. No data is sent to any server.</span>
                 </div>
             </details>
 
             <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-dim); line-height: 1.6;">
-                <strong>BenchTool</strong> — Goldschmiede-Rechner<br>
-                Alle Berechnungen ohne Gewähr. Angaben zu Legierungen, Dichten und Steinmaßen sind Richtwerte.
+                <strong>BenchTool</strong> — <span class="help-de">Goldschmiede-Rechner</span><span class="help-en" style="display:none;">Goldsmith Calculator</span><br>
+                <span class="help-de">Alle Berechnungen ohne Gewähr. Angaben zu Legierungen, Dichten und Steinmaßen sind Richtwerte.</span>
+                <span class="help-en" style="display:none;">All calculations without warranty. Alloy, density and stone size data are approximate values.</span>
             </div>
         </div>
     </div>
@@ -1824,6 +1907,7 @@
         'nav.globalDensity': { de: 'Globale Dichte', en: 'Global Density' },
         'cat.ringZargen': { de: 'Ring & Zargen', en: 'Ring & Bezels' },
         'nav.ring': { de: 'Ringmaß', en: 'Ring Size' },
+        'nav.ringresize': { de: 'Ringgröße ändern', en: 'Resize Ring' },
         'nav.bezel': { de: 'Zargen', en: 'Bezels' },
         'nav.stones': { de: 'Steinmaße', en: 'Stone Sizes' },
         'cat.material': { de: 'Material & Umformung', en: 'Material & Forming' },
@@ -1836,10 +1920,10 @@
         'cat.legierung': { de: 'Legierung', en: 'Alloy' },
         'nav.alloy': { de: 'Umlegieren', en: 'Re-alloy' },
         'cat.kalkulation': { de: 'Kalkulation', en: 'Costing' },
-        'nav.planner': { de: '⏱ Arbeitsplaner', en: '⏱ Work Planner' },
+        'nav.planner': { de: 'Arbeitsplaner', en: 'Work Planner' },
         'nav.loss': { de: 'Verluste schätzen', en: 'Estimate Loss' },
         'nav.cost': { de: 'Materialwert', en: 'Material Cost' },
-        'nav.help': { de: '? Hilfe & Tipps', en: '? Help & Tips' },
+        'nav.help': { de: 'Hilfe & Tipps', en: 'Help & Tips' },
         // --- HOME ---
         'home.title': { de: 'BenchTool', en: 'BenchTool' },
         'home.subtitle': { de: 'Rechner fürs Goldschmiedehandwerk', en: 'Calculator for Goldsmiths' },
@@ -1885,6 +1969,7 @@
         'ring.size': { de: 'EU-Größe (Innenumfang mm)', en: 'EU Size (Inner Circumference mm)' },
         'ring.thickness': { de: 'Materialstärke (mm)', en: 'Material Thickness (mm)' },
         'ring.result': { de: 'Gestreckte Länge (Säge-Maß / Neutrale Faser)', en: 'Stretched Length (Saw Cut / Neutral Axis)' },
+        'ringresize.title': { de: 'Ringgröße ändern', en: 'Resize Ring' },
         // --- ALLOY ---
         'alloy.title': { de: 'Legierungsrechner', en: 'Alloy Calculator' },
         'alloy.mode': { de: 'Modus', en: 'Mode' },
@@ -2017,7 +2102,10 @@
             'Schritt hinzufügen':'Add Step','Notizen':'Notes',
             'Stundensatz (€/h)':'Hourly Rate (€/h)','Startgewicht (g)':'Start Weight (g)',
             'Bezeichnung':'Description','Gehalt':'Fineness','Gewicht':'Weight',
-            'Ausgangsgewicht (g)':'Source Weight (g)','Basis-Kurse (Feingold / €/g)':'Base Prices (Fine / €/g)',
+            'Ausgangsgewicht (g)':'Source Weight (g)',
+            'Aktuelle Größe (EU)':'Current Size (EU)',
+            'Neue Größe (EU)':'New Size (EU)',
+            'Basis-Kurse (Feingold / €/g)':'Base Prices (Fine / €/g)',
             'Legierungs-Kurse (automatisch skaliert)':'Alloy Prices (auto-scaled)',
             'Bauteile':'Parts','Faktor / Marge':'Factor / Margin',
         };
@@ -2082,6 +2170,52 @@
         const mBtnM = document.getElementById('alloyModeBtn_mix');
         if (mBtnR) mBtnR.textContent = currentLang === 'en' ? 'Re-alloy' : 'Umlegieren';
         if (mBtnM) mBtnM.textContent = currentLang === 'en' ? 'Mix New' : 'Neu anmischen';
+        // Help page bilingual spans
+        document.querySelectorAll('.help-de').forEach(el => el.style.display = currentLang === 'de' ? '' : 'none');
+        document.querySelectorAll('.help-en').forEach(el => el.style.display = currentLang === 'en' ? '' : 'none');
+        // Dropdown options
+        const optMap = {
+            'Runddraht':'Round Wire','Rohrdraht (Hohlprofil)':'Tube (Hollow)','Rohrdraht':'Tube',
+            'Vierkant- / Flachdraht':'Square / Flat Wire','Dreikantdraht (gleichseitig)':'Triangle Wire (equilateral)',
+            'Blech':'Sheet','Draht ziehen (Zieheisen)':'Wire Drawing (Draw Plate)',
+            'Blech walzen':'Sheet Rolling','Rohr ziehen (Scharnier)':'Tube Drawing (Hinge)',
+            'Hohlziehen (ohne Kern)':'Hollow Draw (no mandrel)','Mit Kern (fixer Innen-\u00d8)':'With Mandrel (fixed inner \u00d8)',
+            'Flachschiene (Rechteck)':'Flat Band (Rectangle)','Flachschiene':'Flat Band',
+            'Halbrund':'Half-round',
+            'Rund':'Round','Oval':'Oval','Vierkant / Rechteckig (Gehrung)':'Square / Rectangle (Miter)',
+            'Gold':'Gold','Silber':'Silver','Platin':'Platinum',
+            'Gelbgold (Ag/Cu 1:1)':'Yellow Gold (Ag/Cu 1:1)',
+            'Ros\u00e9gold (Ag 20% / Cu 80%)':'Rose Gold (Ag 20% / Cu 80%)',
+            'Rotgold (fast nur Cu)':'Red Gold (mostly Cu)',
+            'Wei\u00dfgold (Ag + Pd)':'White Gold (Ag + Pd)',
+            'Gelbgold (Ag 50% / Cu 50%)':'Yellow Gold (Ag 50% / Cu 50%)',
+            'Ros\u00e9gold (Ag 20% / Cu 80%)':'Rose Gold (Ag 20% / Cu 80%)',
+            'Rotgold (Cu 100%)':'Red Gold (Cu 100%)',
+            'Wei\u00dfgold (Pd/Pt)':'White Gold (Pd/Pt)',
+            'Wei\u00dfgold (Ni)':'White Gold (Ni)',
+            'Silberlegierung (Cu)':'Silver Alloy (Cu)',
+            'Auto':'Auto',
+            'Leicht (\u00d71.5)':'Light (\u00d71.5)',
+            'Standard (\u00d72.0)':'Standard (\u00d72.0)',
+            'Reichlich (\u00d72.5)':'Heavy (\u00d72.5)',
+            'S\u00e4gen':'Sawing','Feilen':'Filing','Bohren':'Drilling','Biegen':'Bending',
+            'L\u00f6ten':'Soldering','Fassen':'Setting','Polieren':'Polishing',
+            'Gravieren':'Engraving','Gie\u00dfen':'Casting','Walzen':'Rolling',
+            'Ziehen':'Drawing','Schmieden':'Forging','Gl\u00fchen':'Annealing',
+            'Beizen':'Pickling','Rhodinieren':'Rhodium Plating','Mattieren':'Matting',
+            'Montage':'Assembly','Qualit\u00e4tskontrolle':'Quality Control',
+            '\u2014 Vorlage w\u00e4hlen \u2014':'\u2014 Choose Template \u2014',
+            '\u270e Freier Schritt\u2026':'\u270e Custom Step\u2026',
+        };
+        document.querySelectorAll('select option').forEach(opt => {
+            const txt = opt.textContent.trim();
+            if (currentLang === 'en' && optMap[txt]) opt.textContent = optMap[txt];
+            else if (currentLang === 'de') {
+                for (const [de, en] of Object.entries(optMap)) {
+                    if (txt === en) { opt.textContent = de; break; }
+                }
+            }
+        });
     }
 
     const RHO_WAX = 0.96;
@@ -2741,6 +2875,81 @@
         return Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
     }
 
+    // ============================================================
+    //  RINGGRÖSSE ÄNDERN
+    // ============================================================
+    function calcResize() {
+        const fromSize = parseFloat(document.getElementById('resizeFrom').value);
+        const toSize = parseFloat(document.getElementById('resizeTo').value);
+        const thick = parseFloat(document.getElementById('resizeThick').value);
+        const width = parseFloat(document.getElementById('resizeWidth').value);
+        const profile = document.getElementById('resizeProfile').value;
+        const resBox = document.getElementById('resizeRes');
+        const dirDiv = document.getElementById('resizeDirection');
+        const amountSpan = document.getElementById('resizeAmount');
+        const detailDiv = document.getElementById('resizeDetail');
+
+        if (!fromSize || !toSize || !thick || fromSize === toSize) {
+            resBox.style.display = 'none';
+            return;
+        }
+
+        // EU size = inner circumference in mm
+        // Neutral axis circumference = EU size + (thickness offset based on profile)
+        let thickOffset = thick; // radial offset for neutral axis
+        if (profile === 'round') thickOffset = thick; // diameter = thickness
+        else if (profile === 'flat') thickOffset = thick; // radial = Stärke
+        else if (profile === 'halfround') thickOffset = thick;
+
+        const fromNeutral = fromSize + Math.PI * thickOffset; // actually not needed — difference is same
+        const toNeutral = toSize + Math.PI * thickOffset;
+
+        // The difference in neutral axis circumference
+        // Since neutral faser = (innerØ + thick) × π = (EU/π + thick) × π = EU + thick×π
+        // Diff = toSize - fromSize + (thick×π - thick×π) = toSize - fromSize
+        // Actually simpler: EU size IS the inner circumference
+        // Neutral axis length = EU + π × thick (for flat: radial thick)
+        // Diff in neutral axis = (toSize + π×thick) - (fromSize + π×thick) = toSize - fromSize
+        // So the material difference is simply the EU size difference!
+
+        const diff = toSize - fromSize; // in mm
+        const absDiff = Math.abs(diff);
+
+        resBox.style.display = 'block';
+        amountSpan.innerText = absDiff.toFixed(2);
+
+        const isEN = currentLang === 'en';
+
+        if (diff > 0) {
+            // Vergrößern — Material dazugeben
+            dirDiv.innerHTML = '<span style="color:var(--success);">' + (isEN ? 'ENLARGE' : 'VERGRÖSSERN') + '</span> ' + fromSize + ' \u2192 ' + toSize;
+            let html = '<strong>' + (isEN ? 'Add' : 'Dazugeben') + ':</strong> ' + absDiff.toFixed(2) + ' mm ' + (isEN ? 'material length' : 'Materiallänge') + '<br>';
+            if (width) {
+                html += '<strong>' + (isEN ? 'Insert piece' : 'Einsatzstück') + ':</strong> ' + absDiff.toFixed(2) + ' mm \u00d7 ' + width.toFixed(1) + ' mm';
+                if (profile === 'round') html += ' (\u00d8 ' + thick.toFixed(1) + ' mm ' + (isEN ? 'wire' : 'Draht') + ')';
+                else html += ' \u00d7 ' + thick.toFixed(1) + ' mm';
+            }
+            html += '<div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:0.75rem;color:var(--text-dim);">' +
+                (isEN ? 'Ring is cut open, a piece of ' : 'Ring wird aufgesägt, ein Stück von ') + absDiff.toFixed(2) + ' mm ' +
+                (isEN ? 'is inserted and soldered.' : 'wird eingesetzt und verlötet.') + '<br>' +
+                (isEN ? 'Formula: new size - old size = ' : 'Formel: Neue Größe - Alte Größe = ') + toSize + ' - ' + fromSize + ' = ' + absDiff.toFixed(2) + ' mm</div>';
+            detailDiv.innerHTML = html;
+        } else {
+            // Verkleinern — Material rausnehmen
+            dirDiv.innerHTML = '<span style="color:var(--accent);">' + (isEN ? 'REDUCE' : 'VERKLEINERN') + '</span> ' + fromSize + ' \u2192 ' + toSize;
+            let html = '<strong>' + (isEN ? 'Remove' : 'Herausnehmen') + ':</strong> ' + absDiff.toFixed(2) + ' mm ' + (isEN ? 'material length' : 'Materiallänge') + '<br>';
+            html += '<strong>' + (isEN ? 'Cut piece' : 'Stück zum Heraussägen') + ':</strong> ' + absDiff.toFixed(2) + ' mm';
+            html += '<div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:0.75rem;color:var(--text-dim);">' +
+                (isEN ? 'A piece of ' : 'Ein Stück von ') + absDiff.toFixed(2) + ' mm ' +
+                (isEN ? 'is cut out and the ring is soldered shut.' : 'wird herausgesägt und der Ring wird zusammengelötet.') + '<br>' +
+                (isEN ? 'Formula: old size - new size = ' : 'Formel: Alte Größe - Neue Größe = ') + fromSize + ' - ' + toSize + ' = ' + absDiff.toFixed(2) + ' mm</div>';
+            detailDiv.innerHTML = html;
+        }
+    }
+
+    // ============================================================
+    //  ZARGEN-RECHNER
+    // ============================================================
     function calcBezel() {
         const shape = document.getElementById('bezelShape').value;
         const thick = parseFloat(document.getElementById('bezelThick').value) || 0;
