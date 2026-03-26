@@ -1657,7 +1657,7 @@
                             </optgroup>
                             <optgroup label="Eigene" id="presetCustom"></optgroup>
                             <optgroup label="">
-                                <option value="__custom__">✎ Freier Schritt…</option>
+                                <option value="__custom__">Freier Schritt...</option>
                             </optgroup>
                         </select>
                         <button onclick="addSelectedStep()" style="flex: 0 0 auto; background: var(--accent); color: #fff; border: none; padding: 12px 18px; border-radius: 2px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.9rem; white-space: nowrap;">Hinzufügen</button>
@@ -3886,7 +3886,9 @@
             const rows = document.querySelectorAll('#plannerSteps .step-row');
             if (rows.length) rows[rows.length-1].querySelector('.step-name-input').focus();
         } else {
-            addPlannerStep(sel.value, 0, 0, 0, 0, 0, null);
+            // Use displayed text (translated) instead of value (always German)
+            const displayText = sel.options[sel.selectedIndex].textContent;
+            addPlannerStep(displayText, 0, 0, 0, 0, 0, null);
         }
         sel.value = ''; savePlanner();
     }
