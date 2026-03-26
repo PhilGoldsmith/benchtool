@@ -796,7 +796,7 @@
     <!-- Ring & Zargen — open by default -->
     <div class="sidebar-section-label">
         <button class="sidebar-category-btn open" data-cat-i18n="cat.ringZargen" onclick="toggleCategory(this)">
-            Ring & Zargen <span class="chevron">▸</span>
+            Ring & Zargen <span class="chevron">&gt;</span>
         </button>
     </div>
     <div class="sidebar-sub open">
@@ -811,7 +811,7 @@
     <!-- Material & Umformung -->
     <div class="sidebar-section-label">
         <button class="sidebar-category-btn" data-cat-i18n="cat.material" onclick="toggleCategory(this)">
-            Material & Umformung <span class="chevron">▸</span>
+            Material & Umformung <span class="chevron">&gt;</span>
         </button>
     </div>
     <div class="sidebar-sub">
@@ -828,7 +828,7 @@
     <!-- Legierung -->
     <div class="sidebar-section-label">
         <button class="sidebar-category-btn" data-cat-i18n="cat.legierung" onclick="toggleCategory(this)">
-            Legierung <span class="chevron">▸</span>
+            Legierung <span class="chevron">&gt;</span>
         </button>
     </div>
     <div class="sidebar-sub">
@@ -840,7 +840,7 @@
     <!-- Kalkulation -->
     <div class="sidebar-section-label">
         <button class="sidebar-category-btn" data-cat-i18n="cat.kalkulation" onclick="toggleCategory(this)">
-            Kalkulation <span class="chevron">▸</span>
+            Kalkulation <span class="chevron">&gt;</span>
         </button>
     </div>
     <div class="sidebar-sub">
@@ -1623,11 +1623,11 @@
 
             <div id="projectContent">
                 <label>Projektname</label>
-                <input type="text" id="projectName" placeholder="z.B. Ehering Müller" oninput="savePlanner()" style="margin-bottom: 15px;">
+                <input type="text" id="projectName" placeholder="z.B. Ehering Müller" oninput="savePlanner()" style="margin-bottom: 15px;" data-i18n-ph="planner.projectNamePh">
 
                 <!-- ARBEITSSCHRITTE -->
                 <label>Arbeitsschritte</label>
-                <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px;">Soll = geplante Zeit · ▶ = Stoppuhr (Ist-Zeit)</div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px;" data-i18n="planner.stepsHint">Soll = geplante Zeit · Stoppuhr (Ist-Zeit)</div>
                 <div id="plannerSteps"></div>
 
                 <div style="margin-top: 10px;">
@@ -1669,7 +1669,7 @@
                         <summary style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim); cursor: pointer; text-transform: uppercase;">Eigene Vorlagen verwalten</summary>
                         <div style="margin-top: 10px;" id="customStepsList"></div>
                         <div class="custom-step-row" style="margin-top: 8px;">
-                            <input type="text" id="newCustomStep" placeholder="Neuer Schritt-Name" style="font-size: 0.85rem; padding: 8px 10px;">
+                            <input type="text" id="newCustomStep" placeholder="Neuer Schritt-Name" style="font-size: 0.85rem; padding: 8px 10px;" data-i18n-ph="planner.newStepPh">
                             <button onclick="addCustomPreset()" style="padding: 8px 14px; background: var(--text); color: #fff; border: none; border-radius: 2px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.8rem; white-space: nowrap;">Speichern</button>
                         </div>
                     </details>
@@ -1677,7 +1677,7 @@
 
                 <!-- NOTIZEN -->
                 <label style="margin-top: 25px;">Notizen</label>
-                <textarea class="planner-notes" id="plannerNotes" placeholder="Notizen, Skizzen-Hinweise, Besonderheiten…" oninput="savePlanner()"></textarea>
+                <textarea class="planner-notes" id="plannerNotes" placeholder="Notizen, Skizzen-Hinweise, Besonderheiten…" oninput="savePlanner()" data-i18n-ph="planner.notesPh"></textarea>
 
                 <!-- STUNDENSATZ -->
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border);">
@@ -2007,10 +2007,13 @@
         'planner.title': { de: 'Arbeitsplaner', en: 'Work Planner' },
         'planner.projectName': { de: 'Projektname', en: 'Project Name' },
         'planner.steps': { de: 'Arbeitsschritte', en: 'Work Steps' },
-        'planner.stepsHint': { de: 'Soll = geplante Zeit · ▶ = Stoppuhr (Ist-Zeit)', en: 'Target = planned time · ▶ = Stopwatch (actual time)' },
+        'planner.stepsHint': { de: 'Soll = geplante Zeit · Stoppuhr (Ist-Zeit)', en: 'Target = planned time · Stopwatch (actual time)' },
         'planner.addStep': { de: 'Schritt hinzufügen', en: 'Add Step' },
         'planner.templates': { de: 'Eigene Vorlagen verwalten', en: 'Manage Custom Templates' },
         'planner.notes': { de: 'Notizen', en: 'Notes' },
+        'planner.notesPh': { de: 'Notizen, Skizzen-Hinweise, Besonderheiten\u2026', en: 'Notes, sketch references, details\u2026' },
+        'planner.projectNamePh': { de: 'z.B. Ehering M\u00fcller', en: 'e.g. Wedding Ring Miller' },
+        'planner.newStepPh': { de: 'Neuer Schritt-Name', en: 'New step name' },
         'planner.rate': { de: 'Stundensatz einblenden', en: 'Show Hourly Rate' },
         'planner.rateLabel': { de: 'Stundensatz (€/h)', en: 'Hourly Rate (€/h)' },
         'planner.sollTime': { de: 'Soll-Zeit', en: 'Target Time' },
@@ -2021,8 +2024,8 @@
         'planner.total': { de: 'Gesamt', en: 'Total' },
         'planner.print': { de: 'Drucken / Als PDF speichern', en: 'Print / Save as PDF' },
         'planner.clear': { de: 'Projekt leeren', en: 'Clear Project' },
-        'planner.addPart': { de: '▸ Bauteil hinzufügen', en: '▸ Add Part' },
-        'planner.hidePart': { de: '▾ Bauteil ausblenden', en: '▾ Hide Part' },
+        'planner.addPart': { de: '> Bauteil hinzufügen', en: '> Add Part' },
+        'planner.hidePart': { de: 'v Bauteil ausblenden', en: 'v Hide Part' },
         'planner.stueckliste': { de: 'Stückliste', en: 'Bill of Materials' },
         // --- UNITS ---
         'units.title': { de: 'Einheiten-Umrechner', en: 'Unit Converter' },
@@ -2040,6 +2043,10 @@
         currentLang = currentLang === 'de' ? 'en' : 'de';
         document.getElementById('langToggle').textContent = currentLang.toUpperCase();
         applyLang();
+        // Re-render planner steps with new language
+        if (typeof renderActiveProject === 'function') {
+            try { savePlanner(); renderActiveProject(); } catch(e) {}
+        }
         try { localStorage.setItem('benchtool_lang', currentLang); } catch(e) {}
     }
 
@@ -2067,7 +2074,7 @@
                 const wasOpen = btn.classList.contains('open');
                 const chevron = btn.querySelector('.chevron');
                 btn.textContent = t(key) + ' ';
-                const sp = document.createElement('span'); sp.className = 'chevron'; sp.textContent = '\u25B8';
+                const sp = document.createElement('span'); sp.className = 'chevron'; sp.textContent = '>';
                 btn.appendChild(sp);
                 if (wasOpen) btn.classList.add('open');
             }
@@ -2120,8 +2127,8 @@
                 'Compose alloy from pure elements. Optionally include existing material.',
             'Sch\u00e4tzt den Materialverlust durch verschiedene Bearbeitungsschritte. Werte basieren auf Erfahrungswerten und variieren je nach Werkstatt.':
                 'Estimates material loss from processing steps. Values are approximate.',
-            'Soll = geplante Zeit \u00b7 \u25B6 = Stoppuhr (Ist-Zeit)':
-                'Target = planned time \u00b7 \u25B6 = Stopwatch (actual)',
+            'Soll = geplante Zeit \u00b7 Stoppuhr (Ist-Zeit)':
+                'Target = planned time \u00b7 Stopwatch (actual)',
             'Ung\u00e4f\u00e4hrer Durchmesser eines runden Brillantschliffs nach Gewicht.':
                 'Approximate diameter of a round brilliant cut by weight.',
         };
@@ -3138,7 +3145,7 @@
 
         let f_add, direction = "";
         if (t > c) {
-            direction = '<span style="color:var(--success);">\u25B2 Hochlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
+            direction = '<span style="color:var(--success);">^ Hochlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
             if (isGold && colorInfo) {
                 // Hochlegieren Gold: add Feingold
                 f_add = addInput !== "" ? parseFloat(addInput) : 1000;
@@ -3152,7 +3159,7 @@
                 return;
             }
         } else {
-            direction = '<span style="color:var(--accent);">\u25BC Runterlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
+            direction = '<span style="color:var(--accent);">v Runterlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
             if (isGold && colorInfo) {
                 f_add = 0; // Color-based: we add Cu/Ag/Pd mix at 0 gold content
             } else {
@@ -3794,23 +3801,23 @@
             // Single row: Drag | Name | Soll | Ist | Stopwatch | Delete
             '<div style="display:flex;align-items:center;gap:6px;width:100%;">' +
                 '<span class="drag-handle">\u2261</span>' +
-                '<input type="text" class="step-name-input" value="' + (name || '') + '" placeholder="Schritt" oninput="savePlanner()" style="flex:1;min-width:60px;padding:6px 8px;font-size:0.85rem;">' +
+                '<input type="text" class="step-name-input" value="' + (name || '') + '" placeholder="' + (currentLang==='en'?'Step':'Schritt') + '" oninput="savePlanner()" style="flex:1;min-width:60px;padding:6px 8px;font-size:0.85rem;">' +
                 // Soll
                 '<div style="flex:0 0 auto;text-align:center;">' +
-                    '<div style="font-size:0.55rem;color:var(--text-dim);font-weight:600;">SOLL</div>' +
+                    '<div style="font-size:0.55rem;color:var(--text-dim);font-weight:600;">' + (currentLang==='en'?'TARGET':'SOLL') + '</div>' +
                     '<div style="display:flex;align-items:center;">' +
-                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,1,99)">\u25B2</button><div class="sp-val sp-h-val">' + (h||0) + '</div><button class="sp-btn" onclick="spAdj(this,-1,99)">\u25BC</button></div>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,1,99)">^</button><div class="sp-val sp-h-val">' + (h||0) + '</div><button class="sp-btn" onclick="spAdj(this,-1,99)">v</button></div>' +
                         '<span class="time-sep">:</span>' +
-                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,5,55)">\u25B2</button><div class="sp-val sp-m-val">' + (m||0) + '</div><button class="sp-btn" onclick="spAdj(this,-5,55)">\u25BC</button></div>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdj(this,5,55)">^</button><div class="sp-val sp-m-val">' + (m||0) + '</div><button class="sp-btn" onclick="spAdj(this,-5,55)">v</button></div>' +
                     '</div>' +
                 '</div>' +
                 // Ist
                 '<div style="flex:0 0 auto;text-align:center;">' +
-                    '<div style="font-size:0.55rem;color:var(--warn);font-weight:600;">IST</div>' +
+                    '<div style="font-size:0.55rem;color:var(--warn);font-weight:600;">' + (currentLang==='en'?'ACTUAL':'IST') + '</div>' +
                     '<div style="display:flex;align-items:center;">' +
-                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,1,99)">\u25B2</button><div class="sp-val sw-ah">' + (ah||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-1,99)">\u25BC</button></div>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,1,99)">^</button><div class="sp-val sw-ah">' + (ah||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-1,99)">v</button></div>' +
                         '<span class="time-sep">:</span>' +
-                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,5,55)">\u25B2</button><div class="sp-val sw-am">' + (am||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-5,55)">\u25BC</button></div>' +
+                        '<div class="scroll-picker"><button class="sp-btn" onclick="spAdjIst(this,5,55)">^</button><div class="sp-val sw-am">' + (am||0) + '</div><button class="sp-btn" onclick="spAdjIst(this,-5,55)">v</button></div>' +
                     '</div>' +
                 '</div>' +
                 // Stopwatch button + running time
@@ -3823,11 +3830,11 @@
             '</div>' +
             // Bauteil toggle
             '<div style="width:100%;margin-top:2px;">' +
-                '<span class="step-mat-toggle" onclick="toggleStepMat(' + id + ')">' + (hasMat ? '\u25BE Bauteil ausblenden' : '\u25B8 Bauteil hinzuf\u00fcgen') + '</span>' +
+                '<span class="step-mat-toggle" onclick="toggleStepMat(' + id + ')">' + (hasMat ? (currentLang==='en'?'v Hide Part':'v Bauteil ausblenden') : (currentLang==='en'?'> Add Part':'> Bauteil hinzuf\u00fcgen')) + '</span>' +
                 '<div class="step-mat-row" id="stepMat_' + id + '" style="display:' + (hasMat ? 'block' : 'none') + ';">' +
-                    '<input type="text" class="smw sm-part-name" placeholder="z.B. Ringschiene, Zarge\u2026" value="' + (mat&&mat.partName||'') + '" oninput="savePlanner();" style="width:100%;margin-bottom:6px;font-size:0.85rem;padding:7px 8px;">' +
+                    '<input type="text" class="smw sm-part-name" placeholder="' + (currentLang==='en'?'e.g. Band, Bezel...':'z.B. Ringschiene, Zarge...') + '" value="' + (mat&&mat.partName||'') + '" oninput="savePlanner();" style="width:100%;margin-bottom:6px;font-size:0.85rem;padding:7px 8px;">' +
                     '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">' +
-                        '<select class="sml sm-metal" onchange="calcStepPrice(this);savePlanner();"><option value="">--</option><option value="au">Gold</option><option value="ag">Silber</option><option value="pt">Platin</option></select>' +
+                        '<select class="sml sm-metal" onchange="calcStepPrice(this);savePlanner();"><option value="">--</option><option value="au">' + (currentLang==='en'?'Gold':'Gold') + '</option><option value="ag">' + (currentLang==='en'?'Silver':'Silber') + '</option><option value="pt">' + (currentLang==='en'?'Platinum':'Platin') + '</option></select>' +
                         '<input type="number" class="smw sm-fine" placeholder="\u2030" step="1" min="0" max="1000" value="' + (mat&&mat.fine||'') + '" oninput="calcStepPrice(this);savePlanner();">' +
                         '<input type="number" class="smw sm-weight" placeholder="g" step="0.01" min="0" value="' + (mat&&mat.weight||'') + '" oninput="calcStepPrice(this);savePlanner();">' +
                         '<input type="number" class="smp sm-price" placeholder="\u20ac" step="0.01" min="0" value="' + (mat&&mat.price||'') + '" style="font-weight:700;" oninput="savePlanner();">' +
@@ -3846,10 +3853,10 @@
         if (!matRow) return;
         if (matRow.style.display === 'none') {
             matRow.style.display = 'block';
-            toggle.innerHTML = '\u25BE Bauteil ausblenden';
+            toggle.innerHTML = currentLang==='en' ? 'v Hide Part' : 'v Bauteil ausblenden';
         } else {
             matRow.style.display = 'none';
-            toggle.innerHTML = '\u25B8 Bauteil hinzuf\u00fcgen';
+            toggle.innerHTML = currentLang==='en' ? '> Add Part' : '> Bauteil hinzuf\u00fcgen';
         }
     }
 
@@ -3873,7 +3880,7 @@
 
     function addSelectedStep() {
         const sel = document.getElementById('plannerPreset');
-        if (!sel.value) { showToast('Bitte erst einen Schritt ausw\u00e4hlen'); return; }
+        if (!sel.value) { showToast(currentLang==='en' ? 'Please select a step first' : 'Bitte erst einen Schritt ausw\u00e4hlen'); return; }
         if (sel.value === '__custom__') {
             addPlannerStep('', 0, 0, 0, 0, 0, null);
             const rows = document.querySelectorAll('#plannerSteps .step-row');
