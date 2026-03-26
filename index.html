@@ -762,13 +762,14 @@
     <div class="nav-title" id="navTitle">BenchTool</div>
     <span class="density-badge" id="densityBadge">750 GG</span>
     <button id="darkToggle" onclick="toggleDark()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px 8px;margin-left:8px;color:var(--text);" title="Dark Mode">◐</button>
+    <button id="langToggle" onclick="toggleLang()" style="background:none;border:2px solid var(--text);border-radius:2px;font-size:0.7rem;font-weight:800;cursor:pointer;padding:2px 6px;margin-left:4px;color:var(--text);font-family:inherit;">DE</button>
 </div>
 
 <!-- SIDEBAR -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeNav()"></div>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <h2>MENÜ</h2>
+        <h2 data-i18n="nav.menu">MENÜ</h2>
         <button class="close-btn" onclick="closeNav()">✕</button>
     </div>
 
@@ -788,68 +789,68 @@
     </div>
 
     <ul class="sidebar-menu">
-        <li><a id="nav-home" class="active" onclick="navigateTo('home', 'BenchTool')">Start</a></li>
+        <li><a id="nav-home" class="active" onclick="navigateTo('home', 'BenchTool')" data-i18n="nav.start">Start</a></li>
     </ul>
 
     <!-- Ring & Zargen — open by default -->
     <div class="sidebar-section-label">
-        <button class="sidebar-category-btn open" onclick="toggleCategory(this)">
+        <button class="sidebar-category-btn open" data-cat-i18n="cat.ringZargen" onclick="toggleCategory(this)">
             Ring & Zargen <span class="chevron">▸</span>
         </button>
     </div>
     <div class="sidebar-sub open">
         <ul class="sidebar-menu">
-            <li><a id="nav-ring" onclick="navigateTo('ring', 'Ringmaß')">Ringmaß</a></li>
-            <li><a id="nav-bezel" onclick="navigateTo('bezel', 'Zargen')">Zargen</a></li>
-            <li><a id="nav-stones" onclick="navigateTo('stones', 'Steinmaße')">Steinmaße</a></li>
+            <li><a id="nav-ring" onclick="navigateTo('ring', t('nav.ring'))" data-i18n="nav.ring">Ringmaß</a></li>
+            <li><a id="nav-bezel" onclick="navigateTo('bezel', t('nav.bezel'))" data-i18n="nav.bezel">Zargen</a></li>
+            <li><a id="nav-stones" onclick="navigateTo('stones', t('nav.stones'))" data-i18n="nav.stones">Steinmaße</a></li>
         </ul>
     </div>
 
     <!-- Material & Umformung -->
     <div class="sidebar-section-label">
-        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+        <button class="sidebar-category-btn" data-cat-i18n="cat.material" onclick="toggleCategory(this)">
             Material & Umformung <span class="chevron">▸</span>
         </button>
     </div>
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
-            <li><a id="nav-cast" onclick="navigateTo('cast', 'Guss')">Guss (Wachs → Metall)</a></li>
-            <li><a id="nav-semi" onclick="navigateTo('semi', 'Halbzeug')">Halbzeug wiegen</a></li>
-            <li><a id="nav-reverse" onclick="navigateTo('reverse', 'Drahtlänge')">Gewicht → Drahtlänge</a></li>
-            <li><a id="nav-shapes" onclick="navigateTo('shapes', 'Ronden')">Ronden & Halbkugeln</a></li>
-            <li><a id="nav-deform" onclick="navigateTo('deform', 'Umformen')">Walzen & Ziehen</a></li>
-            <li><a id="nav-units" onclick="navigateTo('units', 'Umrechner')">Einheiten-Umrechner</a></li>
+            <li><a id="nav-cast" onclick="navigateTo('cast', t('nav.cast'))" data-i18n="nav.cast">Guss (Wachs → Metall)</a></li>
+            <li><a id="nav-semi" onclick="navigateTo('semi', t('nav.semi'))" data-i18n="nav.semi">Halbzeug wiegen</a></li>
+            <li><a id="nav-reverse" onclick="navigateTo('reverse', t('nav.reverse'))" data-i18n="nav.reverse">Gewicht → Drahtlänge</a></li>
+            <li><a id="nav-shapes" onclick="navigateTo('shapes', t('nav.shapes'))" data-i18n="nav.shapes">Ronden & Halbkugeln</a></li>
+            <li><a id="nav-deform" onclick="navigateTo('deform', t('nav.deform'))" data-i18n="nav.deform">Walzen & Ziehen</a></li>
+            <li><a id="nav-units" onclick="navigateTo('units', t('nav.units'))" data-i18n="nav.units">Einheiten-Umrechner</a></li>
         </ul>
     </div>
 
     <!-- Legierung -->
     <div class="sidebar-section-label">
-        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+        <button class="sidebar-category-btn" data-cat-i18n="cat.legierung" onclick="toggleCategory(this)">
             Legierung <span class="chevron">▸</span>
         </button>
     </div>
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
-            <li><a id="nav-alloy" onclick="navigateTo('alloy', 'Legierungsrechner')">Umlegieren</a></li>
+            <li><a id="nav-alloy" onclick="navigateTo('alloy', t('nav.alloy'))" data-i18n="nav.alloy">Umlegieren</a></li>
         </ul>
     </div>
 
     <!-- Kalkulation -->
     <div class="sidebar-section-label">
-        <button class="sidebar-category-btn" onclick="toggleCategory(this)">
+        <button class="sidebar-category-btn" data-cat-i18n="cat.kalkulation" onclick="toggleCategory(this)">
             Kalkulation <span class="chevron">▸</span>
         </button>
     </div>
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
-            <li><a id="nav-planner" onclick="navigateTo('planner', 'Arbeitsplaner')" style="font-weight: 700;">⏱ Arbeitsplaner</a></li>
-            <li><a id="nav-loss" onclick="navigateTo('loss', 'Verluste')">Verluste schätzen</a></li>
-            <li><a id="nav-cost" onclick="navigateTo('cost', 'Materialwert')">Materialwert</a></li>
+            <li><a id="nav-planner" onclick="navigateTo('planner', t('nav.planner'))" style="font-weight: 700;" data-i18n="nav.planner">⏱ Arbeitsplaner</a></li>
+            <li><a id="nav-loss" onclick="navigateTo('loss', t('nav.loss'))" data-i18n="nav.loss">Verluste schätzen</a></li>
+            <li><a id="nav-cost" onclick="navigateTo('cost', t('nav.cost'))" data-i18n="nav.cost">Materialwert</a></li>
         </ul>
     </div>
 
     <ul class="sidebar-menu" style="margin-top: auto; border-top: 1px solid var(--border);">
-        <li><a id="nav-help" onclick="navigateTo('help', 'Hilfe')" style="color:var(--text-dim); font-size: 0.85rem;">? Hilfe & Tipps</a></li>
+        <li><a id="nav-help" onclick="navigateTo('help', t('nav.help'))" style="color:var(--text-dim); font-size: 0.85rem;">? Hilfe & Tipps</a></li>
     </ul>
 </div>
 
@@ -860,67 +861,67 @@
     <div id="page-home" class="page active">
         <div class="card" style="border: none; background: transparent; padding: 0;">
             <h2 style="font-size: 1.4rem; border-bottom: none; margin-bottom: 5px; padding-bottom: 0;">BenchTool</h2>
-            <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0; margin-bottom: 20px;">Rechner fürs Goldschmiedehandwerk</p>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0; margin-bottom: 20px;" data-i18n="home.subtitle">Rechner fürs Goldschmiedehandwerk</p>
         </div>
 
-        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px;">Häufig genutzt</div>
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px;" data-i18n="home.frequent">Häufig genutzt</div>
         <div class="home-grid">
-            <button class="home-tile tile-accent" onclick="navigateTo('ring', 'Ringmaß')">
+            <button class="home-tile tile-accent" onclick="navigateTo('ring', t('tile.ring'))">
                 <span class="tile-icon">◎</span>
-                <span class="tile-name">Ringmaß</span>
-                <span class="tile-hint">Gestreckte Länge</span>
+                <span class="tile-name" data-i18n="tile.ring">Ringmaß</span>
+                <span class="tile-hint" data-i18n="tile.ringHint">Gestreckte Länge</span>
             </button>
-            <button class="home-tile tile-accent" onclick="navigateTo('bezel', 'Zargen')">
+            <button class="home-tile tile-accent" onclick="navigateTo('bezel', t('tile.bezel'))">
                 <span class="tile-icon">▣</span>
-                <span class="tile-name">Zargen</span>
-                <span class="tile-hint">Rund · Oval · Eckig</span>
+                <span class="tile-name" data-i18n="tile.bezel">Zargen</span>
+                <span class="tile-hint" data-i18n="tile.bezelHint">Rund · Oval · Eckig</span>
             </button>
         </div>
 
-        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;">Material</div>
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;" data-i18n="home.material">Material</div>
         <div class="home-grid">
-            <button class="home-tile" onclick="navigateTo('cast', 'Guss')">
+            <button class="home-tile" onclick="navigateTo('cast', t('tile.cast'))">
                 <span class="tile-icon">♨</span>
-                <span class="tile-name">Guss</span>
-                <span class="tile-hint">Wachs → Metall</span>
+                <span class="tile-name" data-i18n="tile.cast">Guss</span>
+                <span class="tile-hint" data-i18n="tile.castHint">Wachs → Metall</span>
             </button>
-            <button class="home-tile" onclick="navigateTo('semi', 'Halbzeug')">
+            <button class="home-tile" onclick="navigateTo('semi', t('tile.semi'))">
                 <span class="tile-icon">⊟</span>
-                <span class="tile-name">Halbzeug</span>
-                <span class="tile-hint">Profil wiegen</span>
+                <span class="tile-name" data-i18n="tile.semi">Halbzeug</span>
+                <span class="tile-hint" data-i18n="tile.semiHint">Profil wiegen</span>
             </button>
-            <button class="home-tile" onclick="navigateTo('reverse', 'Drahtlänge')">
+            <button class="home-tile" onclick="navigateTo('reverse', t('tile.reverse'))">
                 <span class="tile-icon">↔</span>
-                <span class="tile-name">Drahtlänge</span>
-                <span class="tile-hint">Gramm → mm</span>
+                <span class="tile-name" data-i18n="tile.reverse">Drahtlänge</span>
+                <span class="tile-hint" data-i18n="tile.reverseHint">Gramm → mm</span>
             </button>
-            <button class="home-tile" onclick="navigateTo('deform', 'Umformen')">
+            <button class="home-tile" onclick="navigateTo('deform', t('tile.deform'))">
                 <span class="tile-icon">⇥</span>
-                <span class="tile-name">Umformen</span>
-                <span class="tile-hint">Walzen & Ziehen</span>
+                <span class="tile-name" data-i18n="tile.deform">Umformen</span>
+                <span class="tile-hint" data-i18n="tile.deformHint">Walzen & Ziehen</span>
             </button>
         </div>
 
-        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;">Legierung & Kalkulation</div>
+        <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin: 20px 0 8px;" data-i18n="home.legCalc">Legierung & Kalkulation</div>
         <div class="home-grid">
-            <button class="home-tile" onclick="navigateTo('alloy', 'Legierungsrechner')">
+            <button class="home-tile" onclick="navigateTo('alloy', t('tile.alloy'))">
                 <span class="tile-icon">⚗</span>
-                <span class="tile-name">Legierung</span>
-                <span class="tile-hint">Umlegieren & Anmischen</span>
+                <span class="tile-name" data-i18n="tile.alloy">Legierung</span>
+                <span class="tile-hint" data-i18n="tile.alloyHint">Umlegieren & Anmischen</span>
             </button>
-            <button class="home-tile" onclick="navigateTo('cost', 'Materialwert')">
+            <button class="home-tile" onclick="navigateTo('cost', t('tile.cost'))">
                 <span class="tile-icon">€</span>
-                <span class="tile-name">Materialwert</span>
-                <span class="tile-hint">Kalkulation</span>
+                <span class="tile-name" data-i18n="tile.cost">Materialwert</span>
+                <span class="tile-hint" data-i18n="tile.costHint">Kalkulation</span>
             </button>
         </div>
 
         <div style="margin-top: 20px;">
-            <button class="home-tile tile-accent" onclick="navigateTo('planner', 'Arbeitsplaner')" style="width: 100%; display: flex; align-items: center; gap: 12px;">
+            <button class="home-tile tile-accent" onclick="navigateTo('planner', t('tile.planner'))" style="width: 100%; display: flex; align-items: center; gap: 12px;">
                 <span class="tile-icon" style="margin: 0;">⏱</span>
                 <div>
-                    <span class="tile-name">Arbeitsplaner</span>
-                    <span class="tile-hint">Projekte · Zeiterfassung · Drucken</span>
+                    <span class="tile-name" data-i18n="tile.planner">Arbeitsplaner</span>
+                    <span class="tile-hint" data-i18n="tile.plannerHint">Projekte · Zeiterfassung · Drucken</span>
                 </div>
             </button>
         </div>
@@ -929,7 +930,7 @@
     <!-- WACHS ZU METALL -->
     <div id="page-cast" class="page">
         <div class="card">
-            <h2>Wachs zu Metall (Guss)</h2>
+            <h2 data-i18n="cast.title">Wachs zu Metall (Guss)</h2>
             <div class="subtitle">Wandelt das Gewicht eines Wachsmodells in das benötigte Metallgewicht um. Basierend auf der im Menü gewählten Legierung.</div>
             <label>Gewicht Wachsmodell (g)</label>
             <input type="number" id="waxWeight" step="0.01" min="0" placeholder="0.00" oninput="calcCast()">
@@ -1294,7 +1295,7 @@
     <!-- ALTMETALL LEGIEREN -->
     <div id="page-alloy" class="page">
         <div class="card">
-            <h2>Legierungsrechner</h2>
+            <h2 data-i18n="alloy.title">Legierungsrechner</h2>
 
             <label>Modus</label>
             <div style="display: flex; gap: 0; margin-bottom: 20px;">
@@ -1548,7 +1549,7 @@
     <!-- ARBEITSPLANER -->
     <div id="page-planner" class="page">
         <div class="card">
-            <h2>Arbeitsplaner</h2>
+            <h2 data-i18n="planner.title">Arbeitsplaner</h2>
             <div class="project-tabs" id="projectTabs"></div>
 
             <div id="projectContent">
@@ -1662,7 +1663,7 @@
     <!-- EINHEITEN-UMRECHNER -->
     <div id="page-units" class="page">
         <div class="card">
-            <h2>Einheiten-Umrechner</h2>
+            <h2 data-i18n="units.title">Einheiten-Umrechner</h2>
 
             <div class="conv-group">
                 <label>Gewicht</label>
@@ -1732,7 +1733,7 @@
     <!-- HILFE -->
     <div id="page-help" class="page">
         <div class="card">
-            <h2>Hilfe & Tipps</h2>
+            <h2 data-i18n="help.title">Hilfe & Tipps</h2>
 
             <details style="margin-bottom: 15px;">
                 <summary style="font-weight: 700; cursor: pointer; padding: 10px 0;">Globale Dichte</summary>
@@ -1811,6 +1812,278 @@
 </div>
 
 <script>
+    // ============================================================
+    //  I18N — LANGUAGE SYSTEM
+    // ============================================================
+    let currentLang = 'de';
+
+    const I18N = {
+        // --- NAV & SIDEBAR ---
+        'nav.menu': { de: 'MENÜ', en: 'MENU' },
+        'nav.start': { de: 'Start', en: 'Home' },
+        'nav.globalDensity': { de: 'Globale Dichte', en: 'Global Density' },
+        'cat.ringZargen': { de: 'Ring & Zargen', en: 'Ring & Bezels' },
+        'nav.ring': { de: 'Ringmaß', en: 'Ring Size' },
+        'nav.bezel': { de: 'Zargen', en: 'Bezels' },
+        'nav.stones': { de: 'Steinmaße', en: 'Stone Sizes' },
+        'cat.material': { de: 'Material & Umformung', en: 'Material & Forming' },
+        'nav.cast': { de: 'Guss (Wachs → Metall)', en: 'Casting (Wax → Metal)' },
+        'nav.semi': { de: 'Halbzeug wiegen', en: 'Stock Weight' },
+        'nav.reverse': { de: 'Gewicht → Drahtlänge', en: 'Weight → Wire Length' },
+        'nav.shapes': { de: 'Ronden & Halbkugeln', en: 'Blanks & Hemispheres' },
+        'nav.deform': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
+        'nav.units': { de: 'Einheiten-Umrechner', en: 'Unit Converter' },
+        'cat.legierung': { de: 'Legierung', en: 'Alloy' },
+        'nav.alloy': { de: 'Umlegieren', en: 'Re-alloy' },
+        'cat.kalkulation': { de: 'Kalkulation', en: 'Costing' },
+        'nav.planner': { de: '⏱ Arbeitsplaner', en: '⏱ Work Planner' },
+        'nav.loss': { de: 'Verluste schätzen', en: 'Estimate Loss' },
+        'nav.cost': { de: 'Materialwert', en: 'Material Cost' },
+        'nav.help': { de: '? Hilfe & Tipps', en: '? Help & Tips' },
+        // --- HOME ---
+        'home.title': { de: 'BenchTool', en: 'BenchTool' },
+        'home.subtitle': { de: 'Rechner fürs Goldschmiedehandwerk', en: 'Calculator for Goldsmiths' },
+        'home.frequent': { de: 'Häufig genutzt', en: 'Frequently Used' },
+        'home.material': { de: 'Material', en: 'Material' },
+        'home.legCalc': { de: 'Legierung & Kalkulation', en: 'Alloy & Costing' },
+        // --- TILES ---
+        'tile.ring': { de: 'Ringmaß', en: 'Ring Size' },
+        'tile.ringHint': { de: 'Gestreckte Länge', en: 'Stretched Length' },
+        'tile.bezel': { de: 'Zargen', en: 'Bezels' },
+        'tile.bezelHint': { de: 'Rund · Oval · Eckig', en: 'Round · Oval · Square' },
+        'tile.cast': { de: 'Guss', en: 'Casting' },
+        'tile.castHint': { de: 'Wachs → Metall', en: 'Wax → Metal' },
+        'tile.semi': { de: 'Halbzeug', en: 'Stock' },
+        'tile.semiHint': { de: 'Profil wiegen', en: 'Profile Weight' },
+        'tile.reverse': { de: 'Drahtlänge', en: 'Wire Length' },
+        'tile.reverseHint': { de: 'Gewicht → Länge', en: 'Weight → Length' },
+        'tile.deform': { de: 'Umformen', en: 'Forming' },
+        'tile.deformHint': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
+        'tile.alloy': { de: 'Legierung', en: 'Alloy' },
+        'tile.alloyHint': { de: 'Umlegieren & Anmischen', en: 'Re-alloy & Mix' },
+        'tile.cost': { de: 'Materialwert', en: 'Material Cost' },
+        'tile.costHint': { de: 'Kalkulation', en: 'Costing' },
+        'tile.planner': { de: 'Arbeitsplaner', en: 'Work Planner' },
+        'tile.plannerHint': { de: 'Projekte · Zeiterfassung · Drucken', en: 'Projects · Time Tracking · Print' },
+        // --- COMMON ---
+        'btn.copy': { de: 'Kopieren', en: 'Copy' },
+        'btn.reset': { de: 'Felder zurücksetzen', en: 'Reset Fields' },
+        'btn.add': { de: 'Hinzufügen', en: 'Add' },
+        'lbl.weight': { de: 'Gewicht (g)', en: 'Weight (g)' },
+        'lbl.length': { de: 'Länge (mm)', en: 'Length (mm)' },
+        'lbl.result': { de: 'Ergebnis', en: 'Result' },
+        'lbl.formula': { de: 'Formel', en: 'Formula' },
+        // --- CAST ---
+        'cast.title': { de: 'Wachs zu Metall (Guss)', en: 'Wax to Metal (Casting)' },
+        'cast.waxWeight': { de: 'Gewicht Wachsmodell (g)', en: 'Wax Model Weight (g)' },
+        'cast.anguss': { de: 'Anguss-Faktor (optional)', en: 'Sprue Factor (optional)' },
+        'cast.pure': { de: 'Reines Stückgewicht', en: 'Net Piece Weight' },
+        'cast.withSprue': { de: 'Inkl. Anguss', en: 'Incl. Sprue' },
+        // --- RING ---
+        'ring.title': { de: 'Ringmaß-Rechner', en: 'Ring Size Calculator' },
+        'ring.profile': { de: 'Profil', en: 'Profile' },
+        'ring.size': { de: 'EU-Größe (Innenumfang mm)', en: 'EU Size (Inner Circumference mm)' },
+        'ring.thickness': { de: 'Materialstärke (mm)', en: 'Material Thickness (mm)' },
+        'ring.result': { de: 'Gestreckte Länge (Säge-Maß / Neutrale Faser)', en: 'Stretched Length (Saw Cut / Neutral Axis)' },
+        // --- ALLOY ---
+        'alloy.title': { de: 'Legierungsrechner', en: 'Alloy Calculator' },
+        'alloy.mode': { de: 'Modus', en: 'Mode' },
+        'alloy.realloy': { de: 'Umlegieren', en: 'Re-alloy' },
+        'alloy.mix': { de: 'Neu anmischen', en: 'Mix New' },
+        'alloy.metal': { de: 'Metall', en: 'Metal' },
+        'alloy.source': { de: 'Ausgangsmaterial', en: 'Source Material' },
+        'alloy.target': { de: 'Ziel', en: 'Target' },
+        'alloy.current': { de: 'Ist-Gehalt (‰)', en: 'Current Fineness (‰)' },
+        'alloy.targetFine': { de: 'Soll-Gehalt (‰)', en: 'Target Fineness (‰)' },
+        'alloy.color': { de: 'Goldfarbe', en: 'Gold Color' },
+        'alloy.addition': { de: 'Zugabe-Material', en: 'Addition Material' },
+        'alloy.addFine': { de: 'Gehalt des Zusatzes (‰)', en: 'Addition Fineness (‰)' },
+        'alloy.auto': { de: 'Auto = Feinmetall zum Hochlegieren, Cu/Ag zum Runterlegieren', en: 'Auto = fine metal for upgrading, Cu/Ag for downgrading' },
+        'alloy.up': { de: 'Hochlegieren', en: 'Upgrade' },
+        'alloy.down': { de: 'Runterlegieren', en: 'Downgrade' },
+        'alloy.before': { de: 'Vorher', en: 'Before' },
+        'alloy.after': { de: 'Nachher', en: 'After' },
+        'alloy.addition2': { de: 'Zugabe', en: 'Addition' },
+        'alloy.correct': { de: 'Bereits korrekt', en: 'Already correct' },
+        'alloy.error': { de: 'Fehler', en: 'Error' },
+        'alloy.total': { de: 'gesamt', en: 'total' },
+        // --- MIX ---
+        'mix.subtitle': { de: 'Legierung aus reinen Elementen zusammenstellen. Optional mit vorhandenem Ausgangsmaterial.', en: 'Compose alloy from pure elements. Optionally with existing source material.' },
+        'mix.targetWeight': { de: 'Ziel-Gewicht (g)', en: 'Target Weight (g)' },
+        'mix.targetFine': { de: 'Ziel-Gehalt (‰)', en: 'Target Fineness (‰)' },
+        'mix.colorType': { de: 'Farbe / Typ', en: 'Color / Type' },
+        'mix.existing': { de: 'Vorhandenes Material einrechnen (optional)', en: 'Include existing material (optional)' },
+        'mix.existingWeight': { de: 'Vorhanden (g)', en: 'Existing (g)' },
+        'mix.existingFine': { de: 'Gehalt (‰)', en: 'Fineness (‰)' },
+        'mix.components': { de: 'Komponenten:', en: 'Components:' },
+        'mix.available': { de: 'Vorhanden', en: 'Existing' },
+        'mix.stillNeeded': { de: 'Noch zuzugeben:', en: 'Still needed:' },
+        // --- PLANNER ---
+        'planner.title': { de: 'Arbeitsplaner', en: 'Work Planner' },
+        'planner.projectName': { de: 'Projektname', en: 'Project Name' },
+        'planner.steps': { de: 'Arbeitsschritte', en: 'Work Steps' },
+        'planner.stepsHint': { de: 'Soll = geplante Zeit · ▶ = Stoppuhr (Ist-Zeit)', en: 'Target = planned time · ▶ = Stopwatch (actual time)' },
+        'planner.addStep': { de: 'Schritt hinzufügen', en: 'Add Step' },
+        'planner.templates': { de: 'Eigene Vorlagen verwalten', en: 'Manage Custom Templates' },
+        'planner.notes': { de: 'Notizen', en: 'Notes' },
+        'planner.rate': { de: 'Stundensatz einblenden', en: 'Show Hourly Rate' },
+        'planner.rateLabel': { de: 'Stundensatz (€/h)', en: 'Hourly Rate (€/h)' },
+        'planner.sollTime': { de: 'Soll-Zeit', en: 'Target Time' },
+        'planner.istTime': { de: 'Ist-Zeit', en: 'Actual Time' },
+        'planner.parts': { de: 'Bauteile', en: 'Parts' },
+        'planner.partCosts': { de: 'Bauteilkosten', en: 'Part Costs' },
+        'planner.laborCosts': { de: 'Arbeitskosten (Soll)', en: 'Labor Cost (Target)' },
+        'planner.total': { de: 'Gesamt', en: 'Total' },
+        'planner.print': { de: 'Drucken / Als PDF speichern', en: 'Print / Save as PDF' },
+        'planner.clear': { de: 'Projekt leeren', en: 'Clear Project' },
+        'planner.addPart': { de: '▸ Bauteil hinzufügen', en: '▸ Add Part' },
+        'planner.hidePart': { de: '▾ Bauteil ausblenden', en: '▾ Hide Part' },
+        'planner.stueckliste': { de: 'Stückliste', en: 'Bill of Materials' },
+        // --- UNITS ---
+        'units.title': { de: 'Einheiten-Umrechner', en: 'Unit Converter' },
+        'units.weight': { de: 'Gewicht', en: 'Weight' },
+        'units.length': { de: 'Länge', en: 'Length' },
+        'units.brillant': { de: 'Karat → Durchmesser (Brillant, rund)', en: 'Carat → Diameter (Round Brilliant)' },
+        // --- HELP ---
+        'help.title': { de: 'Hilfe & Tipps', en: 'Help & Tips' },
+        'help.disclaimer': { de: 'Alle Berechnungen ohne Gewähr. Angaben zu Legierungen, Dichten und Steinmaßen sind Richtwerte.', en: 'All calculations without warranty. Alloy, density and stone size data are approximate values.' },
+    };
+
+    function t(key) { return (I18N[key] && I18N[key][currentLang]) || (I18N[key] && I18N[key]['de']) || key; }
+
+    function toggleLang() {
+        currentLang = currentLang === 'de' ? 'en' : 'de';
+        document.getElementById('langToggle').textContent = currentLang.toUpperCase();
+        applyLang();
+        try { localStorage.setItem('benchtool_lang', currentLang); } catch(e) {}
+    }
+
+    function loadLang() {
+        try { currentLang = localStorage.getItem('benchtool_lang') || 'de'; } catch(e) {}
+        document.getElementById('langToggle').textContent = currentLang.toUpperCase();
+        applyLang();
+    }
+
+    function applyLang() {
+        // 1. data-i18n attributes
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const txt = t(key);
+            if (el.tagName === 'INPUT' && el.type !== 'number') el.placeholder = txt;
+            else el.textContent = txt;
+        });
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+            el.placeholder = t(el.getAttribute('data-i18n-ph'));
+        });
+        // 2. Sidebar category buttons
+        document.querySelectorAll('.sidebar-category-btn').forEach(btn => {
+            const key = btn.getAttribute('data-cat-i18n');
+            if (key) {
+                const wasOpen = btn.classList.contains('open');
+                const chevron = btn.querySelector('.chevron');
+                btn.textContent = t(key) + ' ';
+                const sp = document.createElement('span'); sp.className = 'chevron'; sp.textContent = '\u25B8';
+                btn.appendChild(sp);
+                if (wasOpen) btn.classList.add('open');
+            }
+        });
+        // 3. All labels, subtitles, buttons, summaries, result-spans
+        const de2en = {
+            'Globale Dichte':'Global Density','Gewicht Wachsmodell (g)':'Wax Model Weight (g)',
+            'Anguss-Faktor (optional)':'Sprue Factor (optional)','Profil / Form':'Profile / Shape',
+            'Profil':'Profile','Länge (mm)':'Length (mm)','Gewicht (g)':'Weight (g)',
+            'Breite (mm)':'Width (mm)','Stärke (mm)':'Thickness (mm)','Höhe (mm)':'Height (mm)',
+            'Blechstärke (mm)':'Sheet Thickness (mm)','Stein-Höhe (mm)':'Stone Height (mm)',
+            'Zugabe (Auflage/Fassen)':'Allowance (Setting)','Stein-Form':'Stone Shape',
+            'Stein-Ø (mm)':'Stone Ø (mm)','Länge / L (mm)':'Length / L (mm)',
+            'Breite / B (mm)':'Width / B (mm)','Materialstärke (mm)':'Material Thickness (mm)',
+            'EU-Größe (Innenumfang mm)':'EU Size (Inner Circ. mm)',
+            'Schienen-Profil':'Band Profile','Ø Innenmaß (mm)':'Ø Inner Dim. (mm)',
+            'Umformungs-Methode':'Forming Method','Außen-Ø Halbkugel (mm)':'Outer Ø Hemisphere (mm)',
+            'Start-Ø (mm)':'Start Ø (mm)','Start-Länge (mm)':'Start Length (mm)',
+            'Start-Stärke (mm)':'Start Thickness (mm)','Außen-Ø Start (mm)':'Outer Ø Start (mm)',
+            'Wandstärke (mm)':'Wall Thickness (mm)','Länge Start (mm)':'Start Length (mm)',
+            'Ziel-Ø (optional)':'Target Ø (opt.)','Ziel-Stärke (optional)':'Target Thickness (opt.)',
+            'Zieheisen-Stufen':'Draw Plate Steps','Walz-Stufen':'Rolling Steps',
+            'Zieh-Stufen':'Draw Steps','Ziehkern Option':'Mandrel Option',
+            'Metall':'Metal','Ausgangsmaterial':'Source Material','Ziel':'Target',
+            'Goldfarbe':'Gold Color','Zugabe-Material':'Addition Material',
+            'Gehalt des Zusatzes (‰)':'Addition Fineness (‰)',
+            'Ist-Gehalt (‰)':'Current Fineness (‰)','Soll-Gehalt (‰)':'Target Fineness (‰)',
+            'Modus':'Mode','Ziel-Gewicht (g)':'Target Weight (g)',
+            'Ziel-Gehalt (‰)':'Target Fineness (‰)','Farbe / Typ':'Color / Type',
+            'Vorhanden (g)':'Existing (g)','Gehalt (‰)':'Fineness (‰)',
+            'Projektname':'Project Name','Arbeitsschritte':'Work Steps',
+            'Schritt hinzufügen':'Add Step','Notizen':'Notes',
+            'Stundensatz (€/h)':'Hourly Rate (€/h)','Startgewicht (g)':'Start Weight (g)',
+            'Bezeichnung':'Description','Gehalt':'Fineness','Gewicht':'Weight',
+            'Ausgangsgewicht (g)':'Source Weight (g)','Basis-Kurse (Feingold / €/g)':'Base Prices (Fine / €/g)',
+            'Legierungs-Kurse (automatisch skaliert)':'Alloy Prices (auto-scaled)',
+            'Bauteile':'Parts','Faktor / Marge':'Factor / Margin',
+        };
+        const subMap = {
+            'Berechnet den Blechzuschnitt f\u00fcr Steinfassungen. Runde/ovale Zargen \u00fcber die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).':
+                'Calculates sheet cuts for stone settings. Round/oval bezels via neutral axis, square bezels as miter cuts (4 pieces).',
+            'Wandelt das Gewicht eines Wachsmodells in das ben\u00f6tigte Metallgewicht um. Basierend auf der im Men\u00fc gew\u00e4hlten Legierung.':
+                'Converts wax model weight to required metal weight based on the selected alloy.',
+            'Vorhandenes Material hoch- oder runterlegieren.':
+                'Upgrade or downgrade existing material.',
+            'Legierung aus reinen Elementen zusammenstellen. Optional mit vorhandenem Ausgangsmaterial.':
+                'Compose alloy from pure elements. Optionally include existing material.',
+            'Sch\u00e4tzt den Materialverlust durch verschiedene Bearbeitungsschritte. Werte basieren auf Erfahrungswerten und variieren je nach Werkstatt.':
+                'Estimates material loss from processing steps. Values are approximate.',
+            'Soll = geplante Zeit \u00b7 \u25B6 = Stoppuhr (Ist-Zeit)':
+                'Target = planned time \u00b7 \u25B6 = Stopwatch (actual)',
+            'Ung\u00e4f\u00e4hrer Durchmesser eines runden Brillantschliffs nach Gewicht.':
+                'Approximate diameter of a round brilliant cut by weight.',
+        };
+        const btnMap = {
+            'Umlegieren':'Re-alloy','Neu anmischen':'Mix New','Hinzuf\u00fcgen':'Add',
+            'Drucken / Als PDF speichern':'Print / Save as PDF','Projekt leeren':'Clear Project',
+            'Felder zur\u00fccksetzen':'Reset Fields','Kopieren':'Copy',
+            '+ SCHRITT HINZUF\u00dcGEN':'+ ADD STEP','Speichern':'Save',
+        };
+        const sumMap = {
+            'Eigene Vorlagen verwalten':'Manage Custom Templates',
+            'Vorhandenes Material einrechnen (optional)':'Include existing material (optional)',
+            'Stundensatz einblenden':'Show Hourly Rate',
+        };
+        const resMap = {
+            'Reines St\u00fcckgewicht':'Net Piece Weight','Inkl. Anguss':'Incl. Sprue',
+            'Soll-Zeit':'Target Time','Ist-Zeit':'Actual Time','Bauteile':'Parts',
+            'St\u00fcckliste':'Bill of Materials','Gesamt-Verlust':'Total Loss',
+            'Endgewicht (ca.)':'Final Weight (approx.)','Komponenten:':'Components:',
+            'Arbeitskosten (Soll)':'Labor Cost (Target)','Bauteilkosten':'Part Costs','Gesamt':'Total',
+        };
+
+        function translate(map, el) {
+            const txt = el.textContent.trim();
+            if (currentLang === 'en' && map[txt]) el.textContent = map[txt];
+            else if (currentLang === 'de') { for (const [de,en] of Object.entries(map)) { if (txt === en) { el.textContent = de; break; } } }
+        }
+        document.querySelectorAll('label').forEach(el => {
+            if (el.querySelector('input[type=checkbox]')) {
+                el.childNodes.forEach(n => { if (n.nodeType === 3) {
+                    for (const [de,en] of Object.entries(sumMap)) {
+                        if (currentLang === 'en' && n.textContent.includes(de)) n.textContent = n.textContent.replace(de, en);
+                        if (currentLang === 'de' && n.textContent.includes(en)) n.textContent = n.textContent.replace(en, de);
+                    }
+                }});
+                return;
+            }
+            translate(de2en, el);
+        });
+        document.querySelectorAll('.subtitle').forEach(el => translate(subMap, el));
+        document.querySelectorAll('button, .action-btn, .reset-link').forEach(el => translate(btnMap, el));
+        document.querySelectorAll('summary').forEach(el => translate(sumMap, el));
+        document.querySelectorAll('.result-area span, .planner-total span, .summary-line span').forEach(el => translate(resMap, el));
+        // Alloy mode buttons
+        const mBtnR = document.getElementById('alloyModeBtn_realloy');
+        const mBtnM = document.getElementById('alloyModeBtn_mix');
+        if (mBtnR) mBtnR.textContent = currentLang === 'en' ? 'Re-alloy' : 'Umlegieren';
+        if (mBtnM) mBtnM.textContent = currentLang === 'en' ? 'Mix New' : 'Neu anmischen';
+    }
+
     const RHO_WAX = 0.96;
     const STORAGE_KEY = 'benchtool_state';
 
@@ -3660,6 +3933,7 @@
     // ============================================================
     window.addEventListener('DOMContentLoaded', () => {
         loadDarkMode();
+        loadLang();
         initStoneDB();
         updateDensityBadge();
         const loaded = loadState();
