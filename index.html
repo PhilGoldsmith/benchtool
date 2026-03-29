@@ -575,12 +575,13 @@
         .project-tab .tab-close:hover { opacity: 1; color: var(--accent); }
         .project-tabs { display: flex; flex-wrap: wrap; gap: 0; align-items: flex-end; border-bottom: 1px solid var(--border); padding: 0 0 0 0; margin-bottom: 20px; }
         .tab-add-btn {
-            display: inline-block; padding: 8px 12px; font-size: 1rem;
-            background: none; border: 1px solid var(--border); border-bottom: none;
-            border-radius: 2px 2px 0 0; cursor: pointer; color: var(--text-dim);
-            font-family: inherit; position: relative; bottom: -1px;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 8px 16px; font-size: 1.2rem; min-width: 44px;
+            background: var(--bg); border: 2px dashed var(--accent); border-bottom: none;
+            border-radius: 2px 2px 0 0; cursor: pointer; color: var(--accent);
+            font-family: inherit; position: relative; bottom: -1px; font-weight: 700;
         }
-        .tab-add-btn:active { color: var(--accent); }
+        .tab-add-btn:hover { background: var(--accent); color: #fff; }
 
         .step-row {
             display: flex; align-items: center; gap: 8px;
@@ -741,6 +742,18 @@
             font-size: 0.7rem; color: var(--text-dim); line-height: 1.5;
         }
 
+        .planner-photo-thumb {
+            width: 70px; height: 70px; object-fit: cover; border-radius: 2px;
+            border: 1px solid var(--border); cursor: pointer; position: relative;
+        }
+        .photo-wrap { position: relative; display: inline-block; }
+        .photo-wrap .photo-del {
+            position: absolute; top: -6px; right: -6px; width: 20px; height: 20px;
+            background: var(--accent); color: #fff; border: none; border-radius: 50%;
+            font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
         .planner-total {
             display: flex; justify-content: space-between; align-items: flex-end;
             flex-wrap: wrap; gap: 15px; padding: 20px;
@@ -783,18 +796,62 @@
     </div>
 
     <div style="padding: 20px; background: var(--bg); border-bottom: 1px solid var(--border);">
-        <label style="margin-top:0;">Globale Dichte</label>
-        <select id="globalDensity" onchange="updateAll()" style="background: var(--card); border: 1px solid var(--border);">
-            <option value="10.40">925 Silber (10.40)</option>
-            <option value="10.55">333 Gelbgold (10.55)</option>
-            <option value="13.40">585 Gelbgold (13.40)</option>
-            <option value="15.50" selected>750 Gelbgold (15.50)</option>
-            <option value="12.90">585 Weißgold (12.90)</option>
-            <option value="14.70">750 Weißgold (14.70)</option>
-            <option value="20.10">950 Platin (20.10)</option>
-            <option value="19.30">999 Feingold (19.30)</option>
-            <option value="10.50">999 Feinsilber (10.50)</option>
+        <label style="margin-top:0;"><span class="help-de">Legierung / Dichte</span><span class="help-en" style="display:none;">Alloy / Density</span></label>
+        <select id="globalDensity" onchange="updateAll()" style="background: var(--card); border: 1px solid var(--border); font-size: 0.85rem;">
+            <optgroup label="Gold 333 (8kt)">
+                <option value="10.80" data-info='{"s":935,"l":1000,"a":"550","h":110}'>333 rot (10.80)</option>
+                <option value="10.60" data-info='{"s":820,"l":910,"a":"550","h":110}'>333 gelb (10.60)</option>
+                <option value="12.10" data-info='{"s":840,"l":915,"a":"600","h":120}'>333 weiß Ag (12.10)</option>
+                <option value="12.40" data-info='{"s":1040,"l":1190,"a":"650","h":145}'>333 weiß Pd (12.40)</option>
+            </optgroup>
+            <optgroup label="Gold 585 (14kt)">
+                <option value="12.90" data-info='{"s":925,"l":975,"a":"600","h":120}'>585 rot (12.90)</option>
+                <option value="13.20" data-info='{"s":870,"l":940,"a":"600","h":140}'>585 hellrot (13.20)</option>
+                <option value="13.40" data-info='{"s":850,"l":890,"a":"600","h":170}'>585 rosé (13.40)</option>
+                <option value="13.00" data-info='{"s":825,"l":855,"a":"600","h":140}'>585 sattgelb (13.00)</option>
+                <option value="14.00" data-info='{"s":860,"l":930,"a":"600","h":130}'>585 gelb (14.00)</option>
+                <option value="14.30" data-info='{"s":1015,"l":1105,"a":"650","h":145}'>585 weiß Pd (14.30)</option>
+                <option value="14.40" data-info='{"s":1055,"l":1150,"a":"650","h":100}'>585 weiß Pd2 (14.40)</option>
+                <option value="12.90" data-info='{"s":860,"l":950,"a":"700","h":210}'>585 weiß Ni (12.90)</option>
+                <option value="14.40" data-info='{"s":1075,"l":1165,"a":"650","h":140}'>585 grau Pd (14.40)</option>
+            </optgroup>
+            <optgroup label="Gold 750 (18kt)">
+                <option value="14.90" data-info='{"s":915,"l":940,"a":"600","h":175}'>750 rot (14.90)</option>
+                <option value="15.00" data-info='{"s":900,"l":930,"a":"600","h":185}'>750 rot 5N (15.00)</option>
+                <option value="15.10" data-info='{"s":860,"l":900,"a":"600","h":165}'>750 hellrot (15.10)</option>
+                <option value="15.20" data-info='{"s":870,"l":885,"a":"600","h":155}'>750 rosé 4N (15.20)</option>
+                <option value="15.40" data-info='{"s":890,"l":915,"a":"600","h":145}'>750 sattgelb 3N (15.40)</option>
+                <option value="15.40" data-info='{"s":850,"l":890,"a":"600","h":140}'>750 gelb (15.40)</option>
+                <option value="15.50" data-info='{"s":855,"l":900,"a":"600","h":140}' selected>750 gelb 2N (15.50)</option>
+                <option value="15.80" data-info='{"s":1070,"l":1165,"a":"650","h":170}'>750 grau Pd (15.80)</option>
+                <option value="15.90" data-info='{"s":1045,"l":1135,"a":"650","h":135}'>750 weiß Pd (15.90)</option>
+                <option value="15.90" data-info='{"s":1040,"l":1130,"a":"650","h":110}'>750 weiß Pd2 (15.90)</option>
+                <option value="14.60" data-info='{"s":860,"l":895,"a":"700","h":160}'>750 weiß Ni (14.60)</option>
+                <option value="14.90" data-info='{"s":880,"l":915,"a":"700","h":190}'>750 weiß Ni2 (14.90)</option>
+            </optgroup>
+            <optgroup label="Gold 900-999">
+                <option value="17.80" data-info='{"s":970,"l":1000,"a":"","h":55}'>917 sattgelb (17.80)</option>
+                <option value="18.80" data-info='{"s":1030,"l":1045,"a":"","h":45}'>990 sattgelb (18.80)</option>
+                <option value="19.30" data-info='{"s":1063,"l":1063,"a":"","h":25}'>999 Feingold (19.30)</option>
+            </optgroup>
+            <optgroup label="Platin">
+                <option value="20.10" data-info='{"s":1730,"l":1745,"a":"","h":110}'>Pt 960 Cu (20.10)</option>
+                <option value="20.80" data-info='{"s":1800,"l":1800,"a":"","h":170}'>Pt 952 WRu (20.80)</option>
+                <option value="13.60" data-info='{"s":1240,"l":1330,"a":"","h":180}'>Pt 600 WRu (13.60)</option>
+            </optgroup>
+            <optgroup label="Palladium">
+                <option value="11.00" data-info='{"s":1155,"l":1230,"a":"","h":130}'>Pd 500 grau (11.00)</option>
+                <option value="10.80" data-info='{"s":1100,"l":1180,"a":"","h":170}'>Pd 500 WRu (10.80)</option>
+                <option value="10.90" data-info='{"s":1160,"l":1245,"a":"","h":170}'>Pd 585 grau (10.90)</option>
+                <option value="11.60" data-info='{"s":1320,"l":1480,"a":"","h":140}'>Pd 950 grau (11.60)</option>
+            </optgroup>
+            <optgroup label="Silber">
+                <option value="10.50" data-info='{"s":961,"l":961,"a":"600","h":25}'>999 Feinsilber (10.50)</option>
+                <option value="10.30" data-info='{"s":825,"l":900,"a":"600","h":70}'>935 Silber (10.30)</option>
+                <option value="10.30" data-info='{"s":830,"l":910,"a":"600","h":60}'>925 Sterling (10.30)</option>
+            </optgroup>
         </select>
+        <div id="alloyInfoBadge" style="margin-top: 8px; font-size: 0.75rem; color: var(--text-dim); line-height: 1.5;"></div>
     </div>
 
     <ul class="sidebar-menu">
@@ -813,6 +870,7 @@
             <li><a id="nav-ringresize" onclick="navigateTo('ringresize', t('nav.ringresize'))" data-i18n="nav.ringresize">Ringgröße ändern</a></li>
             <li><a id="nav-bezel" onclick="navigateTo('bezel', t('nav.bezel'))" data-i18n="nav.bezel">Zargen</a></li>
             <li><a id="nav-stones" onclick="navigateTo('stones', t('nav.stones'))" data-i18n="nav.stones">Steinmaße</a></li>
+            <li><a id="nav-stoneweight" onclick="navigateTo('stoneweight', t('nav.stoneweight'))" data-i18n="nav.stoneweight">Steingewicht schätzen</a></li>
         </ul>
     </div>
 
@@ -824,12 +882,30 @@
     </div>
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
-            <li><a id="nav-cast" onclick="navigateTo('cast', t('nav.cast'))" data-i18n="nav.cast">Guss (Wachs → Metall)</a></li>
+            <li><a id="nav-cast" onclick="navigateTo('cast', t('nav.cast'))" data-i18n="nav.cast">Guss (Wachs > Metall)</a></li>
             <li><a id="nav-semi" onclick="navigateTo('semi', t('nav.semi'))" data-i18n="nav.semi">Halbzeug wiegen</a></li>
-            <li><a id="nav-reverse" onclick="navigateTo('reverse', t('nav.reverse'))" data-i18n="nav.reverse">Gewicht → Drahtlänge</a></li>
+            <li><a id="nav-millprofile" onclick="navigateTo('millprofile', t('nav.millprofile'))" data-i18n="nav.millprofile">Walzprofil bestellen</a></li>
+            <li><a id="nav-reverse" onclick="navigateTo('reverse', t('nav.reverse'))" data-i18n="nav.reverse">Gewicht > Drahtlänge</a></li>
             <li><a id="nav-shapes" onclick="navigateTo('shapes', t('nav.shapes'))" data-i18n="nav.shapes">Ronden & Halbkugeln</a></li>
             <li><a id="nav-deform" onclick="navigateTo('deform', t('nav.deform'))" data-i18n="nav.deform">Walzen & Ziehen</a></li>
+            <li><a id="nav-nesting" onclick="navigateTo('nesting', t('nav.nesting'))" data-i18n="nav.nesting">Verschnitt-Optimierung</a></li>
+            <li><a id="nav-galvanic" onclick="navigateTo('galvanic', t('nav.galvanic'))" data-i18n="nav.galvanic">Galvanik-Rechner</a></li>
             <li><a id="nav-units" onclick="navigateTo('units', t('nav.units'))" data-i18n="nav.units">Einheiten-Umrechner</a></li>
+        </ul>
+    </div>
+
+    <!-- Werkstatt-Referenz -->
+    <div class="sidebar-section-label">
+        <button class="sidebar-category-btn" data-cat-i18n="cat.werkstatt" onclick="toggleCategory(this)">
+            Werkstatt-Referenz <span class="chevron">&gt;</span>
+        </button>
+    </div>
+    <div class="sidebar-sub">
+        <ul class="sidebar-menu">
+            <li><a id="nav-solderref" onclick="navigateTo('solderref', t('nav.solderref'))" data-i18n="nav.solderref">Löt-Temperaturen</a></li>
+            <li><a id="nav-polish" onclick="navigateTo('polish', t('nav.polish'))" data-i18n="nav.polish">Schleifen & Polieren</a></li>
+            <li><a id="nav-drills" onclick="navigateTo('drills', t('nav.drills'))" data-i18n="nav.drills">Bohrer & Fräser</a></li>
+            <li><a id="nav-tempcolors" onclick="navigateTo('tempcolors', t('nav.tempcolors'))" data-i18n="nav.tempcolors">Anlauffarben</a></li>
         </ul>
     </div>
 
@@ -842,6 +918,7 @@
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
             <li><a id="nav-alloy" onclick="navigateTo('alloy', t('nav.alloy'))" data-i18n="nav.alloy">Umlegieren</a></li>
+            <li><a id="nav-hallmark" onclick="navigateTo('hallmark', t('nav.hallmark'))" data-i18n="nav.hallmark">Punzierung</a></li>
         </ul>
     </div>
 
@@ -854,6 +931,7 @@
     <div class="sidebar-sub">
         <ul class="sidebar-menu">
             <li><a id="nav-planner" onclick="navigateTo('planner', t('nav.planner'))" style="font-weight: 700;" data-i18n="nav.planner">Arbeitsplaner</a></li>
+            <li><a id="nav-engrave" onclick="navigateTo('engrave', t('nav.engrave'))" data-i18n="nav.engrave">Gravur-Kalkulator</a></li>
             <li><a id="nav-loss" onclick="navigateTo('loss', t('nav.loss'))" data-i18n="nav.loss">Verluste schätzen</a></li>
             <li><a id="nav-cost" onclick="navigateTo('cost', t('nav.cost'))" data-i18n="nav.cost">Materialwert</a></li>
         </ul>
@@ -862,6 +940,7 @@
     <ul class="sidebar-menu" style="margin-top: auto; border-top: 1px solid var(--border);">
         <li><a id="nav-help" onclick="navigateTo('help', t('nav.help'))" style="color:var(--text-dim); font-size: 0.85rem;" data-i18n="nav.help">Hilfe & Tipps</a></li>
     </ul>
+    <div style="padding: 10px 20px; font-size: 0.65rem; color: var(--text-dim); opacity: 0.5;">BenchTool v40</div>
 </div>
 
 <!-- APP CONTENT -->
@@ -893,7 +972,7 @@
             <button class="home-tile" onclick="navigateTo('cast', t('tile.cast'))">
                 <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><path d="M6 20 L6 10 Q6 4 12 4 Q18 4 18 10 L18 20" stroke="currentColor" stroke-width="2.5" fill="none"/><line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2"/></svg>
                 <span class="tile-name" data-i18n="tile.cast">Guss</span>
-                <span class="tile-hint" data-i18n="tile.castHint">Wachs → Metall</span>
+                <span class="tile-hint" data-i18n="tile.castHint">Wachs > Metall</span>
             </button>
             <button class="home-tile" onclick="navigateTo('semi', t('tile.semi'))">
                 <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="4" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="17" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -903,7 +982,7 @@
             <button class="home-tile" onclick="navigateTo('reverse', t('tile.reverse'))">
                 <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2.5"/><polyline points="16,8 20,12 16,16" stroke="currentColor" stroke-width="2.5" fill="none"/><polyline points="8,8 4,12 8,16" stroke="currentColor" stroke-width="2.5" fill="none"/></svg>
                 <span class="tile-name" data-i18n="tile.reverse">Drahtlänge</span>
-                <span class="tile-hint" data-i18n="tile.reverseHint">Gramm → mm</span>
+                <span class="tile-hint" data-i18n="tile.reverseHint">Gramm > mm</span>
             </button>
             <button class="home-tile" onclick="navigateTo('deform', t('tile.deform'))">
                 <svg class="tile-icon-svg" viewBox="0 0 24 24" width="26" height="26"><polyline points="4,16 8,8 16,16 20,8" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>
@@ -1007,10 +1086,71 @@
         </div>
     </div>
 
+    <!-- WALZPROFIL BESTELLEN -->
+    <div id="page-millprofile" class="page">
+        <div class="card">
+            <h2 data-i18n="millprofile.title">Walzprofil bestellen</h2>
+            <div class="subtitle"><span class="help-de">Berechnet das benötigte Walzprofil (Gewicht und Abmessungen) für einen Zieldraht oder ein Zielblech. Basierend auf Volumenerhaltung und der gewählten Legierung.</span><span class="help-en" style="display:none;">Calculates the required mill profile (weight and dimensions) for a target wire or sheet. Based on volume conservation and selected alloy.</span></div>
+
+            <label>Ziel-Profil</label>
+            <select id="mpTargetProfile" onchange="toggleMillProfile(); calcMillProfile();">
+                <option value="round">Runddraht</option>
+                <option value="square">Vierkantdraht</option>
+                <option value="sheet">Blech / Flachmaterial</option>
+            </select>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 15px;">
+                <div id="mpDiaWrap" style="min-width: 120px;">
+                    <label id="mpDimLabel">Ziel-Durchmesser (mm)</label>
+                    <input type="number" id="mpDim1" step="0.01" min="0.1" placeholder="1.0" oninput="calcMillProfile()">
+                </div>
+                <div id="mpDim2Wrap" style="min-width: 120px; display: none;">
+                    <label id="mpDim2Label">Stärke (mm)</label>
+                    <input type="number" id="mpDim2" step="0.01" min="0.1" placeholder="0.5" oninput="calcMillProfile()">
+                </div>
+                <div style="min-width: 120px;">
+                    <label>Ziel-Länge (mm)</label>
+                    <input type="number" id="mpLength" step="1" min="1" placeholder="500" oninput="calcMillProfile()">
+                </div>
+            </div>
+
+            <label style="margin-top: 20px;">Walzprofil-Form</label>
+            <select id="mpSourceProfile" onchange="calcMillProfile();">
+                <option value="octagon" selected>Achteckig (Standard Walzprofil)</option>
+                <option value="round">Runddraht (rund)</option>
+                <option value="square">Vierkant (quadratisch)</option>
+            </select>
+
+            <div id="mpRes" class="result-area">
+                <div id="mpDirection" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; color: var(--text-dim);"></div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Benötigtes Volumen</span><span class="help-en" style="display:none;">Required Volume</span></span><br>
+                        <span class="result-value" id="mpVolume">0.00</span><span class="unit">mm3</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Bestellgewicht</span><span class="help-en" style="display:none;">Order Weight</span></span><br>
+                        <span class="result-value" id="mpWeight" style="color: var(--accent);">0.00</span><span class="unit" style="color: var(--accent);">g</span>
+                        <button class="copy-btn" onclick="copyVal('mpWeight')">Kopieren</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed var(--border);">
+                    <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Walzprofil-Abmessungen</span><span class="help-en" style="display:none;">Mill Profile Dimensions</span></span><br>
+                    <div id="mpProfileDims" style="font-size: 1.05rem; font-weight: 700; margin-top: 6px; line-height: 1.6;"></div>
+                </div>
+
+                <div id="mpFormulaHint" style="font-size: 0.75rem; margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--border); color: var(--text-dim);"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('millprofile')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
     <!-- GEWICHT → DRAHTLÄNGE (RÜCKWÄRTS) -->
     <div id="page-reverse" class="page">
         <div class="card">
-            <h2 data-i18n="reverse.title">Gewicht → Drahtlänge</h2>
+            <h2 data-i18n="reverse.title">Gewicht > Drahtlänge</h2>
             <div class="subtitle">Berechnet die erreichbare Drahtlänge aus einem gegebenen Metallgewicht. Basierend auf der im Menü gewählten Legierung.</div>
             <label>Profil</label>
             <select id="revProfile" onchange="toggleRevInputs(); calcReverse();">
@@ -1091,12 +1231,28 @@
 
             <!-- Draht ziehen -->
             <div id="deformDraw" style="display:block; margin-top: 25px;">
-                <div class="row">
-                    <div><label>Start-Ø (mm)</label><input type="number" id="dd_d1" step="0.1" min="0.1" placeholder="1.0" oninput="calcDrawPossibilities()"></div>
+                <div class="row" style="flex-wrap: wrap;">
+                    <div style="min-width: 100px;">
+                        <label><span class="help-de">Start-Profil</span><span class="help-en" style="display:none;">Start Profile</span></label>
+                        <select id="dd_fromProfile" onchange="toggleDrawInputs(); calcDrawPossibilities()">
+                            <option value="round">Runddraht</option>
+                            <option value="square">Vierkant</option>
+                        </select>
+                    </div>
+                    <div style="min-width: 100px;">
+                        <label><span class="help-de">Ziel-Profil</span><span class="help-en" style="display:none;">Target Profile</span></label>
+                        <select id="dd_toProfile" onchange="toggleDrawInputs(); calcDrawPossibilities()">
+                            <option value="round">Runddraht</option>
+                            <option value="square">Vierkant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="flex-wrap: wrap;">
+                    <div><label id="dd_dim_label">Start-Ø (mm)</label><input type="number" id="dd_d1" step="0.1" min="0.1" placeholder="1.0" oninput="calcDrawPossibilities()"></div>
                     <div><label>Start-Länge (mm)</label><input type="number" id="dd_l1" step="1" min="1" placeholder="100" oninput="calcDrawPossibilities()"></div>
                 </div>
                 <div class="target-input-group">
-                    <label>Ziel-Ø (optional)</label>
+                    <label id="dd_target_label">Ziel-Ø (optional)</label>
                     <input type="number" id="dd_target" step="0.01" min="0.1" placeholder="Leer = alle Stufen" oninput="calcDrawPossibilities()">
                 </div>
                 <div id="drawPossibilities" style="display: none; background: var(--card); padding: 0; margin-top: 25px;">
@@ -1120,6 +1276,36 @@
                     <label>Walz-Stufen</label>
                     <div id="rollTableContainer" style="overflow-x: auto;"></div>
                 </div>
+
+                <!-- BREITENAUSDEHNUNG (nur bei Walzen sichtbar) -->
+                <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--border);">
+                    <label><span class="help-de">Breitenausdehnung Vierkantdraht</span><span class="help-en" style="display:none;">Square Wire Spread Table</span></label>
+                    <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px;"><span class="help-de">Welches Band ergibt ein Vierkantdraht beim Walzen?</span><span class="help-en" style="display:none;">What strip does a square wire produce when rolled?</span></div>
+                    <select id="spreadWireSelect" onchange="showSpreadTable()">
+                        <option value="">--</option>
+                        <option value="4.0">4.0 x 4.0 mm</option>
+                        <option value="3.5">3.5 x 3.5 mm</option>
+                        <option value="3.0">3.0 x 3.0 mm</option>
+                        <option value="2.8">2.8 x 2.8 mm</option>
+                        <option value="2.5">2.5 x 2.5 mm</option>
+                        <option value="2.0">2.0 x 2.0 mm</option>
+                        <option value="1.8">1.8 x 1.8 mm</option>
+                        <option value="1.5">1.5 x 1.5 mm</option>
+                        <option value="1.2">1.2 x 1.2 mm</option>
+                        <option value="1.0">1.0 x 1.0 mm</option>
+                        <option value="0.8">0.8 x 0.8 mm</option>
+                    </select>
+                    <div id="spreadTableResult" style="display: none; margin-top: 10px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead><tr style="border-bottom: 2px solid var(--text);">
+                                <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Dicke</span><span class="help-en" style="display:none;">Thick.</span></th>
+                                <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Breite</span><span class="help-en" style="display:none;">Width</span></th>
+                                <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Red.</span><span class="help-en" style="display:none;">Red.</span></th>
+                            </tr></thead>
+                            <tbody id="spreadTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Rohr ziehen -->
@@ -1142,8 +1328,6 @@
             </div>
         </div>
     </div>
-
-    <!-- RINGWEITEN -->
     <div id="page-ring" class="page">
         <div class="card">
             <h2 data-i18n="ring.title">Ringweiten-Umrechner</h2>
@@ -1193,10 +1377,21 @@
                 </div>
             </div>
             <div id="ringRes" class="result-area">
-                Gestreckte Länge (Säge-Maß / Neutrale Faser):<br>
+                <span class="help-de">Gestreckte Länge (Neutrale Faser):</span><span class="help-en" style="display:none;">Stretched Length (Neutral Axis):</span><br>
                 <span class="result-value" id="blankLength">0.00</span><span class="unit">mm</span>
                 <button class="copy-btn" onclick="copyVal('blankLength')">Kopieren</button>
                 <div style="font-size: 0.75rem; margin-top: 8px; color: var(--text-dim);" id="ringFormulaHint"></div>
+                <div id="ringSizeConversions" style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed var(--border); display: none;">
+                    <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;"><span class="help-de">Internationale Ringgrößen</span><span class="help-en" style="display:none;">International Ring Sizes</span></span>
+                    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 0.85rem;">
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">EU</span><br><strong id="convEU">--</strong></div>
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">Innen-Ø</span><br><strong id="convDia">--</strong> mm</div>
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">US / CA</span><br><strong id="convUS">--</strong></div>
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">UK / AU</span><br><strong id="convUK">--</strong></div>
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">JP</span><br><strong id="convJP">--</strong></div>
+                        <div><span style="color:var(--text-dim);font-size:0.7rem;">FR / RU</span><br><strong id="convFR">--</strong></div>
+                    </div>
+                </div>
             </div>
             <button class="reset-link" onclick="resetPage('ring')">Felder zurücksetzen</button>
         </div>
@@ -1370,6 +1565,69 @@
         </div>
     </div>
 
+    <!-- STEINGEWICHT SCHÄTZEN -->
+    <div id="page-stoneweight" class="page">
+        <div class="card">
+            <h2 data-i18n="stoneweight.title">Steingewicht schätzen</h2>
+            <div class="subtitle"><span class="help-de">Schätzt das Gewicht eines Edelsteins anhand seiner Maße und seines Schliffs.</span><span class="help-en" style="display:none;">Estimates gemstone weight from dimensions and cut.</span></div>
+
+            <label><span class="help-de">Schliff</span><span class="help-en" style="display:none;">Cut</span></label>
+            <select id="gemCut" onchange="toggleGemInputs(); calcGemWeight();">
+                <option value="round">Brillant (rund)</option>
+                <option value="oval">Oval</option>
+                <option value="emerald">Smaragd / Baguette</option>
+                <option value="marquise">Marquise / Navette</option>
+                <option value="pear">Tropfen / Pear</option>
+                <option value="cab_round">Cabochon rund</option>
+                <option value="cab_oval">Cabochon oval</option>
+            </select>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 15px;">
+                <div style="min-width: 90px;">
+                    <label id="gemDim1Label"><span class="help-de">Durchmesser (mm)</span><span class="help-en" style="display:none;">Diameter (mm)</span></label>
+                    <input type="number" id="gemDim1" step="0.01" min="0" placeholder="6.5" oninput="calcGemWeight()">
+                </div>
+                <div id="gemDim2Wrap" style="min-width: 90px; display: none;">
+                    <label><span class="help-de">Breite (mm)</span><span class="help-en" style="display:none;">Width (mm)</span></label>
+                    <input type="number" id="gemDim2" step="0.01" min="0" placeholder="4.5" oninput="calcGemWeight()">
+                </div>
+                <div style="min-width: 90px;">
+                    <label><span class="help-de">Tiefe (mm)</span><span class="help-en" style="display:none;">Depth (mm)</span></label>
+                    <input type="number" id="gemDepth" step="0.01" min="0" placeholder="4.0" oninput="calcGemWeight()">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div>
+                    <label><span class="help-de">Steinart (spez. Gewicht)</span><span class="help-en" style="display:none;">Stone Type (spec. gravity)</span></label>
+                    <select id="gemSG" onchange="calcGemWeight()">
+                        <option value="3.52">Diamant (3.52)</option>
+                        <option value="4.00">Korund / Rubin / Saphir (4.00)</option>
+                        <option value="2.72">Smaragd / Beryll (2.72)</option>
+                        <option value="2.65">Quarz / Amethyst / Citrin (2.65)</option>
+                        <option value="3.06">Turmalin (3.06)</option>
+                        <option value="5.80">Zirkonia CZ (5.80)</option>
+                        <option value="2.72">Aquamarin (2.72)</option>
+                        <option value="2.10">Opal (2.10)</option>
+                        <option value="3.53">Topas (3.53)</option>
+                        <option value="3.35">Tansanit (3.35)</option>
+                        <option value="3.61">Granat (3.61)</option>
+                        <option value="2.57">Mondstein (2.57)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="gemRes" class="result-area">
+                <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Geschätztes Gewicht</span><span class="help-en" style="display:none;">Estimated Weight</span></span><br>
+                <span class="result-value" id="gemWeightCt" style="font-size: 1.6em;">0.00</span><span class="unit">ct</span>
+                <button class="copy-btn" onclick="copyVal('gemWeightCt')">Kopieren</button>
+                <div style="margin-top: 8px; font-size: 0.9rem; color: var(--text-dim);">= <span id="gemWeightG">0.000</span> g</div>
+                <div id="gemFormulaHint" style="font-size: 0.75rem; margin-top: 8px; color: var(--text-dim);"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('stoneweight')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
     <!-- ALTMETALL LEGIEREN -->
     <div id="page-alloy" class="page">
         <div class="card">
@@ -1444,7 +1702,9 @@
                         <option value="yellow">Gelbgold (Ag/Cu 1:1)</option>
                         <option value="rose">Roségold (Ag 20% / Cu 80%)</option>
                         <option value="red">Rotgold (fast nur Cu)</option>
-                        <option value="white">Weißgold (Ag + Pd)</option>
+                        <option value="white_pd">Weißgold Pd (Ag 40% / Pd 60%)</option>
+                        <option value="white_ni">Weißgold Ni (Cu 15% / Ni 85%)</option>
+                        <option value="grey_pd">Graugold Pd (Ag 20% / Pd 80%)</option>
                     </select>
                 </div>
 
@@ -1466,7 +1726,7 @@
                             </select>
                             <input type="number" id="addFine" step="1" min="0" max="1000" placeholder="Auto" oninput="calcAlloy()">
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">Auto = Feinmetall zum Hochlegieren, Cu/Ag zum Runterlegieren</div>
+                        <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;"><span class="help-de">Auto = Feinmetall zum Hochlegieren, Cu/Ag zum Runterlegieren</span><span class="help-en" style="display:none;">Auto = fine metal for upgrading, Cu/Ag for downgrading</span></div>
                     </div>
                 </div>
                 </div>
@@ -1526,6 +1786,156 @@
             </div>
 
             <button class="reset-link" onclick="resetPage('alloy')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- PUNZIERUNG -->
+    <div id="page-hallmark" class="page">
+        <div class="card">
+            <h2 data-i18n="hallmark.title">Punzierung</h2>
+            <div class="subtitle"><span class="help-de">Übersicht der gesetzlichen Feingehaltsstempel für Edelmetalle in Deutschland und international.</span><span class="help-en" style="display:none;">Overview of legal fineness hallmarks for precious metals in Germany and internationally.</span></div>
+
+            <label><span class="help-de">Gold</span><span class="help-en" style="display:none;">Gold</span></label>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 20px;">
+                    <thead><tr style="border-bottom: 2px solid var(--text);">
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Stempel</span><span class="help-en" style="display:none;">Stamp</span></th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);">Karat</th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Gehalt</span><span class="help-en" style="display:none;">Fineness</span></th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Bezeichnung</span><span class="help-en" style="display:none;">Name</span></th>
+                    </tr></thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">999</td><td>24 kt</td><td>99.9%</td><td><span class="help-de">Feingold</span><span class="help-en" style="display:none;">Fine Gold</span></td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">916</td><td>22 kt</td><td>91.6%</td><td><span class="help-de">Münzgold (Sovereign)</span><span class="help-en" style="display:none;">Coin Gold (Sovereign)</span></td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">750</td><td>18 kt</td><td>75.0%</td><td><span class="help-de">Standard Schmuck (DE/CH)</span><span class="help-en" style="display:none;">Standard Jewellery (DE/CH)</span></td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">585</td><td>14 kt</td><td>58.5%</td><td><span class="help-de">Standard Schmuck (international)</span><span class="help-en" style="display:none;">Standard Jewellery (int'l)</span></td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">375</td><td>9 kt</td><td>37.5%</td><td><span class="help-de">Mindest-Goldgehalt (AT/CH/UK)</span><span class="help-en" style="display:none;">Min. Gold (AT/CH/UK)</span></td></tr>
+                        <tr><td style="padding:8px 6px;font-weight:700;">333</td><td>8 kt</td><td>33.3%</td><td><span class="help-de">Nur in DE zugelassen</span><span class="help-en" style="display:none;">Only allowed in DE</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <label><span class="help-de">Silber</span><span class="help-en" style="display:none;">Silver</span></label>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 20px;">
+                    <thead><tr style="border-bottom: 2px solid var(--text);">
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Stempel</span><span class="help-en" style="display:none;">Stamp</span></th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Gehalt</span><span class="help-en" style="display:none;">Fineness</span></th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Bezeichnung</span><span class="help-en" style="display:none;">Name</span></th>
+                    </tr></thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">999</td><td>99.9%</td><td><span class="help-de">Feinsilber</span><span class="help-en" style="display:none;">Fine Silver</span></td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">925</td><td>92.5%</td><td>Sterling</td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">835</td><td>83.5%</td><td><span class="help-de">Altes Tafelsilber</span><span class="help-en" style="display:none;">Old Silverware</span></td></tr>
+                        <tr><td style="padding:8px 6px;font-weight:700;">800</td><td>80.0%</td><td><span class="help-de">Bestecksilber (veraltet)</span><span class="help-en" style="display:none;">Cutlery Silver (obsolete)</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <label><span class="help-de">Platin / Palladium</span><span class="help-en" style="display:none;">Platinum / Palladium</span></label>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 20px;">
+                    <thead><tr style="border-bottom: 2px solid var(--text);">
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Stempel</span><span class="help-en" style="display:none;">Stamp</span></th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);">Metall</th>
+                        <th style="text-align:left;padding:8px 6px;font-size:0.7rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Gehalt</span><span class="help-en" style="display:none;">Fineness</span></th>
+                    </tr></thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">Pt 950</td><td>Platin</td><td>95.0%</td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">Pt 900</td><td>Platin</td><td>90.0%</td></tr>
+                        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 6px;font-weight:700;">Pd 950</td><td>Palladium</td><td>95.0%</td></tr>
+                        <tr><td style="padding:8px 6px;font-weight:700;">Pd 500</td><td>Palladium</td><td>50.0%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="padding: 12px; background: var(--bg); border-radius: 2px; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7;">
+                <span class="help-de">
+                    <strong>Deutschland (DE)</strong><br>
+                    Punzierung ist freiwillig (Gesetz über den Feingehalt der Gold- und Silberwaren). Wer stempelt, muss den korrekten Gehalt angeben. Mindestgehalt Gold: 333/1000, Silber: 800/1000. Meisterstempel (Herstellerzeichen) empfohlen, aber nicht Pflicht. 333er Gold ist nur in DE zugelassen.
+                    <br><br>
+                    <strong>Österreich (AT)</strong><br>
+                    Punzierungspflicht für gewerblichen Handel (Punzierungsgesetz). Amtliche Punzierung durch das Punzierungsamt. Mindestgehalt Gold: 585/1000 (14kt), Silber: 800/1000. 333er Gold darf nicht als Goldschmuck verkauft werden. Pflicht-Stempel: Feingehaltsstempel + Amtspunze (Firmenbuchnummer). Strafbar bei falscher Punzierung.
+                    <br><br>
+                    <strong>Schweiz (CH)</strong><br>
+                    Edelmetallkontrollgesetz: Punzierungspflicht für den Handel. Mindestgehalt Gold: 375/1000 (9kt), Silber: 800/1000, Platin: 850/1000. Verantwortungspunze (Herstellermarke) ist Pflicht. Amtliche Kontrollpunze (Bernhardiner-Hundekopf für Gold, Edelweiß für Silber). 333er Gold ist nicht zugelassen.
+                </span>
+                <span class="help-en" style="display:none;">
+                    <strong>Germany (DE)</strong><br>
+                    Hallmarking is voluntary. If stamped, correct fineness must be indicated. Minimum fineness for gold: 333/1000, silver: 800/1000. Maker's mark recommended but not mandatory. 333 gold is only permitted in DE.
+                    <br><br>
+                    <strong>Austria (AT)</strong><br>
+                    Hallmarking mandatory for commercial trade (Punzierungsgesetz). Official hallmarking by the Assay Office. Minimum gold: 585/1000 (14kt), silver: 800/1000. 333 gold may not be sold as gold jewellery. Required stamps: fineness mark + official hallmark. False hallmarking is a criminal offence.
+                    <br><br>
+                    <strong>Switzerland (CH)</strong><br>
+                    Precious metals control law: hallmarking mandatory for trade. Minimum gold: 375/1000 (9kt), silver: 800/1000, platinum: 850/1000. Responsibility mark (maker's mark) is mandatory. Official control marks (St. Bernard dog head for gold, Edelweiss for silver). 333 gold is not permitted.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRAVUR-KALKULATOR -->
+    <div id="page-engrave" class="page">
+        <div class="card">
+            <h2 data-i18n="engrave.title">Gravur-Kalkulator</h2>
+            <div class="subtitle"><span class="help-de">Berechnet den Preis einer Gravur basierend auf Zeichenanzahl, Schriftart und Technik.</span><span class="help-en" style="display:none;">Calculates engraving price based on character count, font style and technique.</span></div>
+
+            <label><span class="help-de">Gravurtext</span><span class="help-en" style="display:none;">Engraving Text</span></label>
+            <input type="text" id="engraveText" placeholder="z.B. Anna & Max 15.06.2025" oninput="calcEngrave()" style="font-size: 1rem; padding: 10px;" data-i18n-ph="engrave.textPh">
+
+            <div style="margin-top: 8px; font-size: 0.85rem; color: var(--text-dim);">
+                <span class="help-de">Zeichen:</span><span class="help-en" style="display:none;">Characters:</span> <strong id="engraveCharCount">0</strong>
+            </div>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 15px;">
+                <div style="min-width: 140px;">
+                    <label><span class="help-de">Technik</span><span class="help-en" style="display:none;">Technique</span></label>
+                    <select id="engraveTechnique" onchange="calcEngrave()">
+                        <option value="machine">Maschinengravur</option>
+                        <option value="hand" selected>Handgravur</option>
+                        <option value="diamond">Diamantgravur (Spitz)</option>
+                    </select>
+                </div>
+                <div style="min-width: 140px;">
+                    <label><span class="help-de">Schrift</span><span class="help-en" style="display:none;">Font</span></label>
+                    <select id="engraveFont" onchange="calcEngrave()">
+                        <option value="block">Blockschrift</option>
+                        <option value="script" selected>Schreibschrift</option>
+                        <option value="ornamental">Zierschrift / Monogramm</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row" style="flex-wrap: wrap; margin-top: 10px;">
+                <div style="min-width: 120px;">
+                    <label><span class="help-de">Preis pro Zeichen</span><span class="help-en" style="display:none;">Price per Character</span></label>
+                    <input type="number" id="engraveCharPrice" step="0.5" min="0" value="5" oninput="calcEngrave()"> 
+                </div>
+                <div style="min-width: 120px;">
+                    <label><span class="help-de">Grundpreis (Einrichten)</span><span class="help-en" style="display:none;">Setup Fee</span></label>
+                    <input type="number" id="engraveSetup" step="1" min="0" value="15" oninput="calcEngrave()">
+                </div>
+            </div>
+
+            <div id="engraveRes" class="result-area">
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Zeichenpreis</span><span class="help-en" style="display:none;">Character Cost</span></span><br>
+                        <span class="result-value" id="engraveCharTotal">0.00</span><span class="unit">EUR</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;"><span class="help-de">Grundpreis</span><span class="help-en" style="display:none;">Setup</span></span><br>
+                        <span class="result-value" id="engraveSetupTotal">0.00</span><span class="unit">EUR</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.7rem; color: var(--accent); text-transform: uppercase; font-weight: 700;"><span class="help-de">Gesamt</span><span class="help-en" style="display:none;">Total</span></span><br>
+                        <span class="result-value" id="engraveTotal" style="color: var(--accent); font-size: 1.4em;">0.00</span><span class="unit" style="color: var(--accent);">EUR</span>
+                        <button class="copy-btn" onclick="copyVal('engraveTotal')">Kopieren</button>
+                    </div>
+                </div>
+                <div id="engraveHint" style="font-size: 0.75rem; margin-top: 10px; color: var(--text-dim);"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('engrave')">Felder zurücksetzen</button>
         </div>
     </div>
 
@@ -1629,6 +2039,11 @@
         <div class="card">
             <h2 data-i18n="planner.title">Arbeitsplaner</h2>
             <div class="project-tabs" id="projectTabs"></div>
+            <div style="margin-bottom: 15px;">
+                <button onclick="addProject()" style="background:none;border:1px dashed var(--border);padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.8rem;font-weight:600;color:var(--text-dim);border-radius:2px;">
+                    <span class="help-de">+ Neues Projekt</span><span class="help-en" style="display:none;">+ New Project</span>
+                </button>
+            </div>
 
             <div id="projectContent">
                 <label>Projektname</label>
@@ -1790,7 +2205,7 @@
             </div>
 
             <div class="conv-group">
-                <label>Karat → Durchmesser (Brillant, rund)</label>
+                <label>Karat > Durchmesser (Brillant, rund)</label>
                 <div class="subtitle" style="margin-top: -10px;">Ungefährer Durchmesser eines runden Brillantschliffs nach Gewicht.</div>
                 <div class="conv-row">
                     <div>
@@ -1805,6 +2220,201 @@
             </div>
 
             <button class="reset-link" onclick="resetPage('units')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+
+    <!-- VERSCHNITT-OPTIMIERUNG (NESTING) -->
+    <div id="page-nesting" class="page">
+        <div class="card">
+            <h2 data-i18n="nesting.title">Verschnitt-Optimierung</h2>
+            <div class="subtitle"><span class="help-de">Berechnet wie viele Ronden oder Rechtecke aus einem Blech geschnitten werden können.</span><span class="help-en" style="display:none;">Calculates how many discs or rectangles can be cut from a sheet.</span></div>
+            <div class="row" style="flex-wrap:wrap;margin-top:15px;">
+                <div style="min-width:90px;"><label><span class="help-de">Blech Breite (mm)</span><span class="help-en" style="display:none;">Sheet Width (mm)</span></label><input type="number" id="nestSheetW" step="0.1" min="0" placeholder="50" oninput="calcNesting()"></div>
+                <div style="min-width:90px;"><label><span class="help-de">Blech Länge (mm)</span><span class="help-en" style="display:none;">Sheet Length (mm)</span></label><input type="number" id="nestSheetL" step="0.1" min="0" placeholder="100" oninput="calcNesting()"></div>
+            </div>
+            <label style="margin-top:15px;"><span class="help-de">Ausschnitt-Form</span><span class="help-en" style="display:none;">Cutout Shape</span></label>
+            <select id="nestShape" onchange="toggleNestInputs();calcNesting();">
+                <option value="circle">Ronde (rund)</option>
+                <option value="rect">Rechteck</option>
+            </select>
+            <div class="row" style="flex-wrap:wrap;margin-top:10px;">
+                <div id="nestDiaWrap"><label><span class="help-de">Ronden-Ø (mm)</span><span class="help-en" style="display:none;">Disc Ø (mm)</span></label><input type="number" id="nestDia" step="0.1" min="0" placeholder="12" oninput="calcNesting()"></div>
+                <div id="nestRectWrap" style="display:none;"><label><span class="help-de">Stück Breite (mm)</span><span class="help-en" style="display:none;">Piece Width (mm)</span></label><input type="number" id="nestPieceW" step="0.1" min="0" placeholder="10" oninput="calcNesting()"></div>
+                <div id="nestRectWrap2" style="display:none;"><label><span class="help-de">Stück Länge (mm)</span><span class="help-en" style="display:none;">Piece Length (mm)</span></label><input type="number" id="nestPieceL" step="0.1" min="0" placeholder="15" oninput="calcNesting()"></div>
+                <div><label><span class="help-de">Sägeschnitt (mm)</span><span class="help-en" style="display:none;">Saw Kerf (mm)</span></label><input type="number" id="nestKerf" step="0.05" min="0" value="0.3" oninput="calcNesting()"></div>
+            </div>
+            <div id="nestRes" class="result-area">
+                <span style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;"><span class="help-de">Ergebnis</span><span class="help-en" style="display:none;">Result</span></span><br>
+                <span class="result-value" id="nestCount" style="font-size:1.6em;">0</span><span class="unit"><span class="help-de">Stück</span><span class="help-en" style="display:none;">pcs</span></span>
+                <div style="margin-top:8px;font-size:0.85rem;color:var(--text-dim);">
+                    <span class="help-de">Materialausnutzung:</span><span class="help-en" style="display:none;">Material usage:</span> <strong id="nestEfficiency">0</strong>%
+                </div>
+                <div id="nestDetail" style="font-size:0.75rem;margin-top:8px;color:var(--text-dim);"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('nesting')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- GALVANIK-RECHNER -->
+    <div id="page-galvanic" class="page">
+        <div class="card">
+            <h2 data-i18n="galvanic.title">Galvanik-Rechner</h2>
+            <div class="subtitle"><span class="help-de">Berechnet Beschichtungsdicke, Goldverbrauch und benötigte Zeit beim galvanischen Vergolden.</span><span class="help-en" style="display:none;">Calculates coating thickness, gold consumption and time required for electroplating.</span></div>
+            <div class="row" style="flex-wrap:wrap;margin-top:15px;">
+                <div style="min-width:90px;"><label><span class="help-de">Oberfläche (cm2)</span><span class="help-en" style="display:none;">Surface (cm2)</span></label><input type="number" id="galvArea" step="0.1" min="0" placeholder="5.0" oninput="calcGalvanic()"></div>
+                <div style="min-width:90px;"><label><span class="help-de">Schichtdicke (um)</span><span class="help-en" style="display:none;">Thickness (um)</span></label><input type="number" id="galvThick" step="0.1" min="0" value="0.5" oninput="calcGalvanic()"></div>
+                <div style="min-width:90px;"><label><span class="help-de">Stromdichte (A/dm2)</span><span class="help-en" style="display:none;">Current Density (A/dm2)</span></label><input type="number" id="galvCurrent" step="0.1" min="0" value="0.5" oninput="calcGalvanic()"></div>
+            </div>
+            <label style="margin-top:10px;"><span class="help-de">Beschichtung</span><span class="help-en" style="display:none;">Coating</span></label>
+            <select id="galvType" onchange="calcGalvanic()">
+                <option value="au" data-rho="19.3" data-eq="0.0736">Gold (Au)</option>
+                <option value="rh" data-rho="12.4" data-eq="0.0128">Rhodium (Rh)</option>
+                <option value="ag" data-rho="10.5" data-eq="0.4025">Silber (Ag)</option>
+                <option value="pd" data-rho="12.0" data-eq="0.0198">Palladium (Pd)</option>
+            </select>
+            <div id="galvRes" class="result-area">
+                <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                    <div><span style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;"><span class="help-de">Metallverbrauch</span><span class="help-en" style="display:none;">Metal Usage</span></span><br><span class="result-value" id="galvWeight">0.000</span><span class="unit">g</span></div>
+                    <div><span style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;"><span class="help-de">Dauer</span><span class="help-en" style="display:none;">Duration</span></span><br><span class="result-value" id="galvTime" style="color:var(--accent);">0</span><span class="unit" style="color:var(--accent);">min</span></div>
+                </div>
+                <div id="galvDetail" style="font-size:0.75rem;margin-top:10px;color:var(--text-dim);"></div>
+            </div>
+            <button class="reset-link" onclick="resetPage('galvanic')">Felder zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- LÖT-TEMPERATUREN -->
+    <div id="page-solderref" class="page">
+        <div class="card">
+            <h2 data-i18n="solderref.title">Löt-Temperaturen</h2>
+            <div class="subtitle"><span class="help-de">Übersicht der gängigen Lote, Schmelzbereiche und Flussmittel für Edelmetalle.</span><span class="help-en" style="display:none;">Overview of common solders, melting ranges and fluxes for precious metals.</span></div>
+
+            <label><span class="help-de">Gold-Lote</span><span class="help-en" style="display:none;">Gold Solders</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Lot</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Schmelz °C</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Einsatz</span><span class="help-en" style="display:none;">Use</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">585 Hart</td><td>800-830</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Erste Lötung, tragende Verbindungen</span><span class="help-en" style="display:none;">First solder, structural joints</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">585 Mittel</td><td>750-780</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Zweite Lötung</span><span class="help-en" style="display:none;">Second solder</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">585 Weich</td><td>680-720</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Reparatur, empfindliche Stellen</span><span class="help-en" style="display:none;">Repair, delicate areas</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">750 Hart</td><td>830-860</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Erste Lötung 750er</span><span class="help-en" style="display:none;">First solder 750</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">750 Mittel</td><td>780-810</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Zweite Lötung 750er</span><span class="help-en" style="display:none;">Second solder 750</span></td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">750 Weich</td><td>720-750</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Reparatur 750er</span><span class="help-en" style="display:none;">Repair 750</span></td></tr>
+                </tbody>
+            </table>
+
+            <label><span class="help-de">Silber-Lote</span><span class="help-en" style="display:none;">Silver Solders</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Lot</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Schmelz °C</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Einsatz</span><span class="help-en" style="display:none;">Use</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Ag Hart</td><td>780-820</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Erste Lötung, stabil</span><span class="help-en" style="display:none;">First solder, stable</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Ag Mittel</td><td>720-770</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Zweite Lötung</span><span class="help-en" style="display:none;">Second solder</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Ag Weich</td><td>640-700</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Reparatur, Empfindliches</span><span class="help-en" style="display:none;">Repair, delicate</span></td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">Ag Extra Weich</td><td>600-650</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Nachträgliche Reparatur</span><span class="help-en" style="display:none;">Post-repair</span></td></tr>
+                </tbody>
+            </table>
+
+            <label><span class="help-de">Platin-Lote</span><span class="help-en" style="display:none;">Platinum Solders</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Lot</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Schmelz °C</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Hinweis</span><span class="help-en" style="display:none;">Note</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Pt 950</td><td>1100-1200</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Schweißen bevorzugt! Kein Flussmittel</span><span class="help-en" style="display:none;">Welding preferred! No flux</span></td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">Pt Weichlot</td><td>~1050</td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Nur Keramik-Unterlage, kein Borax</span><span class="help-en" style="display:none;">Ceramic base only, no borax</span></td></tr>
+                </tbody>
+            </table>
+
+            <div style="padding:12px;background:var(--bg);border-radius:2px;font-size:0.8rem;color:var(--text-dim);line-height:1.6;">
+                <span class="help-de"><strong>Flussmittel:</strong> Gold/Silber: Borax oder Lotflux. Nickelweißgold: Borsäure (kein Borax, keine Kohle!). Palladiumweißgold: Schwefelfreies Flussmittel, Keramik-Lötplatte. Platin: Kein Flussmittel nötig (oxidiert nicht). Grundregel: Hart zuerst, Weich zuletzt.</span>
+                <span class="help-en" style="display:none;"><strong>Flux:</strong> Gold/Silver: Borax or solder flux. Nickel white gold: Boric acid (no borax, no charcoal!). Palladium white gold: Sulfur-free flux, ceramic solder plate. Platinum: No flux needed (does not oxidize). Rule: Hard first, Soft last.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCHLEIFEN & POLIEREN -->
+    <div id="page-polish" class="page">
+        <div class="card">
+            <h2 data-i18n="polish.title">Schleifen & Polieren</h2>
+            <div class="subtitle"><span class="help-de">Stufenplan vom Rohling bis zum Hochglanz. Immer von grob nach fein arbeiten.</span><span class="help-en" style="display:none;">Step plan from blank to high gloss. Always work from coarse to fine.</span></div>
+
+            <label><span class="help-de">Schleifstufen</span><span class="help-en" style="display:none;">Sanding Steps</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Körnung</span><span class="help-en" style="display:none;">Grit</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Stufe</span><span class="help-en" style="display:none;">Stage</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Einsatz</span><span class="help-en" style="display:none;">Use</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">180-240</td><td><span class="help-de">Grobschliff</span><span class="help-en" style="display:none;">Rough</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Formanpassung, Lotentfernung</span><span class="help-en" style="display:none;">Shaping, solder removal</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">320-400</td><td><span class="help-de">Mittelschliff</span><span class="help-en" style="display:none;">Medium</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Kratzer vom Grobschliff entfernen</span><span class="help-en" style="display:none;">Remove coarse scratches</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">600-800</td><td><span class="help-de">Feinschliff</span><span class="help-en" style="display:none;">Fine</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Oberfläche glätten, Mattierung</span><span class="help-en" style="display:none;">Surface smoothing, matting</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">1000-1200</td><td><span class="help-de">Vorpolitur</span><span class="help-en" style="display:none;">Pre-polish</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Vorbereitung für Hochglanz</span><span class="help-en" style="display:none;">Prep for high gloss</span></td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">2000-4000</td><td><span class="help-de">Feinpolitur</span><span class="help-en" style="display:none;">Final polish</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Nur bei Spezialanwendungen</span><span class="help-en" style="display:none;">Special applications only</span></td></tr>
+                </tbody>
+            </table>
+
+            <label><span class="help-de">Poliermittel</span><span class="help-en" style="display:none;">Polishing Compounds</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Mittel</span><span class="help-en" style="display:none;">Compound</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Typ</span><span class="help-en" style="display:none;">Type</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Für</span><span class="help-en" style="display:none;">For</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Tripel</td><td><span class="help-de">Vorpolitur</span><span class="help-en" style="display:none;">Pre-polish</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Gold, Silber — entfernt feine Kratzer</span><span class="help-en" style="display:none;">Gold, Silver — removes fine scratches</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Elkalit / Lenzburg</td><td><span class="help-de">Hochglanz</span><span class="help-en" style="display:none;">High gloss</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Feiner als Tripel, für Gold</span><span class="help-en" style="display:none;">Finer than Tripoli, for gold</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Dialux Blau</td><td><span class="help-de">Hochglanz</span><span class="help-en" style="display:none;">High gloss</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Universell — Gold, Silber, Stahl</span><span class="help-en" style="display:none;">Universal — Gold, Silver, Steel</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Dialux Weiß</td><td><span class="help-de">Spiegelglanz</span><span class="help-en" style="display:none;">Mirror</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Finale Stufe, Spiegelfinish</span><span class="help-en" style="display:none;">Final stage, mirror finish</span></td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">Dialux Rot</td><td><span class="help-de">Vorpolitur</span><span class="help-en" style="display:none;">Pre-polish</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Für harte Metalle, Platin</span><span class="help-en" style="display:none;">Hard metals, Platinum</span></td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">Zinnoxid</td><td><span class="help-de">Spiegelglanz</span><span class="help-en" style="display:none;">Mirror</span></td><td style="font-size:0.75rem;color:var(--text-dim);"><span class="help-de">Platin-Endpolitur, nass anwenden</span><span class="help-en" style="display:none;">Platinum final polish, apply wet</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- BOHRER & FRÄSER -->
+    <div id="page-drills" class="page">
+        <div class="card">
+            <h2 data-i18n="drills.title">Bohrer & Fräser</h2>
+            <div class="subtitle"><span class="help-de">Welcher Bohrer für welchen Stein-Ø? Richtwerte für die Fass-Vorbereitung.</span><span class="help-en" style="display:none;">Which drill for which stone? Guidelines for setting preparation.</span></div>
+
+            <label><span class="help-de">Brillant-Bohrung (rund)</span><span class="help-en" style="display:none;">Brilliant Drilling (round)</span></label>
+            <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:20px;">
+                <thead><tr style="border-bottom:2px solid var(--text);"><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);">Stein Ø</th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Bohrer Ø</span><span class="help-en" style="display:none;">Drill Ø</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Senkung Ø</span><span class="help-en" style="display:none;">Countersink Ø</span></th><th style="text-align:left;padding:6px;font-size:0.65rem;text-transform:uppercase;color:var(--text-dim);"><span class="help-de">Fräser (Kugel)</span><span class="help-en" style="display:none;">Bur (Ball)</span></th></tr></thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">1.0 mm</td><td>0.7</td><td>0.9</td><td>0.8</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">1.5 mm</td><td>0.9</td><td>1.3</td><td>1.2</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">2.0 mm</td><td>1.2</td><td>1.7</td><td>1.6</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">2.5 mm</td><td>1.5</td><td>2.1</td><td>2.0</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">3.0 mm</td><td>1.8</td><td>2.5</td><td>2.3</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">4.0 mm</td><td>2.5</td><td>3.3</td><td>3.0</td></tr>
+                    <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;font-weight:700;">5.0 mm</td><td>3.0</td><td>4.2</td><td>3.8</td></tr>
+                    <tr><td style="padding:6px;font-weight:700;">6.0 mm</td><td>3.5</td><td>5.0</td><td>4.5</td></tr>
+                </tbody>
+            </table>
+            <div style="padding:12px;background:var(--bg);border-radius:2px;font-size:0.8rem;color:var(--text-dim);line-height:1.6;">
+                <span class="help-de"><strong>Tipps:</strong> Bohrer immer kleiner als Stein-Ø wählen (~70%). Senkung = Rondist-Ø minus 10-15%. Kugelfräser für Pavé ca. 80% vom Stein-Ø. Hartmetall-Fräser für Platin, HSS für Gold/Silber. Immer zentrieren (Ankörnen oder Pilotbohrung).</span>
+                <span class="help-en" style="display:none;"><strong>Tips:</strong> Drill always smaller than stone Ø (~70%). Countersink = girdle Ø minus 10-15%. Ball bur for pavé approx. 80% of stone Ø. Carbide burs for platinum, HSS for gold/silver. Always center punch or pilot drill.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANLAUFFARBEN -->
+    <div id="page-tempcolors" class="page">
+        <div class="card">
+            <h2 data-i18n="tempcolors.title">Anlauffarben</h2>
+            <div class="subtitle"><span class="help-de">Temperatur-Referenz anhand der Glühfarbe. Für Stahl und Edelmetalle.</span><span class="help-en" style="display:none;">Temperature reference by glow color. For steel and precious metals.</span></div>
+
+            <label><span class="help-de">Stahl — Anlassfarben</span><span class="help-en" style="display:none;">Steel — Temper Colors</span></label>
+            <div style="font-size:0.82rem;line-height:2.2;">
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#F5E6A0;border:1px solid var(--border);"></span> <strong>220°C</strong> — <span class="help-de">Hellgelb (Strohgelb)</span><span class="help-en" style="display:none;">Light Yellow (Straw)</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#D4A855;border:1px solid var(--border);"></span> <strong>240°C</strong> — <span class="help-de">Dunkelgelb (Gold)</span><span class="help-en" style="display:none;">Dark Yellow (Gold)</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#B87333;border:1px solid var(--border);"></span> <strong>260°C</strong> — <span class="help-de">Braun</span><span class="help-en" style="display:none;">Brown</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#8B4585;border:1px solid var(--border);"></span> <strong>280°C</strong> — <span class="help-de">Purpur / Violett</span><span class="help-en" style="display:none;">Purple / Violet</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#4169E1;border:1px solid var(--border);"></span> <strong>300°C</strong> — <span class="help-de">Kornblumenblau</span><span class="help-en" style="display:none;">Cornflower Blue</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#708090;border:1px solid var(--border);"></span> <strong>320°C</strong> — <span class="help-de">Hellgrau / Stahlblau</span><span class="help-en" style="display:none;">Light Grey / Steel Blue</span></div>
+            </div>
+
+            <label style="margin-top:25px;"><span class="help-de">Glühfarben (Dunkel)</span><span class="help-en" style="display:none;">Glow Colors (Dark)</span></label>
+            <div style="font-size:0.82rem;line-height:2.2;">
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#330000;border:1px solid var(--border);"></span> <strong>400°C</strong> — <span class="help-de">Erstes Dunkelrot (kaum sichtbar)</span><span class="help-en" style="display:none;">First dark red (barely visible)</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#8B0000;border:1px solid var(--border);"></span> <strong>500°C</strong> — <span class="help-de">Dunkelrot</span><span class="help-en" style="display:none;">Dark Red</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#CC2200;border:1px solid var(--border);"></span> <strong>600°C</strong> — <span class="help-de">Kirschrot (Silber glühen!)</span><span class="help-en" style="display:none;">Cherry Red (anneal silver!)</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#FF4500;border:1px solid var(--border);"></span> <strong>700°C</strong> — <span class="help-de">Hellrot (Gold glühen!)</span><span class="help-en" style="display:none;">Bright Red (anneal gold!)</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#FF8C00;border:1px solid var(--border);"></span> <strong>850°C</strong> — <span class="help-de">Orange / Hellgelb</span><span class="help-en" style="display:none;">Orange / Light Yellow</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:4px 0;"><span style="display:inline-block;width:28px;height:28px;border-radius:2px;background:#FFFACD;border:1px solid var(--border);"></span> <strong>1000°C+</strong> — <span class="help-de">Weißglut (Platin löten)</span><span class="help-en" style="display:none;">White heat (Platinum soldering)</span></div>
+            </div>
         </div>
     </div>
 
@@ -1856,8 +2466,16 @@
             <details style="margin-bottom: 15px;">
                 <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Walzen & Ziehen</span><span class="help-en" style="display:none;">Rolling & Drawing</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    <span class="help-de">Die Tabelle zeigt alle Zwischenstufen. Glühen wird bei 60% kumulativer Reduktion seit dem letzten Glühen angezeigt. Optional: Ziel-Maß eingeben — die Zielzeile wird grün markiert.</span>
-                    <span class="help-en" style="display:none;">The table shows all intermediate steps. Annealing is indicated at 60% cumulative reduction since the last anneal. Optional: enter a target dimension — the target row is highlighted in green.</span>
+                    <span class="help-de">Die Tabelle zeigt alle Zwischenstufen. Glühen wird bei 60% kumulativer Reduktion seit dem letzten Glühen angezeigt. Optional: Ziel-Maß eingeben — die Zielzeile wird grün markiert. Beim Ziehen kann zwischen Rund- und Vierkant-Profil gewechselt werden (z.B. Runddraht zu Vierkant ziehen).</span>
+                    <span class="help-en" style="display:none;">The table shows all intermediate steps. Annealing is indicated at 60% cumulative reduction since the last anneal. Optional: enter a target dimension — the target row is highlighted in green. When drawing, you can switch between round and square profiles (e.g. draw round wire to square).</span>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 15px;">
+                <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Breitenausdehnung (Walztabelle)</span><span class="help-en" style="display:none;">Width Spread Table (Rolling)</span></summary>
+                <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
+                    <span class="help-de">Zeigt wie sich ein Vierkantdraht beim Flachwalzen verhält. Beim Walzen wird der Draht nicht nur dünner, sondern auch breiter — die Tabelle zeigt für gängige Ausgangsmaße die resultierende Dicke und Breite. Die Daten stammen aus der Werkstattpraxis (Masstabellen). Die Tabelle ist im Modul "Walzen & Ziehen" unter "Blech walzen" abrufbar.</span>
+                    <span class="help-en" style="display:none;">Shows how a square wire behaves when flat-rolled. Rolling makes the wire not just thinner but also wider — the table shows resulting thickness and width for common starting sizes. Data comes from workshop practice (gauge tables). The table is available in the "Rolling & Drawing" module under "Sheet Rolling".</span>
                 </div>
             </details>
 
@@ -1872,8 +2490,8 @@
             <details style="margin-bottom: 15px;">
                 <summary class="help-sum" style="font-weight: 700; cursor: pointer; padding: 10px 0;"><span class="help-de">Einheiten-Umrechner</span><span class="help-en" style="display:none;">Unit Converter</span></summary>
                 <div style="padding: 10px 0; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">
-                    <span class="help-de">Wandelt zwischen Gramm, Feinunze (31.1035g), Karat (0.2g), Pennyweight (1.555g) und Kilogramm um. Dazu Längen (mm/cm/Zoll) und eine Brillant-Näherung: Karat → ungefährer Durchmesser eines runden Brillantschliffs.</span>
-                    <span class="help-en" style="display:none;">Converts between grams, troy ounce (31.1035g), carat (0.2g), pennyweight (1.555g) and kilograms. Also lengths (mm/cm/inch) and a brilliant approximation: carat → approximate diameter of a round brilliant cut.</span>
+                    <span class="help-de">Wandelt zwischen Gramm, Feinunze (31.1035g), Karat (0.2g), Pennyweight (1.555g) und Kilogramm um. Dazu Längen (mm/cm/Zoll) und eine Brillant-Näherung: Karat zu ungefährer Durchmesser eines runden Brillantschliffs.</span>
+                    <span class="help-en" style="display:none;">Converts between grams, troy ounce (31.1035g), carat (0.2g), pennyweight (1.555g) and kilograms. Also lengths (mm/cm/inch) and a brilliant approximation: carat to approximate diameter of a round brilliant cut.</span>
                 </div>
             </details>
 
@@ -1919,17 +2537,28 @@
         'nav.ringresize': { de: 'Ringgröße ändern', en: 'Resize Ring' },
         'nav.bezel': { de: 'Zargen', en: 'Bezels' },
         'nav.stones': { de: 'Steinmaße', en: 'Stone Sizes' },
+        'nav.stoneweight': { de: 'Steingewicht schätzen', en: 'Estimate Stone Weight' },
         'cat.material': { de: 'Material & Umformung', en: 'Material & Forming' },
-        'nav.cast': { de: 'Guss (Wachs → Metall)', en: 'Casting (Wax → Metal)' },
+        'nav.cast': { de: 'Guss (Wachs > Metall)', en: 'Casting (Wax > Metal)' },
         'nav.semi': { de: 'Halbzeug wiegen', en: 'Stock Weight' },
-        'nav.reverse': { de: 'Gewicht → Drahtlänge', en: 'Weight → Wire Length' },
+        'nav.millprofile': { de: 'Walzprofil bestellen', en: 'Order Mill Profile' },
+        'nav.reverse': { de: 'Gewicht > Drahtlänge', en: 'Weight > Wire Length' },
         'nav.shapes': { de: 'Ronden & Halbkugeln', en: 'Blanks & Hemispheres' },
         'nav.deform': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
         'nav.units': { de: 'Einheiten-Umrechner', en: 'Unit Converter' },
+        'nav.nesting': { de: 'Verschnitt-Optimierung', en: 'Cut Optimization' },
+        'nav.galvanic': { de: 'Galvanik-Rechner', en: 'Electroplating Calculator' },
+        'cat.werkstatt': { de: 'Werkstatt-Referenz', en: 'Workshop Reference' },
+        'nav.solderref': { de: 'Löt-Temperaturen', en: 'Solder Temperatures' },
+        'nav.polish': { de: 'Schleifen & Polieren', en: 'Sanding & Polishing' },
+        'nav.drills': { de: 'Bohrer & Fräser', en: 'Drills & Burs' },
+        'nav.tempcolors': { de: 'Anlauffarben', en: 'Temper Colors' },
         'cat.legierung': { de: 'Legierung', en: 'Alloy' },
         'nav.alloy': { de: 'Umlegieren', en: 'Re-alloy' },
+        'nav.hallmark': { de: 'Punzierung', en: 'Hallmarks' },
         'cat.kalkulation': { de: 'Kalkulation', en: 'Costing' },
         'nav.planner': { de: 'Arbeitsplaner', en: 'Work Planner' },
+        'nav.engrave': { de: 'Gravur-Kalkulator', en: 'Engraving Calculator' },
         'nav.loss': { de: 'Verluste schätzen', en: 'Estimate Loss' },
         'nav.cost': { de: 'Materialwert', en: 'Material Cost' },
         'nav.help': { de: 'Hilfe & Tipps', en: 'Help & Tips' },
@@ -1945,11 +2574,11 @@
         'tile.bezel': { de: 'Zargen', en: 'Bezels' },
         'tile.bezelHint': { de: 'Rund · Oval · Eckig', en: 'Round · Oval · Square' },
         'tile.cast': { de: 'Guss', en: 'Casting' },
-        'tile.castHint': { de: 'Wachs → Metall', en: 'Wax → Metal' },
+        'tile.castHint': { de: 'Wachs > Metall', en: 'Wax > Metal' },
         'tile.semi': { de: 'Halbzeug', en: 'Stock' },
         'tile.semiHint': { de: 'Profil wiegen', en: 'Profile Weight' },
         'tile.reverse': { de: 'Drahtlänge', en: 'Wire Length' },
-        'tile.reverseHint': { de: 'Gewicht → Länge', en: 'Weight → Length' },
+        'tile.reverseHint': { de: 'Gewicht > Länge', en: 'Weight > Length' },
         'tile.deform': { de: 'Umformen', en: 'Forming' },
         'tile.deformHint': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
         'tile.alloy': { de: 'Legierung', en: 'Alloy' },
@@ -1969,13 +2598,23 @@
         // --- CAST ---
         'cast.title': { de: 'Wachs zu Metall (Guss)', en: 'Wax to Metal (Casting)' },
         'semi.title': { de: 'Halbzeug-Kalkulator', en: 'Stock Weight Calculator' },
+        'millprofile.title': { de: 'Walzprofil bestellen', en: 'Order Mill Profile' },
         'reverse.title': { de: 'Gewicht \u2192 Drahtl\u00e4nge', en: 'Weight \u2192 Wire Length' },
         'shapes.title': { de: 'Halbkugel-Ronden', en: 'Hemisphere Blanks' },
         'deform.title': { de: 'Walzen & Ziehen', en: 'Rolling & Drawing' },
         'bezel.title': { de: 'Zargen-Rechner', en: 'Bezel Calculator' },
         'stones.title': { de: 'Stein-Datenbank', en: 'Stone Database' },
+        'stoneweight.title': { de: 'Steingewicht schätzen', en: 'Estimate Stone Weight' },
         'loss.title': { de: 'Verlust-Rechner', en: 'Loss Calculator' },
         'cost.title': { de: 'Materialkosten', en: 'Material Cost' },
+        'hallmark.title': { de: 'Punzierung', en: 'Hallmarks' },
+        'nesting.title': { de: 'Verschnitt-Optimierung', en: 'Cut Optimization' },
+        'galvanic.title': { de: 'Galvanik-Rechner', en: 'Electroplating Calculator' },
+        'solderref.title': { de: 'Löt-Temperaturen', en: 'Solder Temperatures' },
+        'polish.title': { de: 'Schleifen & Polieren', en: 'Sanding & Polishing' },
+        'drills.title': { de: 'Bohrer & Fräser', en: 'Drills & Burs' },
+        'tempcolors.title': { de: 'Anlauffarben', en: 'Temper Colors' },
+        'engrave.title': { de: 'Gravur-Kalkulator', en: 'Engraving Calculator' },
         'cast.waxWeight': { de: 'Gewicht Wachsmodell (g)', en: 'Wax Model Weight (g)' },
         'cast.anguss': { de: 'Anguss-Faktor (optional)', en: 'Sprue Factor (optional)' },
         'cast.pure': { de: 'Reines Stückgewicht', en: 'Net Piece Weight' },
@@ -2031,6 +2670,7 @@
         'planner.notesPh': { de: 'Notizen, Skizzen-Hinweise, Besonderheiten\u2026', en: 'Notes, sketch references, details\u2026' },
         'planner.projectNamePh': { de: 'z.B. Ehering M\u00fcller', en: 'e.g. Wedding Ring Miller' },
         'planner.newStepPh': { de: 'Neuer Schritt-Name', en: 'New step name' },
+        'engrave.textPh': { de: 'z.B. Anna \& Max 15.06.2025', en: 'e.g. Anna \& Max 06.15.2025' },
         'planner.rate': { de: 'Stundensatz einblenden', en: 'Show Hourly Rate' },
         'planner.rateLabel': { de: 'Stundensatz (€/h)', en: 'Hourly Rate (€/h)' },
         'planner.sollTime': { de: 'Soll-Zeit', en: 'Target Time' },
@@ -2048,7 +2688,7 @@
         'units.title': { de: 'Einheiten-Umrechner', en: 'Unit Converter' },
         'units.weight': { de: 'Gewicht', en: 'Weight' },
         'units.length': { de: 'Länge', en: 'Length' },
-        'units.brillant': { de: 'Karat → Durchmesser (Brillant, rund)', en: 'Carat → Diameter (Round Brilliant)' },
+        'units.brillant': { de: 'Karat > Durchmesser (Brillant, rund)', en: 'Carat > Diameter (Round Brilliant)' },
         // --- HELP ---
         'help.title': { de: 'Hilfe & Tipps', en: 'Help & Tips' },
         'help.disclaimer': { de: 'Alle Berechnungen ohne Gewähr. Angaben zu Legierungen, Dichten und Steinmaßen sind Richtwerte.', en: 'All calculations without warranty. Alloy, density and stone size data are approximate values.' },
@@ -2098,6 +2738,7 @@
         });
         // 3. All labels, subtitles, buttons, summaries, result-spans
         const de2en = {
+            'Legierung / Dichte':'Alloy / Density',
             'Globale Dichte':'Global Density','Gewicht Wachsmodell (g)':'Wax Model Weight (g)',
             'Anguss-Faktor (optional)':'Sprue Factor (optional)','Profil / Form':'Profile / Shape',
             'Profil':'Profile','Länge (mm)':'Length (mm)','Gewicht (g)':'Weight (g)',
@@ -2136,8 +2777,19 @@
             'Legierungs-Kurse (automatisch skaliert)':'Alloy Prices (auto-scaled)',
             'Bauteile':'Parts','Faktor / Marge':'Factor / Margin',
             'Ziel-Ø (mm)':'Target Ø (mm)',
+            'Ziel-Profil':'Target Profile',
+            'Ziel-Länge (mm)':'Target Length (mm)',
+            'Ziel-Durchmesser (mm)':'Target Diameter (mm)',
+            'Seitenlänge (mm)':'Side Length (mm)',
+            'Walzprofil-Form':'Mill Profile Shape',
+            'Gravurtext':'Engraving Text','Preis pro Zeichen':'Price per Character',
+            'Grundpreis (Einrichten)':'Setup Fee','Technik':'Technique','Schrift':'Font',
+            'Start-Profil':'Start Profile','Ziel-Profil':'Target Profile',
             'EU Größe / Umfang':'EU Size / Circumference',
             'Erreichbare Länge:':'Achievable Length:',
+            'Schritt':'Step','Verlust %':'Loss %',
+            'Fotos':'Photos','Schliff':'Cut',
+            'Steinart (spez. Gewicht)':'Stone Type (spec. gravity)',
         };
         const subMap = {
             'Berechnet den Blechzuschnitt f\u00fcr Steinfassungen. Runde/ovale Zargen \u00fcber die neutrale Faser, eckige Zargen als Gehrungszuschnitt (4 Einzelteile).':
@@ -2173,7 +2825,9 @@
             'Umlegieren':'Re-alloy','Neu anmischen':'Mix New','Hinzuf\u00fcgen':'Add',
             'Drucken / Als PDF speichern':'Print / Save as PDF','Projekt leeren':'Clear Project',
             'Felder zur\u00fccksetzen':'Reset Fields','Kopieren':'Copy',
+            '\u21bb Live-Kurse laden':'\u21bb Load Live Prices',
             '+ SCHRITT HINZUF\u00dcGEN':'+ ADD STEP','Speichern':'Save',
+            'Neues Projekt':'New Project','Projekt geleert':'Project cleared',
         };
         const sumMap = {
             'Eigene Vorlagen verwalten':'Manage Custom Templates',
@@ -2192,9 +2846,23 @@
         };
 
         function translate(map, el) {
-            const txt = el.textContent.trim();
-            if (currentLang === 'en' && map[txt]) el.textContent = map[txt];
-            else if (currentLang === 'de') { for (const [de,en] of Object.entries(map)) { if (txt === en) { el.textContent = de; break; } } }
+            // Store original DE text on first encounter
+            if (!el.dataset.origDe) {
+                const txt = el.textContent.trim();
+                // Check if this text is a known DE key
+                if (map[txt]) el.dataset.origDe = txt;
+                else {
+                    // Check if it's already an EN value
+                    for (const [de, en] of Object.entries(map)) {
+                        if (txt === en) { el.dataset.origDe = de; break; }
+                    }
+                }
+            }
+            if (currentLang === 'en' && el.dataset.origDe && map[el.dataset.origDe]) {
+                el.textContent = map[el.dataset.origDe];
+            } else if (currentLang === 'de' && el.dataset.origDe) {
+                el.textContent = el.dataset.origDe;
+            }
         }
         document.querySelectorAll('label').forEach(el => {
             if (el.querySelector('input[type=checkbox]')) {
@@ -2208,7 +2876,10 @@
             }
             translate(de2en, el);
         });
-        document.querySelectorAll('.subtitle').forEach(el => translate(subMap, el));
+        document.querySelectorAll('.subtitle').forEach(el => {
+            if (el.querySelector('.help-de')) return; // Already bilingual via spans
+            translate(subMap, el);
+        });
         document.querySelectorAll('button, .action-btn, .reset-link').forEach(el => translate(btnMap, el));
         document.querySelectorAll('summary').forEach(el => translate(sumMap, el));
         document.querySelectorAll('.result-area span, .planner-total span, .summary-line span').forEach(el => translate(resMap, el));
@@ -2224,9 +2895,27 @@
         const optMap = {
             'Runddraht':'Round Wire','Rohrdraht (Hohlprofil)':'Tube (Hollow)','Rohrdraht':'Tube',
             'Vierkant- / Flachdraht':'Square / Flat Wire','Dreikantdraht (gleichseitig)':'Triangle Wire (equilateral)',
-            'Blech':'Sheet','Draht ziehen (Zieheisen)':'Wire Drawing (Draw Plate)',
+            'Blech':'Sheet','Blech / Flachmaterial':'Sheet / Flat Stock',
+            'Runddraht (Walzblock rund)':'Round Wire (Round Mill Block)',
+            'Vierkant (Walzblock quadratisch)':'Square (Square Mill Block)',
+            'Achteckig (Standard Walzprofil)':'Octagonal (Standard Mill Profile)',
+            'Vierkant':'Square',
+            'Maschinengravur':'Machine Engraving','Handgravur':'Hand Engraving','Diamantgravur (Spitz)':'Diamond Engraving (Point)','Blockschrift':'Block Letters','Schreibschrift':'Script','Zierschrift / Monogramm':'Ornamental / Monogram','Brillant (rund)':'Brilliant (round)','Smaragd / Baguette':'Emerald / Baguette','Marquise / Navette':'Marquise / Navette','Tropfen / Pear':'Pear / Drop','Cabochon rund':'Cabochon round','Cabochon oval':'Cabochon oval',
+            'Diamant (3.52)':'Diamond (3.52)','Korund / Rubin / Saphir (4.00)':'Corundum / Ruby / Sapphire (4.00)','Smaragd / Beryll (2.72)':'Emerald / Beryl (2.72)','Quarz / Amethyst / Citrin (2.65)':'Quartz / Amethyst / Citrine (2.65)','Turmalin (3.06)':'Tourmaline (3.06)','Zirkonia CZ (5.80)':'Cubic Zirconia (5.80)','Aquamarin (2.72)':'Aquamarine (2.72)','Topas (3.53)':'Topaz (3.53)','Tansanit (3.35)':'Tanzanite (3.35)','Granat (3.61)':'Garnet (3.61)','Mondstein (2.57)':'Moonstone (2.57)',
+            'Stumpfe Fuge (Ring, Zarge)':'Butt Joint (Ring, Bezel)','Hartlot (>700\u00b0C)':'Hard Solder (>700\u00b0C)','Mittellot (~700\u00b0C)':'Medium Solder (~700\u00b0C)','Weichlot (<650\u00b0C)':'Easy Solder (<650\u00b0C)',
+            'Draht ziehen (Zieheisen)':'Wire Drawing (Draw Plate)',
             'Blech walzen':'Sheet Rolling','Rohr ziehen (Scharnier)':'Tube Drawing (Hinge)',
             'Hohlziehen (ohne Kern)':'Hollow Draw (no mandrel)','Mit Kern (fixer Innen-\u00d8)':'With Mandrel (fixed inner \u00d8)',
+            'Runddraht (rund)':'Round Wire (round)',
+            'Vierkant (quadratisch)':'Square (square)',
+            '\u2014 Vorlage w\u00e4hlen \u2014':'\u2014 Select template \u2014',
+            'Freier Schritt...':'Custom Step...',
+            'Feilen / Schleifen':'Filing / Sanding','Polieren (Vorpolitur)':'Pre-polish',
+            'Hochglanzpolitur':'High-gloss Polish','S\u00e4urebad / Beizen':'Acid Bath / Pickling',
+            'Feuervergolden (S\u00e4ure)':'Fire Gilding (Acid)','Rhodinieren':'Rhodium Plating',
+            'Galvanisches Bad':'Galvanic Bath','Sandstrahlen':'Sandblasting',
+            'Fassen (Verschnitt)':'Setting (Cutoff)','Benutzerdefiniert':'Custom',
+            'Ronde (rund)':'Disc (round)','Rechteck':'Rectangle',
             'Flachschiene (Rechteck)':'Flat Band (Rectangle)','Flachschiene':'Flat Band',
             'Halbrund':'Half-round',
             'Rund':'Round','Oval':'Oval','Vierkant / Rechteckig (Gehrung)':'Square / Rectangle (Miter)',
@@ -2235,6 +2924,9 @@
             'Ros\u00e9gold (Ag 20% / Cu 80%)':'Rose Gold (Ag 20% / Cu 80%)',
             'Rotgold (fast nur Cu)':'Red Gold (mostly Cu)',
             'Wei\u00dfgold (Ag + Pd)':'White Gold (Ag + Pd)',
+            'Wei\u00dfgold Pd (Ag 40% / Pd 60%)':'White Gold Pd (Ag 40% / Pd 60%)',
+            'Wei\u00dfgold Ni (Cu 15% / Ni 85%)':'White Gold Ni (Cu 15% / Ni 85%)',
+            'Graugold Pd (Ag 20% / Pd 80%)':'Grey Gold Pd (Ag 20% / Pd 80%)',
             'Gelbgold (Ag 50% / Cu 50%)':'Yellow Gold (Ag 50% / Cu 50%)',
             'Ros\u00e9gold (Ag 20% / Cu 80%)':'Rose Gold (Ag 20% / Cu 80%)',
             'Rotgold (Cu 100%)':'Red Gold (Cu 100%)',
@@ -2255,14 +2947,45 @@
             '\u270e Freier Schritt\u2026':'\u270e Custom Step\u2026',
         };
         document.querySelectorAll('select option').forEach(opt => {
-            const txt = opt.textContent.trim();
-            if (currentLang === 'en' && optMap[txt]) opt.textContent = optMap[txt];
+            if (!opt.dataset.origDe) {
+                const txt = opt.textContent.trim();
+                if (optMap[txt]) opt.dataset.origDe = txt;
+                else { for (const [de,en] of Object.entries(optMap)) { if (txt === en) { opt.dataset.origDe = de; break; } } }
+            }
+            if (currentLang === 'en' && opt.dataset.origDe && optMap[opt.dataset.origDe]) {
+                opt.textContent = optMap[opt.dataset.origDe];
+            } else if (currentLang === 'de' && opt.dataset.origDe) {
+                opt.textContent = opt.dataset.origDe;
+            }
+        });
+        // Optgroup labels
+        const grpMap = {
+            'Platin':'Platinum','Palladium':'Palladium','Silber':'Silver',
+            'Standard':'Standard','Eigene':'Custom',
+        };
+        document.querySelectorAll('select optgroup').forEach(grp => {
+            const lbl = grp.label;
+            if (currentLang === 'en' && grpMap[lbl]) grp.label = grpMap[lbl];
             else if (currentLang === 'de') {
-                for (const [de, en] of Object.entries(optMap)) {
-                    if (txt === en) { opt.textContent = de; break; }
+                for (const [de, en] of Object.entries(grpMap)) {
+                    if (lbl === en) { grp.label = de; break; }
                 }
             }
         });
+        // Alloy dropdown — store original text and translate reliably
+        document.querySelectorAll('#globalDensity option').forEach(opt => {
+            if (!opt.dataset.origText) opt.dataset.origText = opt.textContent;
+            let txt = opt.dataset.origText;
+            if (currentLang === 'en') {
+                txt = txt.replace('rot ','red ').replace('rot)','red)').replace('hellrot','light red')
+                    .replace('rosé','rosé').replace('sattgelb','rich yellow').replace('gelb ','yellow ')
+                    .replace('gelb)','yellow)').replace('grau ','grey ').replace('grau)','grey)')
+                    .replace('weiß','white').replace('Feinsilber','Fine Silver').replace('Feingold','Fine Gold');
+            }
+            opt.textContent = txt;
+        });
+        // Update alloy info badge after language switch
+        updateAlloyInfo();
     }
 
     const RHO_WAX = 0.96;
@@ -2359,7 +3082,7 @@
     function copyVal(spanId) {
         const el = document.getElementById(spanId);
         if (el) {
-            navigator.clipboard.writeText(el.innerText).then(() => showToast(el.innerText + ' kopiert')).catch(() => showToast('Kopieren fehlgeschlagen'));
+            navigator.clipboard.writeText(el.innerText).then(() => showToast(el.innerText + (currentLang==='en'?' copied':' kopiert'))).catch(() => showToast(currentLang==='en'?'Copy failed':'Kopieren fehlgeschlagen'));
         }
     }
 
@@ -2371,16 +3094,35 @@
         if (!page) return;
         page.querySelectorAll('input[type="number"]').forEach(i => { i.value = ''; });
         page.querySelectorAll('.result-area').forEach(r => { r.style.display = 'none'; });
-        showToast('Felder zur\u00fcckgesetzt');
+        showToast(currentLang==='en'?'Fields reset':'Felder zur00fcckgesetzt');
     }
 
     // ============================================================
     //  DENSITY BADGE
     // ============================================================
-    function updateDensityBadge() {
+    function updateAlloyInfo() {
         const sel = document.getElementById('globalDensity');
         const short = sel.options[sel.selectedIndex].text.replace(/\s*\([\d.]+\)/, '');
         document.getElementById('densityBadge').innerText = short;
+    }
+
+    function updateAlloyInfo() {
+        updateAlloyInfo();
+        const sel = document.getElementById('globalDensity');
+        const opt = sel.options[sel.selectedIndex];
+        const badge = document.getElementById('alloyInfoBadge');
+        if (!badge) return;
+        const raw = opt.getAttribute('data-info');
+        if (!raw) { badge.innerHTML = ''; return; }
+        try {
+            const info = JSON.parse(raw);
+            const isEN = currentLang === 'en';
+            let parts = [];
+            if (info.s && info.l) parts.push((isEN ? 'Melting' : 'Schmelz') + ': ' + info.s + '-' + info.l + '\u00b0C');
+            if (info.a) parts.push((isEN ? 'Anneal' : 'Gl\u00fchen') + ': ' + info.a + '\u00b0C');
+            if (info.h) parts.push((isEN ? 'Hardness' : 'H\u00e4rte') + ': ' + info.h + ' HV');
+            badge.innerHTML = parts.join(' &nbsp;\u00b7&nbsp; ');
+        } catch(e) { badge.innerHTML = ''; }
     }
 
     // ============================================================
@@ -2450,7 +3192,7 @@
     //  GLOBAL UPDATE (when density changes)
     // ============================================================
     function updateAll() {
-        updateDensityBadge();
+        updateAlloyInfo();
         if (document.getElementById('waxWeight').value) calcCast();
         if (document.getElementById('wireDim1').value) calcWire();
         if (document.getElementById('revWeight') && document.getElementById('revWeight').value) calcReverse();
@@ -2527,6 +3269,122 @@
         document.getElementById('wireVal').innerText = weight.toFixed(2);
         let formulaStr = 'V = ' + volume.toFixed(1) + ' mm\u00b3 \u00d7 ' + rho.toFixed(2) + ' g/cm\u00b3 \u00f7 1000 = ' + weight.toFixed(2) + 'g';
         document.getElementById('wireFormulaHint').innerText = formulaStr;
+    }
+
+    // ============================================================
+    //  REVERSE: GEWICHT → DRAHTLÄNGE
+    // ============================================================
+    // ============================================================
+    //  WALZPROFIL BESTELLEN
+    // ============================================================
+    function toggleMillProfile() {
+        const type = document.getElementById('mpTargetProfile').value;
+        const dimLabel = document.getElementById('mpDimLabel');
+        const dim2Wrap = document.getElementById('mpDim2Wrap');
+        if (type === 'round') {
+            dimLabel.textContent = currentLang === 'en' ? 'Target Diameter (mm)' : 'Ziel-Durchmesser (mm)';
+            dim2Wrap.style.display = 'none';
+        } else if (type === 'square') {
+            dimLabel.textContent = currentLang === 'en' ? 'Side Length (mm)' : 'Seitenl\u00e4nge (mm)';
+            dim2Wrap.style.display = 'none';
+        } else if (type === 'sheet') {
+            dimLabel.textContent = currentLang === 'en' ? 'Width (mm)' : 'Breite (mm)';
+            document.getElementById('mpDim2Label').textContent = currentLang === 'en' ? 'Thickness (mm)' : 'St\u00e4rke (mm)';
+            dim2Wrap.style.display = 'block';
+        }
+    }
+
+    function calcMillProfile() {
+        const targetType = document.getElementById('mpTargetProfile').value;
+        const sourceType = document.getElementById('mpSourceProfile').value;
+        const dim1 = parseFloat(document.getElementById('mpDim1').value);
+        const dim2 = parseFloat(document.getElementById('mpDim2').value) || dim1;
+        const len = parseFloat(document.getElementById('mpLength').value);
+        const rho = parseFloat(document.getElementById('globalDensity').value);
+        const resBox = document.getElementById('mpRes');
+        const isEN = currentLang === 'en';
+
+        if (!dim1 || !len || dim1 <= 0 || len <= 0) { resBox.style.display = 'none'; return; }
+
+        // Calculate target cross-section area (mm2)
+        let targetArea = 0;
+        let targetDesc = '';
+        if (targetType === 'round') {
+            targetArea = Math.PI * Math.pow(dim1 / 2, 2);
+            targetDesc = '\u00d8 ' + dim1.toFixed(2) + ' mm';
+        } else if (targetType === 'square') {
+            targetArea = dim1 * dim1;
+            targetDesc = dim1.toFixed(2) + ' \u00d7 ' + dim1.toFixed(2) + ' mm';
+        } else if (targetType === 'sheet') {
+            targetArea = dim1 * dim2;
+            targetDesc = dim1.toFixed(2) + ' \u00d7 ' + dim2.toFixed(2) + ' mm';
+        }
+
+        // Volume needed (mm3)
+        const volume = targetArea * len;
+        // Weight (g)
+        const weight = (volume / 1000) * rho;
+
+        // Octagon area factor: A = 2(sqrt(2)-1) * w^2 where w = across-flats width
+        const OCTAGON_FACTOR = 2 * (Math.SQRT2 - 1); // ≈ 0.8284
+
+        // Calculate source profile dimensions
+        const sourceLengths = [50, 80, 100, 150];
+        let bestLength = 100;
+        for (const sl of sourceLengths) {
+            const sourceArea = volume / sl;
+            if (sourceType === 'round') {
+                const d = Math.sqrt(4 * sourceArea / Math.PI);
+                if (d >= 2 && d <= 30) { bestLength = sl; break; }
+            } else if (sourceType === 'octagon') {
+                const w = Math.sqrt(sourceArea / OCTAGON_FACTOR);
+                if (w >= 2 && w <= 25) { bestLength = sl; break; }
+            } else {
+                const side = Math.sqrt(sourceArea);
+                if (side >= 2 && side <= 25) { bestLength = sl; break; }
+            }
+        }
+
+        const sourceArea = volume / bestLength;
+        let profileDims = '';
+        if (sourceType === 'round') {
+            const d = Math.sqrt(4 * sourceArea / Math.PI);
+            profileDims = '\u00d8 ' + d.toFixed(2) + ' mm \u00d7 ' + bestLength + ' mm ' + (isEN ? 'length' : 'L\u00e4nge');
+        } else if (sourceType === 'octagon') {
+            const w = Math.sqrt(sourceArea / OCTAGON_FACTOR);
+            profileDims = (isEN ? 'Octagon ' : 'Achteck ') + 'SW ' + w.toFixed(2) + ' mm \u00d7 ' + bestLength + ' mm ' + (isEN ? 'length' : 'L\u00e4nge');
+        } else {
+            const side = Math.sqrt(sourceArea);
+            profileDims = side.toFixed(2) + ' \u00d7 ' + side.toFixed(2) + ' mm \u00d7 ' + bestLength + ' mm ' + (isEN ? 'length' : 'L\u00e4nge');
+        }
+
+        // Alternative lengths
+        let altHtml = '<div style="margin-top:8px;font-size:0.8rem;color:var(--text-dim);">';
+        altHtml += (isEN ? 'Alternative lengths:' : 'Alternative L\u00e4ngen:') + '<br>';
+        for (const sl of sourceLengths) {
+            const sa = volume / sl;
+            let dims = '';
+            if (sourceType === 'round') {
+                dims = '\u00d8 ' + Math.sqrt(4 * sa / Math.PI).toFixed(2) + ' mm';
+            } else if (sourceType === 'octagon') {
+                dims = (isEN ? 'Oct. ' : 'Acht. ') + 'SW ' + Math.sqrt(sa / OCTAGON_FACTOR).toFixed(2) + ' mm';
+            } else {
+                dims = Math.sqrt(sa).toFixed(2) + ' \u00d7 ' + Math.sqrt(sa).toFixed(2) + ' mm';
+            }
+            const w = sl === bestLength ? 'font-weight:700;' : '';
+            altHtml += '<span style="' + w + '">' + dims + ' \u00d7 ' + sl + ' mm' + (sl === bestLength ? ' *' : '') + '</span><br>';
+        }
+        altHtml += '</div>';
+
+        resBox.style.display = 'block';
+        document.getElementById('mpDirection').innerHTML =
+            (isEN ? 'Target' : 'Ziel') + ': ' + targetDesc + ' \u00d7 ' + len.toFixed(0) + ' mm';
+        document.getElementById('mpVolume').innerText = volume.toFixed(1);
+        document.getElementById('mpWeight').innerText = weight.toFixed(2);
+        document.getElementById('mpProfileDims').innerHTML = profileDims + altHtml;
+        document.getElementById('mpFormulaHint').innerText =
+            (isEN ? 'Formula' : 'Formel') + ': V = ' + targetArea.toFixed(2) + ' mm\u00b2 \u00d7 ' + len.toFixed(0) + ' mm = ' + volume.toFixed(1) + ' mm\u00b3, ' +
+            (isEN ? 'Weight' : 'Gewicht') + ' = ' + volume.toFixed(1) + ' \u00f7 1000 \u00d7 ' + rho.toFixed(2) + ' = ' + weight.toFixed(2) + ' g';
     }
 
     // ============================================================
@@ -2629,7 +3487,27 @@
         return `<span style="display:inline-block; width: 40px;"><span class="reduction-bar" style="width:40px;"><span class="reduction-bar-fill ${cls}" style="width:${Math.min(pct, 100)}%;"></span></span></span> <span style="font-size:0.75rem; color: var(--text-dim);">${pct.toFixed(0)}%</span>`;
     }
 
+    function toggleDrawInputs() {
+        const from = document.getElementById('dd_fromProfile').value;
+        const to = document.getElementById('dd_toProfile').value;
+        const isEN = currentLang === 'en';
+        const dimLabel = document.getElementById('dd_dim_label');
+        const targetLabel = document.getElementById('dd_target_label');
+        if (from === 'round') {
+            dimLabel.textContent = isEN ? 'Start \u00d8 (mm)' : 'Start-\u00d8 (mm)';
+        } else {
+            dimLabel.textContent = isEN ? 'Start Side (mm)' : 'Start-Seite (mm)';
+        }
+        if (to === 'round') {
+            targetLabel.textContent = isEN ? 'Target \u00d8 (optional)' : 'Ziel-\u00d8 (optional)';
+        } else {
+            targetLabel.textContent = isEN ? 'Target Side (optional)' : 'Ziel-Seite (optional)';
+        }
+    }
+
     function calcDrawPossibilities() {
+        const fromProfile = document.getElementById('dd_fromProfile').value;
+        const toProfile = document.getElementById('dd_toProfile').value;
         const d1 = parseFloat(document.getElementById('dd_d1').value);
         const l1 = parseFloat(document.getElementById('dd_l1').value);
         const targetD = parseFloat(document.getElementById('dd_target').value) || 0;
@@ -2638,47 +3516,66 @@
         if (!d1 || !l1 || d1 <= 0 || l1 <= 0) { possBox.style.display = 'none'; return; }
 
         possBox.style.display = 'block';
-        const a1 = Math.PI * Math.pow(d1 / 2, 2);
+
+        // Calculate start area
+        const a1 = fromProfile === 'round' ? Math.PI * Math.pow(d1 / 2, 2) : d1 * d1;
+        const volume = a1 * l1;
+
+        // Determine equivalent start dimension in target profile
+        let startDimTarget;
+        if (toProfile === 'round') {
+            startDimTarget = Math.sqrt(4 * a1 / Math.PI); // equivalent Ø
+        } else {
+            startDimTarget = Math.sqrt(a1); // equivalent side
+        }
+
+        const dimUnit = toProfile === 'round' ? '\u00d8' : (currentLang === 'en' ? 'Side' : 'Seite');
+        const isEN = currentLang === 'en';
 
         let steps = [];
-        let currentD = d1;
-        while (currentD > 0.1) {
-            let stepSize = currentD > 1.01 ? 0.1 : 0.05;
-            let nextD = stepSize === 0.1 ? Math.floor((currentD - 0.01) * 10) / 10 : Math.floor((currentD - 0.01) * 20) / 20;
-            if (nextD < 0.1) { if (currentD !== 0.1) steps.push(0.1); break; }
-            steps.push(nextD);
-            currentD = nextD;
+        let currentDim = startDimTarget;
+        while (currentDim > 0.1) {
+            let stepSize = currentDim > 1.01 ? 0.1 : 0.05;
+            let nextDim = stepSize === 0.1 ? Math.floor((currentDim - 0.01) * 10) / 10 : Math.floor((currentDim - 0.01) * 20) / 20;
+            if (nextDim < 0.1) { if (currentDim !== 0.1) steps.push(0.1); break; }
+            steps.push(nextDim);
+            currentDim = nextDim;
             if (steps.length > 35) break;
         }
 
-        // Cumulative reduction tracking (reset after anneal)
         let lastAnnealArea = a1;
-        let html = `<table><tr><th>Loch (Ø)</th><th>Länge</th><th>Kum. Red.</th><th>Info</th></tr>`;
+        let profileChange = '';
+        if (fromProfile !== toProfile) {
+            profileChange = fromProfile === 'round'
+                ? (isEN ? 'Round ' + d1.toFixed(1) + 'mm > Square ' + startDimTarget.toFixed(2) + 'mm' : 'Rund ' + d1.toFixed(1) + 'mm > Vierkant ' + startDimTarget.toFixed(2) + 'mm')
+                : (isEN ? 'Square ' + d1.toFixed(1) + 'mm > Round ' + startDimTarget.toFixed(2) + 'mm' : 'Vierkant ' + d1.toFixed(1) + 'mm > Rund ' + startDimTarget.toFixed(2) + 'mm');
+        }
 
-        steps.forEach(d2 => {
-            const a2 = Math.PI * Math.pow(d2 / 2, 2);
-            const l2 = l1 * (a1 / a2);
+        let html = '';
+        if (profileChange) {
+            html += '<div style="margin-bottom:12px;padding:10px;background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 2px 2px 0;font-size:0.85rem;font-weight:600;">' + profileChange + '</div>';
+        }
+        html += '<table><tr><th>' + dimUnit + '</th><th>' + (isEN ? 'Length' : 'L\u00e4nge') + '</th><th>' + (isEN ? 'Cum. Red.' : 'Kum. Red.') + '</th><th>Info</th></tr>';
+
+        steps.forEach(dim => {
+            const a2 = toProfile === 'round' ? Math.PI * Math.pow(dim / 2, 2) : dim * dim;
+            const l2 = volume / a2;
             const cumRed = (1 - (a2 / lastAnnealArea)) * 100;
-            const isTarget = targetD > 0 && Math.abs(d2 - targetD) < 0.025;
+            const isTarget = targetD > 0 && Math.abs(dim - targetD) < 0.025;
             const needsAnneal = cumRed >= 60;
 
             let infoHtml = '';
             let rowClass = '';
             if (needsAnneal) {
-                infoHtml = '<span class="anneal-badge">Glühen!</span>';
+                infoHtml = '<span class="anneal-badge">' + (isEN ? 'Anneal!' : 'Gl\u00fchen!') + '</span>';
                 rowClass = 'anneal-row';
-                lastAnnealArea = a2; // reset after anneal
+                lastAnnealArea = a2;
             } else if (cumRed >= 45) {
-                infoHtml = '<span style="font-size:0.8rem; color: var(--warn);">Bald glühen</span>';
+                infoHtml = '<span style="font-size:0.8rem; color: var(--warn);">' + (isEN ? 'Anneal soon' : 'Bald gl\u00fchen') + '</span>';
             }
             if (isTarget) rowClass = 'target-row';
 
-            html += `<tr class="${rowClass}">
-                <td><strong>${d2.toFixed(2)}</strong>${isTarget ? ' ★' : ''}</td>
-                <td class="highlight-col">${Math.round(l2)} mm</td>
-                <td>${reductionBarHtml(cumRed)}</td>
-                <td>${infoHtml}</td>
-            </tr>`;
+            html += '<tr class="' + rowClass + '"><td><strong>' + dim.toFixed(2) + '</strong>' + (isTarget ? ' *' : '') + '</td><td class="highlight-col">' + Math.round(l2) + ' mm</td><td>' + reductionBarHtml(cumRed) + '</td><td>' + infoHtml + '</td></tr>';
         });
 
         tableBox.innerHTML = html + "</table>";
@@ -2796,6 +3693,45 @@
     }
 
     // ============================================================
+    //  BREITENAUSDEHNUNG VIERKANTDRAHT (Walztabelle)
+    // ============================================================
+    const SPREAD_TABLE = {
+        '4.0': [{t:2.8,w:4.4},{t:2.2,w:4.7},{t:1.6,w:4.95},{t:1.0,w:5.1},{t:0.6,w:5.5},{t:0.3,w:5.9}],
+        '3.5': [{t:2.0,w:4.2},{t:1.2,w:4.8},{t:0.8,w:5.1},{t:0.3,w:5.6}],
+        '3.0': [{t:1.7,w:3.7},{t:1.0,w:4.2},{t:0.6,w:4.6}],
+        '2.8': [{t:2.2,w:3.1},{t:1.6,w:3.4},{t:1.1,w:3.8},{t:0.7,w:4.1},{t:0.4,w:4.4}],
+        '2.5': [{t:1.8,w:2.8},{t:1.1,w:3.4},{t:0.8,w:3.7},{t:0.3,w:4.3}],
+        '2.0': [{t:1.3,w:2.5},{t:0.9,w:2.8},{t:0.5,w:3.4}],
+        '1.8': [{t:1.0,w:2.5},{t:0.7,w:2.8},{t:0.4,w:3.1}],
+        '1.5': [{t:1.1,w:1.6},{t:0.8,w:2.0},{t:0.3,w:2.4}],
+        '1.2': [{t:0.8,w:1.5},{t:0.6,w:1.8}],
+        '1.0': [{t:0.7,w:1.2},{t:0.5,w:1.5},{t:0.3,w:1.9}],
+        '0.8': [{t:0.6,w:0.9},{t:0.4,w:1.1}],
+    };
+
+    function showSpreadTable() {
+        const sel = document.getElementById('spreadWireSelect').value;
+        const resDiv = document.getElementById('spreadTableResult');
+        const body = document.getElementById('spreadTableBody');
+        if (!sel || !SPREAD_TABLE[sel]) { resDiv.style.display = 'none'; return; }
+
+        const wireSize = parseFloat(sel);
+        const originalArea = wireSize * wireSize;
+        const rows = SPREAD_TABLE[sel];
+        let html = '';
+        rows.forEach(r => {
+            const reduction = ((1 - r.t / wireSize) * 100).toFixed(0);
+            html += '<tr style="border-bottom:1px solid var(--border);">' +
+                '<td style="padding:8px 6px;font-weight:700;">' + r.t.toFixed(1) + ' mm</td>' +
+                '<td style="padding:8px 6px;font-weight:700;">' + r.w.toFixed(2) + ' mm</td>' +
+                '<td style="padding:8px 6px;color:var(--text-dim);">' + reduction + '%</td>' +
+                '</tr>';
+        });
+        body.innerHTML = html;
+        resDiv.style.display = 'block';
+    }
+
+    // ============================================================
     //  RINGWEITEN – corrected neutral axis formula
     // ============================================================
     function toggleRingProfile() {
@@ -2864,9 +3800,30 @@
             if (profile === 'flat' || profile === 'halfround') {
                 const w = parseFloat(document.getElementById('ringWidth').value) || 0;
                 if (w > 0 && w !== thick) {
-                    formulaHint.innerHTML += '<br><span style="color: var(--accent); font-size: 0.7rem;">Hinweis: Die Breite (' + w.toFixed(1) + ' mm) beeinflusst nicht die gestreckte L\u00e4nge \u2014 nur die radiale St\u00e4rke (' + thick.toFixed(1) + ' mm) ist relevant f\u00fcr die neutrale Faser.</span>';
+                    formulaHint.innerHTML += '<br><span style="color: var(--accent); font-size: 0.7rem;">' + (currentLang==='en'?'Note: Width does not affect stretched length — only radial thickness matters for neutral axis.':'Hinweis: Die Breite beeinflusst nicht die gestreckte L\u00e4nge — nur die radiale St\u00e4rke ist relevant f\u00fcr die neutrale Faser.') + '</span>';
                 }
             }
+
+            // International ring size conversions
+            var convDiv = document.getElementById('ringSizeConversions');
+            if (convDiv && size > 0) {
+                convDiv.style.display = 'block';
+                var innerDia = size / Math.PI;
+                var us = (size - 36.31) / 2.5535;
+                if (us < 0) us = 0;
+                var ukLetters = ['A','A\u00bd','B','B\u00bd','C','C\u00bd','D','D\u00bd','E','E\u00bd','F','F\u00bd','G','G\u00bd','H','H\u00bd','I','I\u00bd','J','J\u00bd','K','K\u00bd','L','L\u00bd','M','M\u00bd','N','N\u00bd','O','O\u00bd','P','P\u00bd','Q','Q\u00bd','R','R\u00bd','S','S\u00bd','T','T\u00bd','U','U\u00bd','V','V\u00bd','W','W\u00bd','X','X\u00bd','Y','Y\u00bd','Z','Z+1','Z+2','Z+3'];
+                var ukIdx = Math.round((size - 37.1) / 1.28);
+                var uk = (ukIdx >= 0 && ukIdx < ukLetters.length) ? ukLetters[ukIdx] : '--';
+                var jp = Math.round(us * 3 - 2.5);
+                if (jp < 1) jp = 1;
+                var fr = Math.round(size - 40);
+                document.getElementById('convEU').textContent = size.toFixed(1);
+                document.getElementById('convDia').textContent = innerDia.toFixed(1);
+                document.getElementById('convUS').textContent = us >= 0.5 ? us.toFixed(1) : '--';
+                document.getElementById('convUK').textContent = uk;
+                document.getElementById('convJP').textContent = jp > 0 ? jp : '--';
+                document.getElementById('convFR').textContent = fr > 0 ? fr : '--';
+            } else if (convDiv) { convDiv.style.display = 'none'; }
 
             resBox.style.display = 'block';
         } else { resBox.style.display = 'none'; }
@@ -3083,7 +4040,7 @@
         document.getElementById('bezelHeight').value = h;
         calcBezel();
         navigateTo('bezel', 'Zargen-Rechner');
-        showToast('Stein-Ma\u00df \u00fcbernommen \u2192 Zargen-Rechner');
+        showToast(currentLang==='en'?'Stone size transferred > Bezel Calculator':'Stein-Ma00df 00fcbernommen > Zargen-Rechner');
     }
 
     // ============================================================
@@ -3108,10 +4065,12 @@
     // Gold color recipes: { color: { cu_ratio, ag_ratio, pd_ratio } }
     // These define how the NON-GOLD portion is split between Cu, Ag, Pd
     const GOLD_COLORS = {
-        yellow: { label: 'Gelbgold', cu: 0.50, ag: 0.50, pd: 0 },
-        rose:   { label: 'Ros\u00e9gold', cu: 0.80, ag: 0.20, pd: 0 },
-        red:    { label: 'Rotgold', cu: 0.975, ag: 0, pd: 0, zn: 0.025 },
-        white:  { label: 'Wei\u00dfgold', cu: 0, ag: 0.50, pd: 0.50 },
+        yellow:   { label: 'Gelbgold', cu: 0.50, ag: 0.50, pd: 0 },
+        rose:     { label: 'Ros\u00e9gold', cu: 0.80, ag: 0.20, pd: 0 },
+        red:      { label: 'Rotgold', cu: 0.975, ag: 0, pd: 0, zn: 0.025 },
+        white_pd: { label: 'Wei\u00dfgold (Pd)', cu: 0, ag: 0.40, pd: 0.60 },
+        white_ni: { label: 'Wei\u00dfgold (Ni)', cu: 0.15, ag: 0, pd: 0, ni: 0.85 },
+        grey_pd:  { label: 'Graugold (Pd)', cu: 0, ag: 0.20, pd: 0.80 },
     };
 
     function calcAlloy() {
@@ -3136,46 +4095,42 @@
         }
 
         if (!m || isNaN(c) || isNaN(t)) { resBox.style.display = 'none'; return; }
+        const isEN = currentLang === 'en';
 
         if (c === t) {
             resBox.style.display = 'block'; dirDiv.innerHTML = '';
-            actionTextSpan.innerText = "Bereits korrekt"; addAmountSpan.innerText = "0.00";
-            detailDiv.innerHTML = 'Ist-Gehalt entspricht dem Soll-Gehalt (' + t + ' \u2030).';
+            actionTextSpan.innerText = isEN ? "Already correct" : "Bereits korrekt"; addAmountSpan.innerText = "0.00";
+            detailDiv.innerHTML = isEN ? 'Current fineness matches target (' + t + ' \u2030).' : 'Ist-Gehalt entspricht dem Soll-Gehalt (' + t + ' \u2030).';
             return;
         }
 
-        const metalName = {gold: 'Gold', silber: 'Silber', platin: 'Platin'}[metalVal] || 'Metall';
-        const feinName = {gold: 'Feingold', silber: 'Feinsilber', platin: 'Feinplatin'}[metalVal] || 'Feinmetall';
+        const metalName = isEN ? {gold:'Gold',silber:'Silver',platin:'Platinum'}[metalVal]||'Metal' : {gold:'Gold',silber:'Silber',platin:'Platin'}[metalVal]||'Metall';
+        const feinName = isEN ? {gold:'Fine Gold',silber:'Fine Silver',platin:'Fine Platinum'}[metalVal]||'Fine Metal' : {gold:'Feingold',silber:'Feinsilber',platin:'Feinplatin'}[metalVal]||'Feinmetall';
         const isGold = metalVal === 'gold';
         const color = isGold ? document.getElementById('alloyColor').value : null;
         const colorInfo = isGold ? GOLD_COLORS[color] : null;
 
         let f_add, direction = "";
         if (t > c) {
-            direction = '<span style="color:var(--success);">^ Hochlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
-            if (isGold && colorInfo) {
-                // Hochlegieren Gold: add Feingold
-                f_add = addInput !== "" ? parseFloat(addInput) : 1000;
-            } else {
-                f_add = addInput !== "" ? parseFloat(addInput) : 1000;
-            }
+            direction = '<span style="color:var(--success);">^ ' + (isEN?'Upgrade':'Hochlegieren') + '</span> (' + c + '\u2030 > ' + t + '\u2030)';
+            f_add = addInput !== "" ? parseFloat(addInput) : 1000;
             if (f_add <= t) {
                 resBox.style.display = 'block'; dirDiv.innerHTML = direction;
-                actionTextSpan.innerText = "Fehler"; addAmountSpan.innerText = "0.00";
-                detailDiv.innerHTML = "Zusatz-Gehalt (" + f_add + "\u2030) muss h\u00f6her als Soll (" + t + "\u2030) sein.";
+                actionTextSpan.innerText = isEN?"Error":"Fehler"; addAmountSpan.innerText = "0.00";
+                detailDiv.innerHTML = isEN ? "Addition fineness ("+f_add+"\u2030) must be higher than target ("+t+"\u2030)." : "Zusatz-Gehalt ("+f_add+"\u2030) muss h\u00f6her als Soll ("+t+"\u2030) sein.";
                 return;
             }
         } else {
-            direction = '<span style="color:var(--accent);">v Runterlegieren</span> (' + c + '\u2030 \u2192 ' + t + '\u2030)';
+            direction = '<span style="color:var(--accent);">v ' + (isEN?'Downgrade':'Runterlegieren') + '</span> (' + c + '\u2030 > ' + t + '\u2030)';
             if (isGold && colorInfo) {
-                f_add = 0; // Color-based: we add Cu/Ag/Pd mix at 0 gold content
+                f_add = 0;
             } else {
                 f_add = addInput !== "" ? parseFloat(addInput) : 0;
             }
             if (f_add >= t) {
                 resBox.style.display = 'block'; dirDiv.innerHTML = direction;
-                actionTextSpan.innerText = "Fehler"; addAmountSpan.innerText = "0.00";
-                detailDiv.innerHTML = "Zusatz-Gehalt (" + f_add + "\u2030) muss niedriger als Soll (" + t + "\u2030) sein.";
+                actionTextSpan.innerText = isEN?"Error":"Fehler"; addAmountSpan.innerText = "0.00";
+                detailDiv.innerHTML = isEN ? "Addition fineness ("+f_add+"\u2030) must be lower than target ("+t+"\u2030)." : "Zusatz-Gehalt ("+f_add+"\u2030) muss niedriger als Soll ("+t+"\u2030) sein.";
                 return;
             }
         }
@@ -3183,8 +4138,8 @@
         const divisor = f_add - t;
         if (Math.abs(divisor) < 0.001) {
             resBox.style.display = 'block'; dirDiv.innerHTML = direction;
-            actionTextSpan.innerText = "Fehler"; addAmountSpan.innerText = "0.00";
-            detailDiv.innerHTML = "Division durch Null \u2014 bitte Werte pr\u00fcfen.";
+            actionTextSpan.innerText = isEN?"Error":"Fehler"; addAmountSpan.innerText = "0.00";
+            detailDiv.innerHTML = isEN ? "Division by zero \u2014 check values." : "Division durch Null \u2014 bitte Werte pr\u00fcfen.";
             return;
         }
 
@@ -3199,44 +4154,54 @@
 
         // Build result
         let zugabeHtml = '';
+        const addLabel = isEN ? 'Addition' : 'Zugabe';
+        const beforeLabel = isEN ? 'Before' : 'Vorher';
+        const afterLabel = isEN ? 'After' : 'Nachher';
+        const addVerb = isEN ? 'add' : 'hinzuf\u00fcgen';
+        const totalLabel = isEN ? 'total' : 'gesamt';
+        const copperLabel = isEN ? 'Copper' : 'Kupfer';
+        const silverLabel = isEN ? 'Silver' : 'Silber';
+        const zincLabel = isEN ? 'Zinc' : 'Zink';
+        const nickelLabel = isEN ? 'Nickel' : 'Nickel';
+        const colorLabel = colorInfo ? (isEN ? colorInfo.label.replace('gold','gold').replace('Gelb','Yellow ').replace('Ros\u00e9','Ros\u00e9 ').replace('Rot','Red ').replace('Wei\u00df','White ').replace('Grau','Grey ') : colorInfo.label) : '';
+
         if (isGold && colorInfo && t < c) {
-            // Runterlegieren Gold mit Farbe: split x into Cu/Ag/Pd
             const cuAmount = x * colorInfo.cu;
             const agAmount = x * colorInfo.ag;
             const pdAmount = x * colorInfo.pd;
             const znAmount = x * (colorInfo.zn || 0);
+            const niAmount = x * (colorInfo.ni || 0);
 
-            actionTextSpan.innerText = colorInfo.label + ' \u2014 Zugabe:';
+            actionTextSpan.innerText = colorInfo.label + ' \u2014 ' + addLabel + ':';
             addAmountSpan.innerText = x.toFixed(2);
 
             let parts = [];
-            if (cuAmount > 0.001) parts.push(cuAmount.toFixed(2) + 'g Kupfer (Cu)');
-            if (agAmount > 0.001) parts.push(agAmount.toFixed(2) + 'g Silber (Ag)');
+            if (cuAmount > 0.001) parts.push(cuAmount.toFixed(2) + 'g ' + copperLabel + ' (Cu)');
+            if (agAmount > 0.001) parts.push(agAmount.toFixed(2) + 'g ' + silverLabel + ' (Ag)');
             if (pdAmount > 0.001) parts.push(pdAmount.toFixed(2) + 'g Palladium (Pd)');
-            if (znAmount > 0.001) parts.push(znAmount.toFixed(2) + 'g Zink (Zn)');
-            zugabeHtml = '<strong>Zugabe:</strong> ' + x.toFixed(2) + 'g gesamt<br>' +
+            if (znAmount > 0.001) parts.push(znAmount.toFixed(2) + 'g ' + zincLabel + ' (Zn)');
+            if (niAmount > 0.001) parts.push(niAmount.toFixed(2) + 'g ' + nickelLabel + ' (Ni)');
+            zugabeHtml = '<strong>' + addLabel + ':</strong> ' + x.toFixed(2) + 'g ' + totalLabel + '<br>' +
                 '<div style="margin-left:15px;">' + parts.join('<br>') + '</div>';
         } else if (isGold && colorInfo && t > c) {
-            // Hochlegieren Gold: add Feingold (color doesn't change the math, just Feingold)
-            actionTextSpan.innerText = feinName + ' hinzuf\u00fcgen';
+            actionTextSpan.innerText = feinName + ' ' + addVerb;
             addAmountSpan.innerText = x.toFixed(2);
-            zugabeHtml = '<strong>Zugabe:</strong> ' + x.toFixed(2) + 'g ' + feinName;
+            zugabeHtml = '<strong>' + addLabel + ':</strong> ' + x.toFixed(2) + 'g ' + feinName;
         } else {
-            // Silver/Platinum: simple
             let addName = '';
             if (f_add >= 999) addName = feinName;
-            else if (f_add === 0) addName = 'Kupfer (Cu)';
-            else addName = metalName + '-Legierung ' + f_add + '\u2030';
-            actionTextSpan.innerText = addName + ' hinzuf\u00fcgen';
+            else if (f_add === 0) addName = copperLabel + ' (Cu)';
+            else addName = metalName + (isEN?' alloy ':'-Legierung ') + f_add + '\u2030';
+            actionTextSpan.innerText = addName + ' ' + addVerb;
             addAmountSpan.innerText = x.toFixed(2);
-            zugabeHtml = '<strong>Zugabe:</strong> ' + x.toFixed(2) + 'g ' + addName;
+            zugabeHtml = '<strong>' + addLabel + ':</strong> ' + x.toFixed(2) + 'g ' + addName;
         }
 
         detailDiv.innerHTML =
-            '<strong>Vorher:</strong> ' + m.toFixed(2) + 'g ' + metalName + ' bei ' + c + '\u2030 (' + feinName + ': ' + fineInOriginal.toFixed(2) + 'g)<br>' +
+            '<strong>' + beforeLabel + ':</strong> ' + m.toFixed(2) + 'g ' + metalName + ' ' + (isEN?'at':'bei') + ' ' + c + '\u2030 (' + feinName + ': ' + fineInOriginal.toFixed(2) + 'g)<br>' +
             zugabeHtml + '<br>' +
-            '<strong style="color:var(--accent);">Nachher:</strong> ' + totalWeight.toFixed(2) + 'g ' + (isGold && colorInfo ? colorInfo.label : metalName) + ' bei ' + t + '\u2030 (' + feinName + ': ' + fineInTotal.toFixed(2) + 'g)' +
-            '<div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:0.75rem;color:var(--text-dim);">Formel: Zugabe = ' + m.toFixed(2) + ' \u00d7 (' + t + ' \u2212 ' + c + ') \u00f7 (' + f_add + ' \u2212 ' + t + ') = ' + x.toFixed(2) + 'g</div>';
+            '<strong style="color:var(--accent);">' + afterLabel + ':</strong> ' + totalWeight.toFixed(2) + 'g ' + (isGold && colorInfo ? colorInfo.label : metalName) + ' ' + (isEN?'at':'bei') + ' ' + t + '\u2030 (' + feinName + ': ' + fineInTotal.toFixed(2) + 'g)' +
+            '<div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:0.75rem;color:var(--text-dim);">' + (isEN?'Formula':'Formel') + ': ' + addLabel + ' = ' + m.toFixed(2) + ' \u00d7 (' + t + ' \u2212 ' + c + ') \u00f7 (' + f_add + ' \u2212 ' + t + ') = ' + x.toFixed(2) + 'g</div>';
     }
 
     // ============================================================
@@ -3309,6 +4274,156 @@
     }
 
     // ============================================================
+    //  GRAVUR-KALKULATOR
+    // ============================================================
+    const ENGRAVE_PRESETS = {
+        machine:  { block: 3.0, script: 3.5, ornamental: 5.0, setup: 10 },
+        hand:     { block: 5.0, script: 6.0, ornamental: 10.0, setup: 15 },
+        diamond:  { block: 4.0, script: 4.5, ornamental: 7.0, setup: 12 },
+    };
+
+    function calcEngrave() {
+        const text = document.getElementById('engraveText').value;
+        const technique = document.getElementById('engraveTechnique').value;
+        const font = document.getElementById('engraveFont').value;
+        const charPrice = parseFloat(document.getElementById('engraveCharPrice').value) || 0;
+        const setupPrice = parseFloat(document.getElementById('engraveSetup').value) || 0;
+        const charCount = text.length;
+        const resBox = document.getElementById('engraveRes');
+        const isEN = currentLang === 'en';
+
+        document.getElementById('engraveCharCount').innerText = charCount;
+
+        const charTotal = charCount * charPrice;
+        const total = charTotal + setupPrice;
+
+        document.getElementById('engraveCharTotal').innerText = charTotal.toFixed(2);
+        document.getElementById('engraveSetupTotal').innerText = setupPrice.toFixed(2);
+        document.getElementById('engraveTotal').innerText = total.toFixed(2);
+
+        const techName = { machine: isEN?'Machine':'Maschine', hand: isEN?'Hand':'Hand', diamond: isEN?'Diamond':'Diamant' }[technique];
+        const fontName = { block: isEN?'Block':'Block', script: isEN?'Script':'Schreib', ornamental: isEN?'Ornamental':'Zier' }[font];
+        document.getElementById('engraveHint').innerText =
+            charCount + ' ' + (isEN ? 'chars' : 'Zeichen') + ' x ' + charPrice.toFixed(2) + ' + ' + setupPrice.toFixed(2) + ' ' + (isEN ? 'setup' : 'Einrichten') + ' = ' + total.toFixed(2) + ' EUR (' + techName + ', ' + fontName + ')';
+
+        resBox.style.display = charCount > 0 ? 'block' : 'none';
+    }
+
+    // Update default prices when technique/font changes
+    document.addEventListener('DOMContentLoaded', function() {
+        var techSel = document.getElementById('engraveTechnique');
+        var fontSel = document.getElementById('engraveFont');
+        if (techSel && fontSel) {
+            function updateEngraveDefaults() {
+                var t = techSel.value, f = fontSel.value;
+                if (ENGRAVE_PRESETS[t] && ENGRAVE_PRESETS[t][f] !== undefined) {
+                    document.getElementById('engraveCharPrice').value = ENGRAVE_PRESETS[t][f];
+                    document.getElementById('engraveSetup').value = ENGRAVE_PRESETS[t].setup;
+                    calcEngrave();
+                }
+            }
+            techSel.addEventListener('change', updateEngraveDefaults);
+            fontSel.addEventListener('change', updateEngraveDefaults);
+        }
+    });
+
+    // ============================================================
+    //  PER-STEP FOTO-DOKUMENTATION
+    // ============================================================
+    function toggleStepPhotos(stepId) {
+        var area = document.getElementById('stepPhotos_' + stepId);
+        var row = document.getElementById('plannerStep_' + stepId);
+        var toggle = row.querySelector('.step-photo-toggle');
+        if (!area) return;
+        if (area.style.display === 'none') {
+            area.style.display = 'block';
+            var count = area.querySelectorAll('.planner-photo-thumb').length;
+            toggle.textContent = (currentLang==='en'?'v Photo':'v Foto') + (count ? ' (' + count + ')' : '');
+        } else {
+            area.style.display = 'none';
+            var count = area.querySelectorAll('.planner-photo-thumb').length;
+            toggle.textContent = (currentLang==='en'?'> Photo':'> Foto') + (count ? ' (' + count + ')' : '');
+        }
+    }
+
+    function addStepPhoto(input, stepId) {
+        if (!input.files || !input.files[0]) return;
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = new Image();
+            img.onload = function() {
+                var maxW = 600, maxH = 600;
+                var w = img.width, h = img.height;
+                if (w > maxW || h > maxH) {
+                    var ratio = Math.min(maxW / w, maxH / h);
+                    w = Math.round(w * ratio); h = Math.round(h * ratio);
+                }
+                var canvas = document.createElement('canvas');
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                var dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                // Store in step row data attribute
+                var row = document.getElementById('plannerStep_' + stepId);
+                if (!row) return;
+                if (!row._photos) row._photos = [];
+                row._photos.push(dataUrl);
+                renderStepPhotos(stepId, row._photos);
+                savePlanner();
+                // Update toggle label
+                var toggle = row.querySelector('.step-photo-toggle');
+                if (toggle) toggle.textContent = (currentLang==='en'?'v Photo':'v Foto') + ' (' + row._photos.length + ')';
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        input.value = '';
+    }
+
+    function renderStepPhotos(stepId, photos) {
+        var row = document.getElementById('plannerStep_' + stepId);
+        if (!row) return;
+        row._photos = photos || [];
+        var container = row.querySelector('.step-photo-thumbs');
+        if (!container) return;
+        var html = '';
+        photos.forEach(function(src, i) {
+            html += '<div class="photo-wrap">' +
+                '<img class="planner-photo-thumb" src="' + src + '" onclick="viewStepPhoto(' + stepId + ',' + i + ')">' +
+                '<button class="photo-del" onclick="removeStepPhoto(' + stepId + ',' + i + ')">x</button>' +
+                '</div>';
+        });
+        container.innerHTML = html;
+    }
+
+    function removeStepPhoto(stepId, photoIdx) {
+        var row = document.getElementById('plannerStep_' + stepId);
+        if (!row || !row._photos) return;
+        row._photos.splice(photoIdx, 1);
+        renderStepPhotos(stepId, row._photos);
+        savePlanner();
+        var toggle = row.querySelector('.step-photo-toggle');
+        if (toggle) {
+            var n = row._photos.length;
+            var vis = row.querySelector('.step-photo-area').style.display !== 'none';
+            toggle.textContent = (currentLang==='en'?(vis?'v Photo':'> Photo'):(vis?'v Foto':'> Foto')) + (n ? ' (' + n + ')' : '');
+        }
+    }
+
+    function viewStepPhoto(stepId, photoIdx) {
+        var row = document.getElementById('plannerStep_' + stepId);
+        if (!row || !row._photos || !row._photos[photoIdx]) return;
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+        overlay.onclick = function() { document.body.removeChild(overlay); };
+        var img = document.createElement('img');
+        img.src = row._photos[photoIdx];
+        img.style.cssText = 'max-width:90vw;max-height:90vh;border-radius:2px;';
+        overlay.appendChild(img);
+        document.body.appendChild(overlay);
+    }
+
+    // ============================================================
     //  VERLUST-RECHNER (NEU)
     // ============================================================
     let lossStepIdCounter = 0;
@@ -3363,16 +4478,16 @@
         document.querySelectorAll('#lossStepsContainer .row').forEach(row => {
             const preset = row.querySelector('.loss-preset');
             const pct = parseFloat(row.querySelector('.loss-pct').value) || 0;
-            const name = preset.options[preset.selectedIndex].dataset.name || 'Schritt';
+            const name = preset.options[preset.selectedIndex].dataset.name || (currentLang==='en'?'Step':'Schritt');
             const loss = currentW * (pct / 100);
             totalLoss += loss;
             currentW -= loss;
-            breakdownHtml += `${name}: −${loss.toFixed(3)}g (${pct}%) → ${currentW.toFixed(3)}g<br>`;
+            breakdownHtml += `${name}: −${loss.toFixed(3)}g (${pct}%) > ${currentW.toFixed(3)}g<br>`;
         });
 
         document.getElementById('lossTotal').innerText = totalLoss.toFixed(3);
         document.getElementById('lossFinal').innerText = currentW.toFixed(3);
-        document.getElementById('lossBreakdown').innerHTML = breakdownHtml || 'Keine Schritte definiert.';
+        document.getElementById('lossBreakdown').innerHTML = breakdownHtml || (currentLang==='en'?'No steps defined.':'Keine Schritte definiert.');
         resBox.style.display = 'block';
     }
 
@@ -3430,7 +4545,7 @@
                 const ts = prices.timestamp || new Date().toLocaleString('de-DE');
                 status.textContent = '\u2713 Aktualisiert (' + ts + ')';
                 status.style.color = 'var(--success)';
-                showToast('Live-Kurse geladen!');
+                showToast(currentLang==='en'?'Live prices loaded!':'Live-Kurse geladen!');
                 saveState();
             } else {
                 throw new Error('Kein gueltiges JSON in Antwort');
@@ -3439,7 +4554,7 @@
             console.error('Price fetch error:', err);
             status.textContent = '\u2717 Fehler beim Laden. Bitte manuell eintragen.';
             status.style.color = 'var(--accent)';
-            showToast('Kurse konnten nicht geladen werden');
+            showToast(currentLang==='en'?'Could not load prices':'Kurse konnten nicht geladen werden');
         } finally {
             btn.disabled = false;
             btn.style.opacity = '1';
@@ -3626,18 +4741,30 @@
         const input = document.getElementById('newCustomStep');
         const name = (input.value || '').trim();
         if (!name) return;
-        if (customPresets.includes(name)) { showToast('Existiert bereits'); return; }
+        if (customPresets.includes(name)) { showToast(currentLang==='en'?'Already exists':'Existiert bereits'); return; }
         customPresets.push(name); saveCustomPresets(); input.value = '';
-        showToast('"' + name + '" gespeichert');
+        showToast('"' + name + '" ' + (currentLang==='en'?'saved':'gespeichert'));
     }
     function removeCustomPreset(idx) { customPresets.splice(idx, 1); saveCustomPresets(); }
 
     function loadPlanner() {
         loadCustomPresets();
-        try { const r = localStorage.getItem(PLANNER_KEY); if (r) plannerProjects = JSON.parse(r); } catch(e) {}
+        try {
+            const r = localStorage.getItem(PLANNER_KEY);
+            if (r) {
+                var parsed = JSON.parse(r);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    plannerProjects = parsed;
+                }
+            }
+        } catch(e) {
+            console.warn('Planner data corrupted, resetting', e);
+            plannerProjects = [];
+        }
         if (!plannerProjects.length) plannerProjects = [newProject()];
         plannerActiveIdx = 0;
-        renderProjectTabs(); renderActiveProject();
+        try { renderProjectTabs(); } catch(e) { console.warn('Tab render error', e); }
+        try { renderActiveProject(); } catch(e) { console.warn('Project render error', e); }
     }
     function newProject() { return { name: '', steps: [], parts: [], notes: '', showRate: false, rate: 65 }; }
 
@@ -3669,10 +4796,21 @@
                     price: matRow.querySelector('.sm-price').value,
                 };
             }
-            p.steps.push({ name, h, m, ah, am, as, mat });
+            p.steps.push({ name, h, m, ah, am, as, mat, photos: row._photos || [] });
         });
         p.parts = []; // legacy compat
-        try { localStorage.setItem(PLANNER_KEY, JSON.stringify(plannerProjects)); } catch(e) {}
+        try { localStorage.setItem(PLANNER_KEY, JSON.stringify(plannerProjects)); } catch(e) {
+            // If quota exceeded, try saving without photos
+            try {
+                var lite = plannerProjects.map(function(proj) {
+                    var p2 = Object.assign({}, proj);
+                    if (p2.steps) p2.steps = p2.steps.map(function(s) { var s2 = Object.assign({}, s); delete s2.photos; return s2; });
+                    return p2;
+                });
+                localStorage.setItem(PLANNER_KEY, JSON.stringify(lite));
+                showToast(currentLang==='en'?'Photos too large — saved without photos':'Fotos zu gro\u00df — ohne Fotos gespeichert');
+            } catch(e2) { /* silent */ }
+        }
         renderProjectTabs();
     }
 
@@ -3680,7 +4818,7 @@
         const tabs = document.getElementById('projectTabs');
         let html = '';
         plannerProjects.forEach((p, i) => {
-            const label = p.name || ('Projekt ' + (i + 1));
+            const label = p.name || ((currentLang==='en'?'Project ':'Projekt ') + (i + 1));
             const active = i === plannerActiveIdx ? 'active' : '';
             const close = plannerProjects.length > 1 ? '<span class="tab-close" onclick="event.stopPropagation();removeProject(' + i + ');">\u2715</span>' : '';
             html += '<button class="project-tab ' + active + '" onclick="switchProject(' + i + ')">' + label.substring(0, 16) + close + '</button>';
@@ -3700,15 +4838,27 @@
         togglePlannerRate();
 
         const sc = document.getElementById('plannerSteps'); sc.innerHTML = ''; plannerStepId = 0;
-        if (p.steps && p.steps.length) p.steps.forEach(s => addPlannerStep(s.name, s.h, s.m, s.ah, s.am, s.as, s.mat));
+        if (p.steps && p.steps.length) p.steps.forEach(s => {
+            var matWithPhotos = s.mat || {};
+            if (s.photos && s.photos.length) matWithPhotos.photos = s.photos;
+            addPlannerStep(s.name, s.h, s.m, s.ah, s.am, s.as, Object.keys(matWithPhotos).length ? matWithPhotos : s.mat);
+        });
 
         calcPlannerTotal();
     }
 
     function switchProject(idx) { savePlanner(); plannerActiveIdx = idx; renderProjectTabs(); renderActiveProject(); }
-    function addProject() { savePlanner(); plannerProjects.push(newProject()); plannerActiveIdx = plannerProjects.length - 1; renderProjectTabs(); renderActiveProject(); savePlanner(); showToast('Neues Projekt'); }
+    function addProject() {
+        try { savePlanner(); } catch(e) {}
+        plannerProjects.push(newProject());
+        plannerActiveIdx = plannerProjects.length - 1;
+        renderProjectTabs();
+        renderActiveProject();
+        try { savePlanner(); } catch(e) {}
+        showToast(currentLang==='en'?'New Project':'Neues Projekt');
+    }
     function removeProject(idx) { if (plannerProjects.length <= 1) return; plannerProjects.splice(idx, 1); if (plannerActiveIdx >= plannerProjects.length) plannerActiveIdx--; renderProjectTabs(); renderActiveProject(); savePlanner(); }
-    function clearCurrentProject() { stopAllTimers(); const p = plannerProjects[plannerActiveIdx]; Object.assign(p, newProject()); renderActiveProject(); savePlanner(); showToast('Projekt geleert'); }
+    function clearCurrentProject() { stopAllTimers(); const p = plannerProjects[plannerActiveIdx]; Object.assign(p, newProject()); renderActiveProject(); savePlanner(); showToast(currentLang==='en'?'Project cleared':'Projekt geleert'); }
 
     // --- Scroll-wheel time picker ---
     function spAdj(btn, delta, max) {
@@ -3847,8 +4997,33 @@
                         '<input type="number" class="smp sm-price" placeholder="\u20ac" step="0.01" min="0" value="' + (mat&&mat.price||'') + '" style="font-weight:700;" oninput="savePlanner();">' +
                     '</div>' +
                 '</div>' +
+            '</div>' +
+            // Photo section
+            '<div style="width:100%;margin-top:2px;">' +
+                '<span class="step-photo-toggle" style="font-size:0.75rem;color:var(--text-dim);cursor:pointer;text-transform:uppercase;font-weight:600;" onclick="toggleStepPhotos(' + id + ')">' + (currentLang==='en'?'> Photo':'> Foto') + '</span>' +
+                '<div class="step-photo-area" id="stepPhotos_' + id + '" style="display:none;margin-top:6px;">' +
+                    '<div class="step-photo-thumbs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;"></div>' +
+                    '<div style="display:flex;gap:6px;">' +
+                        '<label style="margin:0;padding:6px 10px;background:var(--input-bg);border:1px solid var(--border);border-radius:2px;cursor:pointer;font-size:0.75rem;font-weight:600;font-family:inherit;">' +
+                            (currentLang==='en'?'+ Camera':'+ Kamera') +
+                            '<input type="file" accept="image/*" capture="environment" onchange="addStepPhoto(this,' + id + ')" style="display:none;">' +
+                        '</label>' +
+                        '<label style="margin:0;padding:6px 10px;background:var(--input-bg);border:1px solid var(--border);border-radius:2px;cursor:pointer;font-size:0.75rem;font-weight:600;font-family:inherit;">' +
+                            (currentLang==='en'?'+ Gallery':'+ Galerie') +
+                            '<input type="file" accept="image/*" onchange="addStepPhoto(this,' + id + ')" style="display:none;">' +
+                        '</label>' +
+                    '</div>' +
+                '</div>' +
             '</div>';
+        // If step has photos, show them
         container.appendChild(row);
+        if (mat && mat.photos && mat.photos.length) {
+            var photoArea = row.querySelector('#stepPhotos_' + id);
+            var toggle = row.querySelector('.step-photo-toggle');
+            photoArea.style.display = 'block';
+            toggle.textContent = (currentLang==='en'?'v Photo':'v Foto') + ' (' + mat.photos.length + ')';
+            renderStepPhotos(id, mat.photos);
+        }
         if (hasMat && mat.metal) row.querySelector('.sm-metal').value = mat.metal;
         calcPlannerTotal();
     }
@@ -4014,7 +5189,7 @@
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
             a.download = (pn.replace(/[^a-zA-Z0-9\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\- _]/g,'')||'Arbeitsplan')+'.html';
             a.click(); URL.revokeObjectURL(a.href);
-            showToast('HTML heruntergeladen \u2014 \u00f6ffnen + drucken = PDF');
+            showToast(currentLang==='en'?'HTML downloaded 2014 open + print = PDF':'HTML heruntergeladen 2014 00f6ffnen + drucken = PDF');
         }
     }
 
@@ -4113,6 +5288,144 @@
     }
 
     // ============================================================
+    //  STEINGEWICHT SCHÄTZEN
+    // ============================================================
+    function toggleGemInputs() {
+        const cut = document.getElementById('gemCut').value;
+        const dim2 = document.getElementById('gemDim2Wrap');
+        const dim1Label = document.getElementById('gemDim1Label');
+        const isEN = currentLang === 'en';
+        if (cut === 'round' || cut === 'cab_round') {
+            dim2.style.display = 'none';
+            dim1Label.innerHTML = isEN ? 'Diameter (mm)' : 'Durchmesser (mm)';
+        } else {
+            dim2.style.display = 'block';
+            dim1Label.innerHTML = (isEN ? 'Length' : 'L\u00e4nge') + ' (mm)';
+        }
+    }
+
+    function calcGemWeight() {
+        const cut = document.getElementById('gemCut').value;
+        const d1 = parseFloat(document.getElementById('gemDim1').value);
+        const d2 = parseFloat(document.getElementById('gemDim2').value) || d1;
+        const depth = parseFloat(document.getElementById('gemDepth').value);
+        const sg = parseFloat(document.getElementById('gemSG').value);
+        const resBox = document.getElementById('gemRes');
+        if (!d1 || !depth || d1 <= 0 || depth <= 0) { resBox.style.display = 'none'; return; }
+
+        // Gem weight formulas use correction factors per cut
+        // Weight (ct) = L x W x D x SG x Factor / 200
+        // Factor accounts for shape (how much of the bounding box is actually stone)
+        let factor = 0;
+        switch(cut) {
+            case 'round':      factor = 0.0061; break; // standard brilliant
+            case 'oval':        factor = 0.0062; break;
+            case 'emerald':     factor = 0.0080; break; // rectangular step cut
+            case 'marquise':    factor = 0.0059; break;
+            case 'pear':        factor = 0.0060; break;
+            case 'cab_round':   factor = 0.0061; break;
+            case 'cab_oval':    factor = 0.0062; break;
+            default:            factor = 0.0061;
+        }
+
+        // Formula: ct = L x W x D x SG x factor
+        const weightCt = d1 * d2 * depth * sg * factor;
+        const weightG = weightCt * 0.2;
+
+        resBox.style.display = 'block';
+        document.getElementById('gemWeightCt').innerText = weightCt.toFixed(2);
+        document.getElementById('gemWeightG').innerText = weightG.toFixed(3);
+
+        const isEN = currentLang === 'en';
+        document.getElementById('gemFormulaHint').innerText =
+            (isEN ? 'Formula' : 'Formel') + ': ' + d1.toFixed(1) + ' x ' + d2.toFixed(1) + ' x ' + depth.toFixed(1) + ' x ' + sg.toFixed(2) + ' x ' + factor + ' = ' + weightCt.toFixed(2) + ' ct';
+    }
+    // ============================================================
+    //  VERSCHNITT-OPTIMIERUNG (NESTING)
+    // ============================================================
+    function toggleNestInputs() {
+        var shape = document.getElementById('nestShape').value;
+        document.getElementById('nestDiaWrap').style.display = shape === 'circle' ? 'block' : 'none';
+        document.getElementById('nestRectWrap').style.display = shape === 'rect' ? 'block' : 'none';
+        document.getElementById('nestRectWrap2').style.display = shape === 'rect' ? 'block' : 'none';
+    }
+
+    function calcNesting() {
+        var sw = parseFloat(document.getElementById('nestSheetW').value) || 0;
+        var sl = parseFloat(document.getElementById('nestSheetL').value) || 0;
+        var kerf = parseFloat(document.getElementById('nestKerf').value) || 0;
+        var shape = document.getElementById('nestShape').value;
+        var resBox = document.getElementById('nestRes');
+        if (sw <= 0 || sl <= 0) { resBox.style.display = 'none'; return; }
+
+        var count = 0, pieceArea = 0;
+        var isEN = currentLang === 'en';
+
+        if (shape === 'circle') {
+            var d = parseFloat(document.getElementById('nestDia').value) || 0;
+            if (d <= 0) { resBox.style.display = 'none'; return; }
+            var step = d + kerf;
+            var cols = Math.floor(sw / step);
+            var rows = Math.floor(sl / step);
+            count = cols * rows;
+            pieceArea = Math.PI * Math.pow(d/2, 2) * count;
+            document.getElementById('nestDetail').textContent =
+                cols + ' x ' + rows + ' = ' + count + (isEN ? ' pcs' : ' St.') + ' (' + (isEN ? 'grid layout' : 'Raster-Anordnung') + ')';
+        } else {
+            var pw = parseFloat(document.getElementById('nestPieceW').value) || 0;
+            var pl = parseFloat(document.getElementById('nestPieceL').value) || 0;
+            if (pw <= 0 || pl <= 0) { resBox.style.display = 'none'; return; }
+            var stepW = pw + kerf, stepL = pl + kerf;
+            var opt1 = Math.floor(sw / stepW) * Math.floor(sl / stepL);
+            var opt2 = Math.floor(sw / stepL) * Math.floor(sl / stepW);
+            count = Math.max(opt1, opt2);
+            pieceArea = pw * pl * count;
+            var orient = count === opt2 && opt2 > opt1 ? (isEN ? '(rotated)' : '(gedreht)') : '';
+            document.getElementById('nestDetail').textContent = count + (isEN ? ' pcs ' : ' St. ') + orient;
+        }
+
+        var sheetArea = sw * sl;
+        var eff = sheetArea > 0 ? (pieceArea / sheetArea * 100) : 0;
+        document.getElementById('nestCount').textContent = count;
+        document.getElementById('nestEfficiency').textContent = eff.toFixed(1);
+        resBox.style.display = 'block';
+    }
+
+    // ============================================================
+    //  GALVANIK-RECHNER
+    // ============================================================
+    function calcGalvanic() {
+        var area = parseFloat(document.getElementById('galvArea').value) || 0;
+        var thick = parseFloat(document.getElementById('galvThick').value) || 0;
+        var current = parseFloat(document.getElementById('galvCurrent').value) || 0;
+        var sel = document.getElementById('galvType');
+        var opt = sel.options[sel.selectedIndex];
+        var rho = parseFloat(opt.dataset.rho) || 19.3;
+        var eq = parseFloat(opt.dataset.eq) || 0.0736;
+        var resBox = document.getElementById('galvRes');
+        var isEN = currentLang === 'en';
+
+        if (area <= 0 || thick <= 0) { resBox.style.display = 'none'; return; }
+
+        // Volume in cm3: area(cm2) * thickness(um -> cm)
+        var vol = area * (thick / 10000);
+        // Weight in g
+        var weight = vol * rho;
+        // Time: Faraday's law t = thickness(um) / (eq * current_density * 60)
+        // eq = electrochemical equivalent in mg/(A*s), simplified
+        var timeMin = thick > 0 && current > 0 ? (weight * 1000) / (eq * current * (area / 100) * 60) : 0;
+        // Simpler approximation: for gold at 0.5 A/dm2, ~0.5um takes ~3 min
+        timeMin = (thick / 0.5) * 3 * (0.5 / (current || 0.5));
+
+        document.getElementById('galvWeight').textContent = weight.toFixed(4);
+        document.getElementById('galvTime').textContent = Math.ceil(timeMin);
+        document.getElementById('galvDetail').innerHTML =
+            (isEN ? 'Volume' : 'Volumen') + ': ' + area.toFixed(1) + ' cm2 x ' + thick.toFixed(1) + ' \u00b5m = ' + (vol * 1000).toFixed(4) + ' mm3<br>' +
+            (isEN ? 'Density' : 'Dichte') + ': ' + rho + ' g/cm3 > ' + (isEN ? 'Weight' : 'Gewicht') + ' = ' + weight.toFixed(4) + ' g';
+        resBox.style.display = 'block';
+    }
+
+    // ============================================================
     //  EINHEITEN-UMRECHNER
     // ============================================================
     const OZ_TO_G = 31.1035;
@@ -4160,7 +5473,7 @@
         loadDarkMode();
         loadLang();
         initStoneDB();
-        updateDensityBadge();
+        updateAlloyInfo();
 
         // Add disclaimer to all page cards
         document.querySelectorAll('.page .card').forEach(card => {
@@ -4172,7 +5485,7 @@
         });
         const loaded = loadState();
         if (!loaded) addCostPart();
-        updateDensityBadge();
+        updateAlloyInfo();
         loadPlanner();
 
         // Touch-swipe for scroll-pickers (mobile)
